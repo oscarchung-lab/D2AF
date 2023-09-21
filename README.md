@@ -87,5 +87,34 @@ inp file example:
     
     #spin (optional: only if atomic charge not zero required)
     3 1
- 
+
+##### preparations
+**ref**: ref.gjf-reference stucture in Gaussian file, containing **method lines**, **cartesian coordinates** and **connectivity**
+* the connectivity (bond order) values should be **1.0, 2.0, 3.0**! 
+* **1.5 is forbidden**, it should be modified before computations!
+    
+**conf**: conf.gjf/.xyz conformer structure, and multiple structure in one xyz file is acceptable
+
+**method**: 1 for framentation method, 2 for bond/angle method, 3 1+2
+
+**cpu**: number of cpu for subsystem computation
+
+**pal**: number of paralle subsystem computations (available for Gaussian, xTB)
+
+**calculator**: calculator (Gaussian, xTB, ANI, AIQM1) for subsystem computation
+
+**scale**: log scale factor for pymol visualization
+
+**fraglist**: method =1/3, define the fragmentation list
+
+**coordination**: method =3, define the coordination center (similar to fraglist)
+
+**include**: method =2/3, additional bond/angle for non-connected atoms
+
+**exclude**: method =2/3, exclude the bond/angle 
+
+**charge**: define the atomic charge if not 0 
+
+**spin**: define the atomic spin if not 0 (using integer: spin * 2)
+
 #### Citation
