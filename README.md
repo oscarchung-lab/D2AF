@@ -1,6 +1,6 @@
-###ONIOM-based Strain Visualisation (OBSV)
+### ONIOM-based Strain Visualisation (OBSV)
 
-####Description
+#### Description
 ONIOM-based Strain Visualisation 
 Strain energy visualization of one/multiple conformers relative to the reference structure(eg: global minima). Subsystem extracted based on ONIOM methods(link atoms and scale factors). The subsystem can be defined using three methods:
 * 1. atomic/fragments resolution based on fragmentations
@@ -11,7 +11,7 @@ Strain energy visualization of one/multiple conformers relative to the reference
 conda env create -f environment.yml
 pip install OBSV-x.x.x-py3-none-any.whl
 
-#####requirements
+##### requirements
 OBSV: 
 - python=3.9
 - numpy
@@ -87,4 +87,4 @@ inp file example:
     #spin (optional: only if atomic charge not zero required)
     3 1
  
-####Citation
+#### Citation
