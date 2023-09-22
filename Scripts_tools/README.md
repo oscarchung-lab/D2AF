@@ -13,7 +13,7 @@ it should be used after  **savepng.py** installed in pymol:
 `Pymol --> Plugin --> Plugin Manager --> Install New Plugin --> Choose file... --> path of script`
 
 
-####Including in OBSV_tools:
+#### Including in OBSV_tools:  
 pip install pip install OBSV-tools==1.0.0
 
 **Combine_fig_MS.py/Combine_fig_ppt.py**  `Combine_fig_MS/Combine_fig_ppt`
