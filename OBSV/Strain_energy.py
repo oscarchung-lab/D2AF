@@ -90,6 +90,10 @@ def run():
                 Results.lognum = math.e
             else:
                 Results.lognum = float(args.scale)
+            print('Using log (%s) scale for visualization'%args.scale)
+        else:
+            Results.iflog = False
+            print('Using Normal scale for visualization')
         Results.xlsx2pml(args.method, args.file, args.draw)
     else:
         print('Input file not found, nor xlsx file for draw')

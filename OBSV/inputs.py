@@ -114,7 +114,7 @@ def read_inp(inpf):
             Results.lognum = math.e
         else:
             Results.lognum = float(inp_dict['scale'])
-        print('Using log (%d) scale for visualization'%inp_dict['scale'])
+        print('Using log (%s) scale for visualization'%inp_dict['scale'])
         
     if 'calculator' not in inp_dict.keys():
         print('Warning: calculator was not given!')

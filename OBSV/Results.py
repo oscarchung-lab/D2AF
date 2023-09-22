@@ -8,7 +8,7 @@ import sys
 import math
 from OBSV.Molecule import Molecule
 
-iflog = True
+iflog = False
 #math.e, 10 ...
 lognum = 10.0
 
