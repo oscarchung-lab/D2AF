@@ -46,9 +46,9 @@ then
         sed -i 's/calculator =.*/calculator = '$method'/g' $M1inp
         sed -i 's/calculator =.*/calculator = '$method'/g' $M2inp
         sed -i 's/calculator =.*/calculator = '$method'/g' $M3inp
-        Run_Strain_VIZ.sh $M1inp $3
-        Run_Strain_VIZ.sh $M2inp $3
-        Run_Strain_VIZ.sh $M3inp $3
+        Run_Strain_VIZ.sh $M1inp $4
+        Run_Strain_VIZ.sh $M2inp $4
+        Run_Strain_VIZ.sh $M3inp $4
         cd ..
     done
 else

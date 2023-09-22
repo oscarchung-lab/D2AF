@@ -1,0 +1,47 @@
+#!/bin/bash
+#PBS -N S-Se-M3
+#PBS -l nodes=1:ppn=24
+#PBS -l mem=44GB
+#PBS -j oe
+#PBS -r n
+#PBS -q N4
+#PBS -l walltime=360:00:00
+cd $PBS_O_WORKDIR
+
+Node=`cat $PBS_NODEFILE | uniq`
+NNo=`cat $PBS_NODEFILE | uniq | sed -e 's/node//'`
+
+TEMP="tmp"
+
+
+ssh $Node "mkdir -p /$TEMP/$PBS_JOBID"
+ssh $Node "mkdir -p /$TEMP/$PBS_JOBID/run"
+
+act_dir=/$TEMP/$PBS_JOBID/run
+
+rm -f "S-Se-M3.log"
+
+cp -rf * $act_dir
+cd $act_dir
+
+source activate Strain_VIZ
+
+
+echo "This job is running on host $Node" > "$PBS_O_WORKDIR/S-Se-M3.log"
+echo "Current directory: $act_dir" >> "$PBS_O_WORKDIR/S-Se-M3.log"
+date >> "$PBS_O_WORKDIR/S-Se-M3.log"
+source /share/apps/gaussian/g16-env.sh
+export GAUSS_SCRDIR=/$TEMP/$PBS_JOBID
+echo $GAUSS_SCRDIR >> "$PBS_O_WORKDIR/S-Se-M3.log"
+
+OBSV -inp S-Se-M3.inp >> "$PBS_O_WORKDIR/S-Se-M3.log"
+#/share/apps/gaussian/g16/formchk S-Se-M3 S-Se-M3
+
+date >> "$PBS_O_WORKDIR/S-Se-M3.log"
+
+cp -rf * $PBS_O_WORKDIR
+
+cd $PBS_O_WORKDIR
+
+ssh $Node "rm -rf $GAUSS_SCRDIR"
+
