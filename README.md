@@ -10,7 +10,7 @@ Strain energy visualization of one/multiple conformers relative to the reference
 #### Installation
 `conda env create -f environment.yml`
 
-`pip install OBSV-x.x.x-py3-none-any.whl` or `pip install OBSV==1.0.2`
+`pip install OBSV-x.x.x-py3-none-any.whl` or `pip install OBSV==1.0.3`
 
 ##### requirements
 OBSV: 
