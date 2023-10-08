@@ -22,3 +22,11 @@ combine multiple pngs (M1, M2, M3) into one png for publication (label a/b/c/d) 
 **pml_str.py**  `pml_str`
 add addtional command to the pml files such as `bond id x, id x` and `unbond id x, id x` (using `;` to separate lines) in a `""` **not** `''`
 
+**write_run_pml.py**  `write_run_pml`
+write Pymol run pml to generate strain png files for multi-conformer case (IRC/MD).
+inputs: `method number` eg.: `M2 125`
+
+
+**Plot_Ene.py**  `multi_mov`
+after Run Pymol pml to generate strain png files for multi-conformer case (IRC/MD). Generate electronic energy (MEP) and strain energy figure for each conformer, then combine them with stran visualization png to generate a movie
+inputs: `energy_xlsx type(IRC/MD)` where xlsx file including ` pos, Energy, Strain M1/M2/M3 columns`
