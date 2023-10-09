@@ -235,7 +235,7 @@ def run_plot():
         plot_Energy(xlsxf)
     elif len(sys.argv) == 3:
         xlsxf = sys.argv[1]
-        type = sys.argv[1]
+        type = sys.argv[2]
         plot_Energy(xlsxf,type)
     else:
         print('giving enerngy_xlsx type(IRC/MD)')
