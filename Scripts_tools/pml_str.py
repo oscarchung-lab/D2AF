@@ -26,7 +26,7 @@ def pml_str(pmlf, str,dir=None):
         fw.writelines(lines)
         fw.close()
 def main():
-    print(len(sys.argv))
+    #print(len(sys.argv))
     if len(sys.argv) == 2:
         strin = sys.argv[1]
         pml_list = glob.glob('*.pml')

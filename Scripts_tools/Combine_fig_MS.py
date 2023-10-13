@@ -88,10 +88,10 @@ def image_compose3(name,fignames,figlabel=None):
     return to_image.save(IMAGE_SAVE_PATH)
 def run():
     pnglist = glob.glob('*.png')
-    image_compose2('sys_scheme',fignames=['M1_frag_show','M2_bond_delta'])
-    image_compose4('M1_M2',fignames=['M1_frag','M2_total','M2_bond','M2_angle'])
+    image_compose2('sys_scheme',fignames=['M1_frag_show','M2_bond_delta'],figlabel=['(a) M1 fragments','(b) bond length delta'])
+    image_compose4('M1_M2',fignames=['M1_frag','M2_total','M2_bond','M2_angle'],figlabel=['(a) M1','(b) M2 total','(c) M2 bond','(b) M2 angle'])
     if 'M3_total.png' in pnglist:
-        image_compose4('M3',fignames=['M3_total','M3_bond','M3_angle','M3_frag'])
+        image_compose4('M3',fignames=['M3_total','M3_bond','M3_angle','M3_frag'],figlabel=['(a) M3 total','(b) M3 bond','(c) M3 angle','(d) M3 fragment',])
         
 if __name__ == '__main__':
     run()

@@ -31,7 +31,7 @@ def plot_Energy(name_xlsx,type=''):
         plt.tight_layout()
         
         plt.savefig(name+'Energy_%d.png'%i,format='png', dpi=600, bbox_inches = 'tight')
-        
+        plt.close()
         
     if 'Strain M1' in df.columns:
         #Strain M1
@@ -46,7 +46,7 @@ def plot_Energy(name_xlsx,type=''):
             plt.title('Strain Energy')
             plt.tight_layout()
             plt.savefig(name+'Strain_M1_%d.png'%i,format='png', dpi=600,bbox_inches = 'tight')
-            
+            plt.close()
             
             #get top bottom
             toptmp, bottomtmp = get_top_bottom('M1_frag_%d.png'%i)
@@ -57,7 +57,7 @@ def plot_Energy(name_xlsx,type=''):
         bottom = max(bottomlist)
         
         for i in range(len(pos)):
-            combine_3images(name+'Energy_%d.png'%i,name+'Strain_M1_%d.png'%i,'M1_frag_%d.png'%i,name+'_M1_%d.png'%i,top,bottom)
+            combine_3images(name+'Energy_%d.png'%i,name+'Strain_M1_%d.png'%i,'M1_frag_%d.png'%i,name+'_M1_%d'%i,top,bottom)
         png2mov('Merge_'+name+'_M1',len(pos))   
         
     if 'Strain M2' in df.columns:
@@ -72,7 +72,8 @@ def plot_Energy(name_xlsx,type=''):
             plt.title('Strain Energy')
             plt.tight_layout()
             plt.savefig(name+'Strain_M2_%d.png'%i,format='png', dpi=600,bbox_inches = 'tight')
-    
+            plt.close()
+            
             #get top bottom
             toptmp, bottomtmp = get_top_bottom('M2_total_%d.png'%i)
             toplist.append(toptmp)
@@ -82,7 +83,7 @@ def plot_Energy(name_xlsx,type=''):
         bottom = max(bottomlist)
         
         for i in range(len(pos)):
-            combine_3images(name+'Energy_%d.png'%i,name+'Strain_M2_%d.png'%i,'M2_total_%d.png'%i,name+'_M2_%d.png'%i,top,bottom)
+            combine_3images(name+'Energy_%d.png'%i,name+'Strain_M2_%d.png'%i,'M2_total_%d.png'%i,name+'_M2_%d'%i,top,bottom)
         png2mov('Merge_'+name+'_M2',len(pos))       
     
     if 'Strain M3' in df.columns:
@@ -97,7 +98,8 @@ def plot_Energy(name_xlsx,type=''):
             plt.title('Strain Energy')
             plt.tight_layout()
             plt.savefig(name+'Strain_M3_%d.png'%i,format='png', dpi=600,bbox_inches = 'tight')
-
+            plt.close()
+            
             #get top bottom
             toptmp, bottomtmp = get_top_bottom('M3_total_%d.png'%i)
             toplist.append(toptmp)
@@ -107,7 +109,7 @@ def plot_Energy(name_xlsx,type=''):
         bottom = max(bottomlist)
         
         for i in range(len(pos)):
-            combine_3images(name+'Energy_%d.png'%i,name+'Strain_M3_%d.png'%i,'M3_total_%d.png'%i,name+'_M3_%d.png'%i,top,bottom)
+            combine_3images(name+'Energy_%d.png'%i,name+'Strain_M3_%d.png'%i,'M3_total_%d.png'%i,name+'_M3_%d'%i,top,bottom)
         
         png2mov('Merge_'+name+'_M3',len(pos))   
 
@@ -130,7 +132,7 @@ def png2mov(name,number):
     video = cv2.VideoWriter(video_name, fourcc, fps, (width, height))
 
     # 遍历图像列表，将每张图像写入视频
-    print(image_files)
+    #print(image_files)
     for image_file in image_files:
         frame = cv2.imread(image_file)
         video.write(frame)

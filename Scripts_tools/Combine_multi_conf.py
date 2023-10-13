@@ -62,5 +62,5 @@ def run():
             image_compose_mn(4,num,'M3_all',fignames=M3figlist)
     else:
         print('inputs: conf_id1 conf_id2 ... conf_idn')
-        print('eg: Combine_multi 149 300 #combine conf 149 and 300 figs')
+        print('eg: Combine_multi 149 300 #using conf 149 and conf 300')
     
