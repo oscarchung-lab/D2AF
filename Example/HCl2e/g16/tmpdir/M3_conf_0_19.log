@@ -1,0 +1,506 @@
+ Entering Gaussian System, Link 0=g16
+ Initial command:
+ /share/apps/gaussian/g16/l1.exe "/tmp/55557.mgr/Gau-213566.inp" -scrdir="/tmp/55557.mgr/"
+ Entering Link 1 = /share/apps/gaussian/g16/l1.exe PID=    213567.
+  
+ Copyright (c) 1988,1990,1992,1993,1995,1998,2003,2009,2016,
+            Gaussian, Inc.  All Rights Reserved.
+  
+ This is part of the Gaussian(R) 16 program.  It is based on
+ the Gaussian(R) 09 system (copyright 2009, Gaussian, Inc.),
+ the Gaussian(R) 03 system (copyright 2003, Gaussian, Inc.),
+ the Gaussian(R) 98 system (copyright 1998, Gaussian, Inc.),
+ the Gaussian(R) 94 system (copyright 1995, Gaussian, Inc.),
+ the Gaussian 92(TM) system (copyright 1992, Gaussian, Inc.),
+ the Gaussian 90(TM) system (copyright 1990, Gaussian, Inc.),
+ the Gaussian 88(TM) system (copyright 1988, Gaussian, Inc.),
+ the Gaussian 86(TM) system (copyright 1986, Carnegie Mellon
+ University), and the Gaussian 82(TM) system (copyright 1983,
+ Carnegie Mellon University). Gaussian is a federally registered
+ trademark of Gaussian, Inc.
+  
+ This software contains proprietary and confidential information,
+ including trade secrets, belonging to Gaussian, Inc.
+  
+ This software is provided under written license and may be
+ used, copied, transmitted, or stored only in accord with that
+ written license.
+  
+ The following legend is applicable only to US Government
+ contracts under FAR:
+  
+                    RESTRICTED RIGHTS LEGEND
+  
+ Use, reproduction and disclosure by the US Government is
+ subject to restrictions as set forth in subparagraphs (a)
+ and (c) of the Commercial Computer Software - Restricted
+ Rights clause in FAR 52.227-19.
+  
+ Gaussian, Inc.
+ 340 Quinnipiac St., Bldg. 40, Wallingford CT 06492
+  
+  
+ ---------------------------------------------------------------
+ Warning -- This program may not be used in any manner that
+ competes with the business of Gaussian, Inc. or will provide
+ assistance to any competitor of Gaussian, Inc.  The licensee
+ of this program is prohibited from giving any competitor of
+ Gaussian, Inc. access to this program.  By using this program,
+ the user acknowledges that Gaussian, Inc. is engaged in the
+ business of creating and licensing software in the field of
+ computational chemistry and represents and warrants to the
+ licensee that it is not a competitor of Gaussian, Inc. and that
+ it will not use this program in any manner prohibited above.
+ ---------------------------------------------------------------
+  
+
+ Cite this work as:
+ Gaussian 16, Revision A.03,
+ M. J. Frisch, G. W. Trucks, H. B. Schlegel, G. E. Scuseria, 
+ M. A. Robb, J. R. Cheeseman, G. Scalmani, V. Barone, 
+ G. A. Petersson, H. Nakatsuji, X. Li, M. Caricato, A. V. Marenich, 
+ J. Bloino, B. G. Janesko, R. Gomperts, B. Mennucci, H. P. Hratchian, 
+ J. V. Ortiz, A. F. Izmaylov, J. L. Sonnenberg, D. Williams-Young, 
+ F. Ding, F. Lipparini, F. Egidi, J. Goings, B. Peng, A. Petrone, 
+ T. Henderson, D. Ranasinghe, V. G. Zakrzewski, J. Gao, N. Rega, 
+ G. Zheng, W. Liang, M. Hada, M. Ehara, K. Toyota, R. Fukuda, 
+ J. Hasegawa, M. Ishida, T. Nakajima, Y. Honda, O. Kitao, H. Nakai, 
+ T. Vreven, K. Throssell, J. A. Montgomery, Jr., J. E. Peralta, 
+ F. Ogliaro, M. J. Bearpark, J. J. Heyd, E. N. Brothers, K. N. Kudin, 
+ V. N. Staroverov, T. A. Keith, R. Kobayashi, J. Normand, 
+ K. Raghavachari, A. P. Rendell, J. C. Burant, S. S. Iyengar, 
+ J. Tomasi, M. Cossi, J. M. Millam, M. Klene, C. Adamo, R. Cammi, 
+ J. W. Ochterski, R. L. Martin, K. Morokuma, O. Farkas, 
+ J. B. Foresman, and D. J. Fox, Gaussian, Inc., Wallingford CT, 2016.
+ 
+ ******************************************
+ Gaussian 16:  ES64L-G16RevA.03 25-Dec-2016
+                22-Sep-2023 
+ ******************************************
+ %nprocshared=4
+ Will use up to    4 processors via shared memory.
+ %mem=4GB
+ ----------------------------------------------------------------------
+ #p b3lyp/gen scrf=(cpcm,solvent=toluene) pop=hirshfeld empiricaldisper
+ sion=gd3bj
+ ----------------------------------------------------------------------
+ 1/38=1,172=1/1;
+ 2/12=2,17=6,18=5,40=1/2;
+ 3/5=7,11=2,25=1,30=1,70=2101,72=13,74=-5,124=41/1,2,3;
+ 4//1;
+ 5/5=2,38=5,53=13/2;
+ 6/7=2,8=2,9=2,10=2,28=1,79=1/1;
+ 99/5=1,9=1/99;
+ Leave Link    1 at Fri Sep 22 16:32:57 2023, MaxMem=   536870912 cpu:               0.2 elap:               0.0
+ (Enter /share/apps/gaussian/g16/l101.exe)
+ -----------------------
+ tmpdir/M3_conf_0_19.gjf
+ -----------------------
+ Symbolic Z-matrix:
+ Charge =  0 Multiplicity = 1
+ N                     0.        0.        0. 
+ H                     1.0284    0.        0. 
+ H                    -0.42561   0.       -0.84955 
+ H                    -0.48685   0.05686   0.88412 
+ 
+ ITRead=  0  0  0  0
+ MicOpt= -1 -1 -1 -1
+ NAtoms=      4 NQM=        4 NQMF=       0 NMMI=      0 NMMIF=      0
+                NMic=       0 NMicF=      0.
+                    Isotopes and Nuclear Properties:
+ (Nuclear quadrupole moments (NQMom) in fm**2, nuclear magnetic moments (NMagM)
+  in nuclear magnetons)
+
+  Atom         1           2           3           4
+ IAtWgt=          14           1           1           1
+ AtmWgt=  14.0030740   1.0078250   1.0078250   1.0078250
+ NucSpn=           2           1           1           1
+ AtZEff=  -0.0000000  -0.0000000  -0.0000000  -0.0000000
+ NQMom=    2.0440000   0.0000000   0.0000000   0.0000000
+ NMagM=    0.4037610   2.7928460   2.7928460   2.7928460
+ AtZNuc=   7.0000000   1.0000000   1.0000000   1.0000000
+ Leave Link  101 at Fri Sep 22 16:32:58 2023, MaxMem=   536870912 cpu:               0.4 elap:               0.1
+ (Enter /share/apps/gaussian/g16/l202.exe)
+                          Input orientation:                          
+ ---------------------------------------------------------------------
+ Center     Atomic      Atomic             Coordinates (Angstroms)
+ Number     Number       Type             X           Y           Z
+ ---------------------------------------------------------------------
+      1          7           0        0.000000    0.000000    0.000000
+      2          1           0        1.028400    0.000000    0.000000
+      3          1           0       -0.425610    0.000000   -0.849550
+      4          1           0       -0.486850    0.056860    0.884120
+ ---------------------------------------------------------------------
+                    Distance matrix (angstroms):
+                    1          2          3          4
+     1  N    0.000000
+     2  H    1.028400   0.000000
+     3  H    0.950199   1.684007   0.000000
+     4  H    1.010903   1.755245   1.735683   0.000000
+ Stoichiometry    H3N
+ Framework group  C1[X(H3N)]
+ Deg. of freedom     6
+ Full point group                 C1      NOp   1
+ Largest Abelian subgroup         C1      NOp   1
+ Largest concise Abelian subgroup C1      NOp   1
+                         Standard orientation:                         
+ ---------------------------------------------------------------------
+ Center     Atomic      Atomic             Coordinates (Angstroms)
+ Number     Number       Type             X           Y           Z
+ ---------------------------------------------------------------------
+      1          7           0       -0.004395    0.011226   -0.005775
+      2          1           0        0.642046   -0.788391    0.012420
+      3          1           0        0.388074    0.876353    0.014296
+      4          1           0       -0.999353   -0.166547    0.013709
+ ---------------------------------------------------------------------
+ Rotational constants (GHZ):         353.2353187         320.8980559         168.2489094
+ Leave Link  202 at Fri Sep 22 16:32:58 2023, MaxMem=   536870912 cpu:               0.1 elap:               0.1
+ (Enter /share/apps/gaussian/g16/l301.exe)
+ General basis read from cards:  (5D, 7F)
+ Centers:       2      3      4
+ S 3 1.00
+     Exponent=  1.2251800000D+01 Coefficients=  2.3337100000D-02
+     Exponent=  1.8687100000D+00 Coefficients=  1.5915000000D-01
+     Exponent=  4.1820800000D-01 Coefficients=  5.0000000000D-01
+ S 1 1.00
+     Exponent=  1.0610000000D-01 Coefficients=  1.0000000000D+00
+ P 1 1.00
+     Exponent=  1.0000000000D+00 Coefficients=  1.0000000000D+00
+ ****
+ Centers:       1
+ S 5 1.00
+     Exponent=  1.7263200000D+03 Coefficients=  5.9307700000D-03
+     Exponent=  2.5982700000D+02 Coefficients=  4.4253900000D-02
+     Exponent=  5.9033500000D+01 Coefficients=  1.9609600000D-01
+     Exponent=  1.6350900000D+01 Coefficients=  5.0000000000D-01
+     Exponent=  4.9108400000D+00 Coefficients=  4.8298700000D-01
+ S 2 1.00
+     Exponent=  7.7589400000D+00 Coefficients= -7.0335600000D-02
+     Exponent=  7.0557300000D-01 Coefficients=  5.0000000000D-01
+ S 1 1.00
+     Exponent=  2.0928600000D-01 Coefficients=  1.0000000000D+00
+ P 3 1.00
+     Exponent=  1.3184400000D+01 Coefficients=  4.4074700000D-02
+     Exponent=  2.8186000000D+00 Coefficients=  2.3047800000D-01
+     Exponent=  7.6557100000D-01 Coefficients=  5.0000000000D-01
+ P 1 1.00
+     Exponent=  1.9594900000D-01 Coefficients=  1.0000000000D+00
+ D 1 1.00
+     Exponent=  9.0000000000D-01 Coefficients=  1.0000000000D+00
+ ****
+ Ernie: Thresh=  0.10000D-02 Tol=  0.10000D-05 Strict=F.
+ There are    30 symmetry adapted cartesian basis functions of A   symmetry.
+ There are    29 symmetry adapted basis functions of A   symmetry.
+    29 basis functions,    47 primitive gaussians,    30 cartesian basis functions
+     5 alpha electrons        5 beta electrons
+       nuclear repulsion energy        12.0852187584 Hartrees.
+ IExCor=  402 DFT=T Ex+Corr=B3LYP ExCW=0 ScaHFX=  0.200000
+ ScaDFX=  0.800000  0.720000  1.000000  0.810000 ScalE2=  1.000000  1.000000
+ IRadAn=      5 IRanWt=     -1 IRanGd=            0 ICorTp=0 IEmpDi=141
+ NAtoms=    4 NActive=    4 NUniq=    4 SFac= 1.00D+00 NAtFMM=   60 NAOKFM=F Big=F
+ Integral buffers will be    131072 words long.
+ Raffenetti 2 integral format.
+ Two-electron integral symmetry is turned on.
+ R6Disp:  Grimme-D3(BJ) Dispersion energy=       -0.0012165448 Hartrees.
+ Nuclear repulsion after empirical dispersion term =       12.0840022137 Hartrees.
+ ------------------------------------------------------------------------------
+ Polarizable Continuum Model (PCM)
+ =================================
+ Model                : C-PCM.
+ Atomic radii         : UFF (Universal Force Field).
+ Polarization charges : Total charges.
+ Charge compensation  : None.
+ Solution method      : On-the-fly selection.
+ Cavity type          : Scaled VdW (van der Waals Surface) (Alpha=1.100).
+ Cavity algorithm     : GePol (No added spheres)
+                        Default sphere list used, NSphG=    4.
+                        Lebedev-Laikov grids with approx.  5.0 points / Ang**2.
+                        Smoothing algorithm: York/Karplus (Gamma=1.0000).
+                        Polarization charges: spherical gaussians, with
+                                              point-specific exponents (IZeta= 3).
+                        Self-potential: point-specific (ISelfS= 7).
+                        Self-field    : sphere-specific E.n sum rule (ISelfD= 2).
+ Solvent              : Toluene, Eps=   2.374100 Eps(inf)=   2.238315
+ ------------------------------------------------------------------------------
+ Spheres list:
+ ISph  on   Nord     Re0    Alpha      Xe            Ye            Ze
+    1   N      1    1.8300  1.100     -0.004395      0.011226     -0.005775
+    2   H      2    1.4430  1.100      0.642046     -0.788391      0.012420
+    3   H      3    1.4430  1.100      0.388074      0.876353      0.014296
+    4   H      4    1.4430  1.100     -0.999353     -0.166547      0.013709
+ ------------------------------------------------------------------------------
+ GePol: Number of generator spheres                  =       4
+ GePol: Total number of spheres                      =       4
+ GePol: Number of exposed spheres                    =       4 (100.00%)
+ GePol: Number of points                             =     440
+ GePol: Average weight of points                     =       0.14
+ GePol: Minimum weight of points                     =   0.82D-06
+ GePol: Maximum weight of points                     =    0.20212
+ GePol: Number of points with low weight             =      17
+ GePol: Fraction of low-weight points (<1% of avg)   =       3.86%
+ GePol: Cavity surface area                          =     62.023 Ang**2
+ GePol: Cavity volume                                =     43.646 Ang**3
+ Leave Link  301 at Fri Sep 22 16:32:58 2023, MaxMem=   536870912 cpu:               0.5 elap:               0.1
+ (Enter /share/apps/gaussian/g16/l302.exe)
+ NPDir=0 NMtPBC=     1 NCelOv=     1 NCel=       1 NClECP=     1 NCelD=      1
+         NCelK=      1 NCelE2=     1 NClLst=     1 CellRange=     0.0.
+ One-electron integrals computed using PRISM.
+ One-electron integral symmetry used in STVInt
+ NBasis=    29 RedAO= T EigKep=  4.44D-02  NBF=    29
+ NBsUse=    29 1.00D-06 EigRej= -1.00D+00 NBFU=    29
+ Precomputing XC quadrature grid using
+ IXCGrd= 4 IRadAn=           5 IRanWt=          -1 IRanGd=           0 AccXCQ= 0.00D+00.
+ Generated NRdTot=       0 NPtTot=           0 NUsed=           0 NTot=          32
+ NSgBfM=    30    30    30    30    30 MxSgAt=     4 MxSgA2=     4.
+ Leave Link  302 at Fri Sep 22 16:32:58 2023, MaxMem=   536870912 cpu:               0.4 elap:               0.1
+ (Enter /share/apps/gaussian/g16/l303.exe)
+ DipDrv:  MaxL=1.
+ Leave Link  303 at Fri Sep 22 16:32:58 2023, MaxMem=   536870912 cpu:               0.1 elap:               0.0
+ (Enter /share/apps/gaussian/g16/l401.exe)
+ ExpMin= 1.06D-01 ExpMax= 1.73D+03 ExpMxC= 2.60D+02 IAcc=3 IRadAn=         5 AccDes= 0.00D+00
+ Harris functional with IExCor=  402 and IRadAn=       5 diagonalized for initial guess.
+ HarFok:  IExCor=  402 AccDes= 0.00D+00 IRadAn=         5 IDoV= 1 UseB2=F ITyADJ=14
+ ICtDFT=  3500011 ScaDFX=  1.000000  1.000000  1.000000  1.000000
+ FoFCou: FMM=F IPFlag=           0 FMFlag=      100000 FMFlg1=           0
+         NFxFlg=           0 DoJE=T BraDBF=F KetDBF=T FulRan=T
+         wScrn=  0.000000 ICntrl=       500 IOpCl=  0 I1Cent=   200000004 NGrid=           0
+         NMat0=    1 NMatS0=      1 NMatT0=    0 NMatD0=    1 NMtDS0=    0 NMtDT0=    0
+ Petite list used in FoFCou.
+ Harris En= -56.5677990364795    
+ JPrj=0 DoOrth=F DoCkMO=F.
+ Leave Link  401 at Fri Sep 22 16:32:58 2023, MaxMem=   536870912 cpu:               0.7 elap:               0.2
+ (Enter /share/apps/gaussian/g16/l502.exe)
+ Keep R1 ints in memory in canonical form, NReq=3544720.
+ FoFCou: FMM=F IPFlag=           0 FMFlag=           0 FMFlg1=           0
+         NFxFlg=           0 DoJE=F BraDBF=F KetDBF=F FulRan=T
+         wScrn=  0.000000 ICntrl=       600 IOpCl=  0 I1Cent=           0 NGrid=           0
+         NMat0=    1 NMatS0=    435 NMatT0=    0 NMatD0=    1 NMtDS0=    0 NMtDT0=    0
+ Symmetry not used in FoFCou.
+ Two-electron integral symmetry not used.
+ Closed shell SCF:
+ Using DIIS extrapolation, IDIIS=  1040.
+ NGot=   536870912 LenX=   536773590 LenY=   536772249
+ Requested convergence on RMS density matrix=1.00D-08 within 128 cycles.
+ Requested convergence on MAX density matrix=1.00D-06.
+ Requested convergence on             energy=1.00D-06.
+ No special actions if energy rises.
+
+ Cycle   1  Pass 1  IDiag  1:
+ Inv3:  Mode=1 IEnd=      580800.
+ Iteration    1 A*A^-1 deviation from unit magnitude is 2.44D-15 for    430.
+ Iteration    1 A*A^-1 deviation from orthogonality  is 1.03D-15 for    341    163.
+ Iteration    1 A^-1*A deviation from unit magnitude is 2.22D-15 for    430.
+ Iteration    1 A^-1*A deviation from orthogonality  is 9.06D-16 for    353    188.
+ E= -56.4421300995182    
+ DIIS: error= 6.30D-02 at cycle   1 NSaved=   1.
+ NSaved= 1 IEnMin= 1 EnMin= -56.4421300995182     IErMin= 1 ErrMin= 6.30D-02
+ ErrMax= 6.30D-02  0.00D+00 EMaxC= 1.00D-01 BMatC= 1.12D-01 BMatP= 1.12D-01
+ IDIUse=3 WtCom= 3.70D-01 WtEn= 6.30D-01
+ Coeff-Com:  0.100D+01
+ Coeff-En:   0.100D+01
+ Coeff:      0.100D+01
+ Gap=     0.146 Goal=   None    Shift=    0.000
+ GapD=    0.146 DampG=1.000 DampE=0.500 DampFc=0.5000 IDamp=-1.
+ Damping current iteration by 5.00D-01
+ RMSDP=1.70D-02 MaxDP=2.22D-01              OVMax= 1.99D-01
+
+ Cycle   2  Pass 1  IDiag  1:
+ E= -56.4786181390147     Delta-E=       -0.036488039497 Rises=F Damp=T
+ DIIS: error= 1.06D-02 at cycle   2 NSaved=   2.
+ NSaved= 2 IEnMin= 2 EnMin= -56.4786181390147     IErMin= 2 ErrMin= 1.06D-02
+ ErrMax= 1.06D-02  0.00D+00 EMaxC= 1.00D-01 BMatC= 3.77D-03 BMatP= 1.12D-01
+ IDIUse=3 WtCom= 8.94D-01 WtEn= 1.06D-01
+ Coeff-Com:  0.143D+00 0.857D+00
+ Coeff-En:   0.253D+00 0.747D+00
+ Coeff:      0.154D+00 0.846D+00
+ Gap=     0.272 Goal=   None    Shift=    0.000
+ RMSDP=1.67D-03 MaxDP=1.94D-02 DE=-3.65D-02 OVMax= 1.13D-01
+
+ Cycle   3  Pass 1  IDiag  1:
+ E= -56.5367161537790     Delta-E=       -0.058098014764 Rises=F Damp=F
+ DIIS: error= 7.11D-04 at cycle   3 NSaved=   3.
+ NSaved= 3 IEnMin= 3 EnMin= -56.5367161537790     IErMin= 3 ErrMin= 7.11D-04
+ ErrMax= 7.11D-04  0.00D+00 EMaxC= 1.00D-01 BMatC= 2.14D-05 BMatP= 3.77D-03
+ IDIUse=3 WtCom= 9.93D-01 WtEn= 7.11D-03
+ Coeff-Com:  0.753D-02-0.304D-01 0.102D+01
+ Coeff-En:   0.000D+00 0.000D+00 0.100D+01
+ Coeff:      0.748D-02-0.301D-01 0.102D+01
+ Gap=     0.283 Goal=   None    Shift=    0.000
+ RMSDP=1.01D-04 MaxDP=1.04D-03 DE=-5.81D-02 OVMax= 9.89D-04
+
+ Cycle   4  Pass 1  IDiag  1:
+ E= -56.5367306111752     Delta-E=       -0.000014457396 Rises=F Damp=F
+ DIIS: error= 1.40D-04 at cycle   4 NSaved=   4.
+ NSaved= 4 IEnMin= 4 EnMin= -56.5367306111752     IErMin= 4 ErrMin= 1.40D-04
+ ErrMax= 1.40D-04  0.00D+00 EMaxC= 1.00D-01 BMatC= 7.15D-07 BMatP= 2.14D-05
+ IDIUse=3 WtCom= 9.99D-01 WtEn= 1.40D-03
+ Coeff-Com:  0.221D-02-0.109D-01 0.212D+00 0.797D+00
+ Coeff-En:   0.000D+00 0.000D+00 0.000D+00 0.100D+01
+ Coeff:      0.221D-02-0.109D-01 0.212D+00 0.797D+00
+ Gap=     0.283 Goal=   None    Shift=    0.000
+ RMSDP=1.85D-05 MaxDP=1.65D-04 DE=-1.45D-05 OVMax= 2.30D-04
+
+ Cycle   5  Pass 1  IDiag  1:
+ E= -56.5367312070640     Delta-E=       -0.000000595889 Rises=F Damp=F
+ DIIS: error= 2.77D-05 at cycle   5 NSaved=   5.
+ NSaved= 5 IEnMin= 5 EnMin= -56.5367312070640     IErMin= 5 ErrMin= 2.77D-05
+ ErrMax= 2.77D-05  0.00D+00 EMaxC= 1.00D-01 BMatC= 1.97D-08 BMatP= 7.15D-07
+ IDIUse=1 WtCom= 1.00D+00 WtEn= 0.00D+00
+ Coeff-Com:  0.558D-03-0.119D-02 0.176D-01 0.126D+00 0.857D+00
+ Coeff:      0.558D-03-0.119D-02 0.176D-01 0.126D+00 0.857D+00
+ Gap=     0.283 Goal=   None    Shift=    0.000
+ RMSDP=3.22D-06 MaxDP=4.06D-05 DE=-5.96D-07 OVMax= 3.85D-05
+
+ Cycle   6  Pass 1  IDiag  1:
+ E= -56.5367312246177     Delta-E=       -0.000000017554 Rises=F Damp=F
+ DIIS: error= 1.70D-06 at cycle   6 NSaved=   6.
+ NSaved= 6 IEnMin= 6 EnMin= -56.5367312246177     IErMin= 6 ErrMin= 1.70D-06
+ ErrMax= 1.70D-06  0.00D+00 EMaxC= 1.00D-01 BMatC= 4.93D-11 BMatP= 1.97D-08
+ IDIUse=1 WtCom= 1.00D+00 WtEn= 0.00D+00
+ Coeff-Com: -0.145D-04 0.394D-04-0.770D-03-0.946D-02-0.392D-01 0.105D+01
+ Coeff:     -0.145D-04 0.394D-04-0.770D-03-0.946D-02-0.392D-01 0.105D+01
+ Gap=     0.283 Goal=   None    Shift=    0.000
+ RMSDP=2.01D-07 MaxDP=3.47D-06 DE=-1.76D-08 OVMax= 3.00D-06
+
+ Cycle   7  Pass 1  IDiag  1:
+ E= -56.5367312246649     Delta-E=       -0.000000000047 Rises=F Damp=F
+ DIIS: error= 4.91D-08 at cycle   7 NSaved=   7.
+ NSaved= 7 IEnMin= 7 EnMin= -56.5367312246649     IErMin= 7 ErrMin= 4.91D-08
+ ErrMax= 4.91D-08  0.00D+00 EMaxC= 1.00D-01 BMatC= 9.15D-14 BMatP= 4.93D-11
+ IDIUse=1 WtCom= 1.00D+00 WtEn= 0.00D+00
+ Coeff-Com: -0.324D-05 0.459D-05-0.870D-04-0.737D-03-0.521D-02 0.310D-01
+ Coeff-Com:  0.975D+00
+ Coeff:     -0.324D-05 0.459D-05-0.870D-04-0.737D-03-0.521D-02 0.310D-01
+ Coeff:      0.975D+00
+ Gap=     0.283 Goal=   None    Shift=    0.000
+ RMSDP=1.32D-08 MaxDP=1.09D-07 DE=-4.71D-11 OVMax= 1.75D-07
+
+ Cycle   8  Pass 1  IDiag  1:
+ E= -56.5367312246651     Delta-E=       -0.000000000000 Rises=F Damp=F
+ DIIS: error= 1.68D-08 at cycle   8 NSaved=   8.
+ NSaved= 8 IEnMin= 8 EnMin= -56.5367312246651     IErMin= 8 ErrMin= 1.68D-08
+ ErrMax= 1.68D-08  0.00D+00 EMaxC= 1.00D-01 BMatC= 7.02D-15 BMatP= 9.15D-14
+ IDIUse=1 WtCom= 1.00D+00 WtEn= 0.00D+00
+ Coeff-Com: -0.533D-06 0.292D-06-0.522D-05-0.350D-06-0.496D-03-0.111D-01
+ Coeff-Com:  0.223D+00 0.789D+00
+ Coeff:     -0.533D-06 0.292D-06-0.522D-05-0.350D-06-0.496D-03-0.111D-01
+ Coeff:      0.223D+00 0.789D+00
+ Gap=     0.283 Goal=   None    Shift=    0.000
+ RMSDP=2.04D-09 MaxDP=1.91D-08 DE=-2.27D-13 OVMax= 2.62D-08
+
+ Error on total polarization charges =  0.00225
+ SCF Done:  E(RB3LYP) =  -56.5367312247     A.U. after    8 cycles
+            NFock=  8  Conv=0.20D-08     -V/T= 2.0053
+ KE= 5.623799291728D+01 PE=-1.562410234595D+02 EE= 3.138229710387D+01
+ Leave Link  502 at Fri Sep 22 16:32:59 2023, MaxMem=   536870912 cpu:               4.4 elap:               1.1
+ (Enter /share/apps/gaussian/g16/l601.exe)
+ Copying SCF densities to generalized density rwf, IOpCl= 0 IROHF=0.
+
+ **********************************************************************
+
+            Population analysis using the SCF density.
+
+ **********************************************************************
+
+ Orbital symmetries:
+       Occupied  (A) (A) (A) (A) (A)
+       Virtual   (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+ The electronic state is 1-A.
+ Alpha  occ. eigenvalues --  -14.27456  -0.83185  -0.48783  -0.46358  -0.23163
+ Alpha virt. eigenvalues --    0.05121   0.12357   0.13111   0.52029   0.54853
+ Alpha virt. eigenvalues --    0.59965   0.66065   0.76429   0.77569   1.07626
+ Alpha virt. eigenvalues --    1.48190   1.49905   1.85313   1.96450   2.01706
+ Alpha virt. eigenvalues --    2.17090   2.22886   2.60166   2.66050   2.68860
+ Alpha virt. eigenvalues --    2.72667   3.28279   3.35452   3.48510
+          Condensed to atoms (all electrons):
+               1          2          3          4
+     1  N    6.313228   0.389421   0.406482   0.393127
+     2  H    0.389421   0.491343  -0.028753  -0.026946
+     3  H    0.406482  -0.028753   0.500062  -0.026878
+     4  H    0.393127  -0.026946  -0.026878   0.482461
+ Mulliken charges:
+               1
+     1  N   -0.502258
+     2  H    0.174936
+     3  H    0.149087
+     4  H    0.178236
+ Sum of Mulliken charges =   0.00000
+ Mulliken charges with hydrogens summed into heavy atoms:
+               1
+     1  N    0.000000
+ Electronic spatial extent (au):  <R**2>=             25.9919
+ Charge=              0.0000 electrons
+ Dipole moment (field-independent basis, Debye):
+    X=              0.0295    Y=             -0.0973    Z=              0.1096  Tot=              0.1495
+ Quadrupole moment (field-independent basis, Debye-Ang):
+   XX=             -5.5167   YY=             -5.7874   ZZ=             -9.3393
+   XY=              0.0579   XZ=             -0.0004   YZ=              0.0042
+ Traceless Quadrupole moment (field-independent basis, Debye-Ang):
+   XX=              1.3644   YY=              1.0937   ZZ=             -2.4582
+   XY=              0.0579   XZ=             -0.0004   YZ=              0.0042
+ Octapole moment (field-independent basis, Debye-Ang**2):
+  XXX=             -0.9486  YYY=              0.3157  ZZZ=              0.1041  XYY=              0.9568
+  XXY=             -0.4961  XXZ=              0.0546  XZZ=              0.0244  YZZ=              0.0204
+  YYZ=              0.0512  XYZ=              0.0010
+ Hexadecapole moment (field-independent basis, Debye-Ang**3):
+ XXXX=             -9.2249 YYYY=             -9.2015 ZZZZ=             -9.1995 XXXY=              0.1489
+ XXXZ=             -0.0187 YYYX=              0.0093 YYYZ=              0.0121 ZZZX=              0.0001
+ ZZZY=              0.0061 XXYY=             -2.9916 XXZZ=             -3.4709 YYZZ=             -3.3853
+ XXYZ=             -0.0070 YYXZ=              0.0175 ZZXY=              0.0369
+ N-N= 1.208400221367D+01 E-N=-1.562410233371D+02  KE= 5.623799291728D+01
+ There are a total of       87774 grid points.
+ ElSum from          density=       10.0000000685
+ ElSum from atomic densities=       10.0000000567
+ Hirshfeld populations at iteration   1 (CA, CB, DipXYZ):
+               1          2          3          4          5
+     1  N    3.647458   3.647458  -0.002133   0.006636   0.019903
+     2  H    0.449979   0.449979   0.128511  -0.151605   0.003899
+     3  H    0.454234   0.454234   0.089663   0.181716   0.004590
+     4  H    0.448329   0.448329  -0.200219  -0.038787   0.004010
+       Tot   5.000000   5.000000   0.015821  -0.002040   0.032403
+
+ Dip from Atomic Chgs             -0.004206  -0.036243   0.010716
+         Total Dipole              0.011615  -0.038283   0.043119
+
+ Hirshfeld charges, spin densities, dipoles, and CM5 charges using IRadAn=      5:
+              Q-H        S-H        Dx         Dy         Dz        Q-CM5   
+     1  N   -0.294916   0.000000  -0.002133   0.006636   0.019903  -0.866292
+     2  H    0.100042   0.000000   0.128511  -0.151605   0.003899   0.275434
+     3  H    0.091533   0.000000   0.089663   0.181716   0.004590   0.304363
+     4  H    0.103342   0.000000  -0.200219  -0.038787   0.004010   0.286494
+       Tot  -0.000000   0.000000   0.015821  -0.002040   0.032403  -0.000000
+ Hirshfeld charges with hydrogens summed into heavy atoms:
+              Q-H       Q-CM5   
+     1  N   -0.000000  -0.000000
+ 
+ EQQ= 0.000000000000E+00 EQD= 0.000000000000E+00 EDD=-0.168524698913E-02
+ EQQ+QD+DD=-0.168524698913E-02
+ 
+ No NMR shielding tensors so no spin-rotation constants.
+ Leave Link  601 at Fri Sep 22 16:32:59 2023, MaxMem=   536870912 cpu:               0.5 elap:               0.2
+ (Enter /share/apps/gaussian/g16/l9999.exe)
+ 1\1\GINC-NODE74\SP\RB3LYP\Gen\H3N1\YANZ\22-Sep-2023\0\\#p b3lyp/gen sc
+ rf=(cpcm,solvent=toluene) pop=hirshfeld empiricaldispersion=gd3bj\\tmp
+ dir/M3_conf_0_19.gjf\\0,1\N,0,0.,0.,0.\H,0,1.0284,0.,0.\H,0,-0.42561,0
+ .,-0.84955\H,0,-0.48685,0.05686,0.88412\\Version=ES64L-G16RevA.03\Stat
+ e=1-A\HF=-56.5367312\RMSD=2.035e-09\Dipole=0.0378308,0.0429225,0.01364
+ 87\Quadrupole=0.8496698,-1.8237133,0.9740434,-0.0529015,-0.0877103,0.0
+ 909176\PG=C01 [X(H3N1)]\\@
+
+
+
+ WE LOSE BECAUSE WE WIN
+
+ GAMBLERS,
+
+ RECOLLECTING WHICH,
+
+ TOSS THEIR DICE AGAIN....
+
+
+                          EMILY DICKINSON  BOLTS OF MELODY NO. 533
+ Job cpu time:       0 days  0 hours  0 minutes  7.4 seconds.
+ Elapsed time:       0 days  0 hours  0 minutes  2.0 seconds.
+ File lengths (MBytes):  RWF=      6 Int=      0 D2E=      0 Chk=      1 Scr=      1
+ Normal termination of Gaussian 16 at Fri Sep 22 16:33:00 2023.
