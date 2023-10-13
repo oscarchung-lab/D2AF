@@ -30,3 +30,7 @@ inputs: `method number` eg.: `M2 125`
 **Plot_Ene.py**  `multi_mov`
 after Run Pymol pml to generate strain png files for multi-conformer case (IRC/MD). Generate electronic energy (MEP) and strain energy figure for each conformer, then combine them with stran visualization png to generate a movie    
 inputs: `energy_xlsx type(IRC/MD)` where xlsx file including ` pos, Energy, Strain M1/M2/M3 columns`
+
+**Combine_multi_conf.py**  `Combine_multi`
+Similar to Combine_fig_MS.py, but for multiple conformers.
+inputs: `conf_id1 conf_id2 ... conf_idn` combine selected confs

@@ -3,6 +3,9 @@ import os
 
 #def loadpdbED(pdbf,resn,ED,DED):
 def savepng(name='XX'):
+    #user define setting
+    cmd.set('stick_h_scale', 1.0)
+    cmd.set('stick_radius', 0.2)
 	#view
     try:
         view=[0]*18
