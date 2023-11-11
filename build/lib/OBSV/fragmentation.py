@@ -117,11 +117,12 @@ def fragmentations(calculator,method,ref,conf,chgf=[],spinf=[],input_para=None):
                 
             Results.bondcutresults2xlsx(internals, strain_confs, delta_values_confs, '_all')
             minene, maxene = Results.get_max_min([], internals, [], strain_confs)
+            mindelta, maxdelta = Results.get_max_min_delta(internals, delta_values_confs)
             
             for i, conf_mol in enumerate(conf_mols):
                 mol_conf_i = Molecule(elelist_ref,coords_confs[i][:][:])
                 mol_conf_i.set_name('Conf_%d'%i)
-                Results.Get_pml_bondcut(mol_conf_i, internals, strain_confs[i], delta_values_confs[i],maxene=maxene, minene=minene)
+                Results.Get_pml_bondcut(mol_conf_i, internals, strain_confs[i], delta_values_confs[i],maxene=maxene, minene=minene,mindelta=mindelta,maxdelta=maxdelta)
 
     elif method == 3:  
         fraglist = input_para['fraglist']
@@ -170,11 +171,12 @@ def fragmentations(calculator,method,ref,conf,chgf=[],spinf=[],input_para=None):
                     
                 Results.bondcutresults2xlsx(internals, strain_confs, delta_values_confs, '_all')
                 minene, maxene = Results.get_max_min([], internals, [], strain_confs)
-            
+                mindelta, maxdelta = Results.get_max_min_delta(internals, delta_values_confs)
+                
                 for i, conf_mol in enumerate(conf_mols):
                     mol_conf_i = Molecule(elelist_ref,coords_confs[i][:][:])
                     mol_conf_i.set_name('Conf_%d'%i)
-                    Results.Get_pml_bondcut(mol_conf_i, internals, strain_confs[i], delta_values[i],maxene=maxene, minene=minene)
+                    Results.Get_pml_bondcut(mol_conf_i, internals, strain_confs[i], delta_values[i],maxene=maxene, minene=minene,mindelta=mindelta,maxdelta=maxdelta)
                 
         else:
             ref_esp = calculate_mols(ref_mol,calculator, addpara)
@@ -214,10 +216,12 @@ def fragmentations(calculator,method,ref,conf,chgf=[],spinf=[],input_para=None):
                     
                 Results.bondcutfragresults2xlsx(internals, strain_confs, delta_values_confs, fraglist_clean, strain_frag_confs, 'all')
                 minene, maxene = Results.get_max_min(fraglist_clean, internals, strain_frag_confs, strain_confs)
+                mindelta, maxdelta = Results.get_max_min_delta(internals, delta_values_confs)
+                
                 for i, conf_mol in enumerate(conf_mols):
                     mol_conf_i = Molecule(elelist_ref,coords_confs[i][:][:])
                     mol_conf_i.set_name('Conf_%d'%i)
-                    Results.Get_pml_bondcut_fragmentation(mol_conf_i, internals, strain_confs[i], delta_values_confs[i], fraglist_clean, strain_frag_confs[i], maxene=maxene, minene=minene)
+                    Results.Get_pml_bondcut_fragmentation(mol_conf_i, internals, strain_confs[i], delta_values_confs[i], fraglist_clean, strain_frag_confs[i], maxene=maxene, minene=minene,mindelta=mindelta,maxdelta=maxdelta)
 
     else:
         print('method number %d not supported!'%method)

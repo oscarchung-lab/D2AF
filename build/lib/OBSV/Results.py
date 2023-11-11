@@ -79,10 +79,11 @@ def xlsx2pml(method, mol_file, xlsx):
                 delta_bondcut.append(delta)
                 
             minene, maxene = get_max_min([], internals, [], strain_bondcut)
+            mindelta, maxdelta = get_max_min_delta(internals, delta_bondcut)
             
             for i in range(len(sheet_names)):
                 mol_file_i = mol_name+'_%d.xyz'%i
-                write_mol_bondcut_pml(mol_file_i,internals,strain_bondcut[i],delta_bondcut[i],maxene=maxene, minene=minene)
+                write_mol_bondcut_pml(mol_file_i,internals,strain_bondcut[i],delta_bondcut[i],maxene=maxene, minene=minene,mindelta=mindelta,maxdelta=maxdelta)
             
     elif method == 3:
         if len(sheet_names) == 2:
@@ -134,9 +135,10 @@ def xlsx2pml(method, mol_file, xlsx):
                 
             minene, maxene = get_max_min(fraglist, internals, strain_frags, strain_bondcut)
             
+            mindelta, maxdelta = get_max_min_delta(internals, delta_bondcut)
             for i in range(num_mol):  
                 mol_file_i = mol_name+'_%d.xyz'%i
-                write_mol_bondcutfrag_pml(mol_file_i, internals, strain_bondcut[i],delta_bondcut[i], fraglist, strain_frags[i],maxene=maxene, minene=minene)
+                write_mol_bondcutfrag_pml(mol_file_i, internals, strain_bondcut[i],delta_bondcut[i], fraglist, strain_frags[i],maxene=maxene, minene=minene,mindelta=mindelta,maxdelta=maxdelta)
     else:
         print('method number %d not supported!'%method)
 
@@ -163,6 +165,31 @@ def get_max_min(fraglist, bondcutlist, frag_enelist, bondcut_enelist):
             max_ene.append(max(frag_enelist[i]))
 
     return min(min_ene), max(max_ene)
+
+# get mim and max for multiconfomer delta 
+def get_max_min_delta(bondcutlist, bondcut_deltalist):
+    min_delta = []
+    max_delta = []
+    for i in range(len(bondcut_deltalist)):
+        min_i, max_i = get_bondangle_delta(bondcutlist, bondcut_deltalist[i])
+        min_delta.append(min_i)
+        max_delta.append(max_i)
+
+    return min(min_delta), max(max_delta)
+
+def get_bondangle_delta(bondcutlist, bondcut_delta):
+    bond_delta = []
+    angle_delta = []
+
+    for i, atoms_labes in enumerate(bondcutlist):
+        if len(atoms_labes) == 2: #bond
+            bond_delta.append(bondcut_delta[i])
+        elif len(atoms_labes) == 3: #angle
+            angle_delta.append(bondcut_delta[i])
+        else: #problem
+            exit('Please check the atoms number > 3')
+            
+    return min(bond_delta), max(bond_delta)
 
 def get_bondangle(bondcutlist, bondcut_ene):
     bond_ene = {}
@@ -492,7 +519,7 @@ def write_mol_frag_pml(molname,fraglist,strain, maxene=None, minene=None):
     write_frag_show_pml(molname,frag_ene,'_M1')
     
 #view for method bondcut
-def Get_pml_bondcut(confmol,internal_list,strain,delta_values,maxene=None, minene=None):
+def Get_pml_bondcut(confmol,internal_list,strain,delta_values,maxene=None, minene=None,mindelta=None, maxdelta=None):
     if os.path.exists('pymol'):
         pass
         #print('tmpdir already exits')
@@ -503,12 +530,12 @@ def Get_pml_bondcut(confmol,internal_list,strain,delta_values,maxene=None, minen
     molname = os.path.join('pymol',confmol.name+'.xyz')
     molecule2xyz(confmol,molname)
     
-    write_mol_bondcut_pml(molname,internal_list,strain,delta_values,maxene, minene)
+    write_mol_bondcut_pml(molname,internal_list,strain,delta_values,maxene, minene,mindelta=mindelta,maxdelta=maxdelta)
    
 
-def write_mol_bondcut_pml(molname, internal_list,strain, delta_values,maxene=None, minene=None):
+def write_mol_bondcut_pml(molname, internal_list,strain, delta_values,maxene=None, minene=None,mindelta=None, maxdelta=None):
     # delta_values = bf.delta_internal_values(refValues,confValues)
-    draw_bondcut_delta(molname, internal_list, delta_values,'_M2')
+    draw_bondcut_delta(molname, internal_list, delta_values,mindelta=mindelta,maxdelta=maxdelta,extral_mark='_M2')
 
     bond_ene = {}
     angle_ene = {}
@@ -566,7 +593,7 @@ def write_mol_bondcut_pml(molname, internal_list,strain, delta_values,maxene=Non
     write_pymol_bondcut_pml(molname,total_ene,max_energy,min_energy,'_M2_total')
 
 #view for method bondcut + fragmentations
-def Get_pml_bondcut_fragmentation(confmol,internal_list,strain,delta_values,fraglist,strain_frag, maxene=None, minene=None):
+def Get_pml_bondcut_fragmentation(confmol,internal_list,strain,delta_values,fraglist,strain_frag, maxene=None, minene=None,mindelta=None,maxdelta=None):
     if os.path.exists('pymol'):
         pass
         #print('tmpdir already exits')
@@ -577,12 +604,12 @@ def Get_pml_bondcut_fragmentation(confmol,internal_list,strain,delta_values,frag
     molname = os.path.join('pymol',confmol.name+'.xyz')
     molecule2xyz(confmol,molname)
     
-    write_mol_bondcutfrag_pml(molname,internal_list,strain,delta_values,fraglist,strain_frag,maxene, minene)
+    write_mol_bondcutfrag_pml(molname,internal_list,strain,delta_values,fraglist,strain_frag,maxene, minene, maxdelta=maxdelta,mindelta=mindelta)
     #delta_values = bf.delta_internal_values(refValues,confValues)
     
 
-def write_mol_bondcutfrag_pml(molname,internal_list,strain,delta_values,fraglist,strain_frag,maxene=None, minene=None):
-    draw_bondcut_delta(molname, internal_list, delta_values,'_M3')
+def write_mol_bondcutfrag_pml(molname,internal_list,strain,delta_values,fraglist,strain_frag,maxene=None, minene=None,mindelta=None,maxdelta=None):
+    draw_bondcut_delta(molname, internal_list, delta_values,maxdelta=maxdelta,mindelta=mindelta,extral_mark='_M3')
 
     bond_ene = {}
     angle_ene = {}
@@ -649,7 +676,7 @@ def write_mol_bondcutfrag_pml(molname,internal_list,strain,delta_values,fraglist
     write_pymol_bondcutfrag_pml(molname,total_ene,frag_ene,max_energy,min_energy,'_M3_total')
 
 
-def draw_bondcut_delta(molf, internal_list, delta_values, extral_mark=''):
+def draw_bondcut_delta(molf, internal_list, delta_values, mindelta=None, maxdelta=None,extral_mark=''):
     bond_delta = {}
     angle_deltap = {}
     angle_deltan = {}
@@ -688,7 +715,7 @@ def draw_bondcut_delta(molf, internal_list, delta_values, extral_mark=''):
         else: #problem
             exit('Please check the atoms number > 3')
 
-    write_bond_show_pml(molf,bond_delta,extral_mark+'_bond')
+    write_bond_show_pml(molf,bond_delta,mindelta=mindelta, maxdelta=maxdelta,extral_mark=extral_mark+'_bond')
     write_bondangle_show_pml(molf,angle_deltap,extral_mark+'_anglep')
     write_bondangle_show_pml(molf,angle_deltan,extral_mark+'_anglen')
 
@@ -784,7 +811,7 @@ def gjf2xyz(gjfn,dir):
 def write_pymol_bondcut_frag_pml(mol_file, frag_ene, max_energy, min_energy, extral_mark=''):
     fname = os.path.splitext(mol_file)[0]
     molname = mol_file.split('/')[-1]
-    pml_name = fname+extral_mark+'_frag.pml'
+    pml_name = fname+extral_mark+'.pml'
     
     median_energy = (min_energy+max_energy)/2
     
@@ -967,13 +994,20 @@ def write_frag_show_pml(mol_file,frag_ene,extral_mark=''):
     fw.close()
 
 # show bond angle change in pymol
-def write_bond_show_pml(mol_file,bond_chg,extral_mark=''):
+def write_bond_show_pml(mol_file,bond_chg, mindelta=None, maxdelta=None, extral_mark=''):
     fname = os.path.splitext(mol_file)[0]
     molname = mol_file.split('/')[-1]
     pml_name = fname+extral_mark+'_delta.pml'
 
-    min_chg = min(bond_chg.values())
-    max_chg = max(bond_chg.values())
+    if mindelta==None:
+        min_chg = min(bond_chg.values())
+    else:
+        min_chg = mindelta
+        
+    if maxdelta==None:
+        max_chg = max(bond_chg.values())
+    else:
+        max_chg = maxdelta
 
     fw = open(pml_name,'w')
     fw.write('%-18s%12.8f\n' %('# Max change:', max_chg))

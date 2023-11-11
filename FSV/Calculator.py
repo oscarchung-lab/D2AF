@@ -1,8 +1,8 @@
-import OBSV.basis_functions as bf
+import FSV.basis_functions as bf
 import os
 import time
 import multiprocessing
-from OBSV.Molecule import Molecule
+from FSV.Molecule import Molecule
 import numpy as np
 
 try:
@@ -132,7 +132,7 @@ def calculate_mol_mlatom(mol):
     
     aiqm1.predict(molecule=mol_aiqm1, calculate_energy=True) 
 
-    return mol.energy
+    return mol_aiqm1.energy
     
 def calculate_mol_ANI(mol):
     global device, model
