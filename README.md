@@ -37,7 +37,7 @@ FSV:
 - torchvision
 - torch 
 - torchani
-- MLatom (3.0.0))
+- MLatom (3.0.0)
 - scipy
 - pyh5md
 - statsmodels
