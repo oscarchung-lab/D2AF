@@ -20,6 +20,9 @@ eleslist = ['H','He',
 
 b2a = 0.52917724
 
+# COVALENT_RADII single bond Covalent radii (Angstrom)
+CR = {"H": 0.31, "C":  0.76, "O": 0.66, "N": 0.71}
+CR_scale = 1.0
 current_dir = os.path.dirname(__file__)
 Hscalematrix=np.loadtxt(os.path.join(current_dir, 'lib','ONIOM_Hscale.txt'),delimiter=',',dtype=float)
 Oscalematrix=np.loadtxt(os.path.join(current_dir, 'lib','ONIOM_Oscale.txt'),delimiter=',',dtype=float)
@@ -175,9 +178,18 @@ def write_frag_xyz(frag_list,link_list,eles,coords,linkm):
                         coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
                         coordlinetmp = '%-16s%14.8f%14.8f%14.8f \n'%('H ', coordH[0],coordH[1],coordH[2])
                     elif linkm[jlabel][k] == 2.0 :
-                        scaletmp = Oscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
-                        coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
-                        coordlinetmp = '%-16s%14.8f%14.8f%14.8f \n'%('O ', coordH[0],coordH[1],coordH[2])
+                        # link atom is O
+                        if eles[k] == 'O':
+                            scaletmp = Oscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
+                            coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
+                            coordlinetmp = '%-16s%14.8f%14.8f%14.8f \n'%('O ', coordH[0],coordH[1],coordH[2])
+                        else:
+                            scaletmp = Cscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
+                            coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
+                            coordlinetmp = '%-16s%14.8f%14.8f%14.8f \n'%('C ', coordH[0],coordH[1],coordH[2])
+                        #scaletmp = Oscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
+                        #coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
+                        #coordlinetmp = '%-16s%14.8f%14.8f%14.8f \n'%('O ', coordH[0],coordH[1],coordH[2])
                     elif linkm[jlabel][k] == 3.0 :
                         scaletmp = Nscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
                         coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
@@ -214,9 +226,15 @@ def write_frag_xyz_CH2_CH2(frag_list,link_list,eles,coords,linkm):
                             coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
                             coordlinetmp = '%-16s%14.8f%14.8f%14.8f \n'%('C ', coordH[0],coordH[1],coordH[2])
                         else:
-                            scaletmp = Oscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
-                            coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
-                            coordlinetmp = '%-16s%14.8f%14.8f%14.8f \n'%('O ', coordH[0],coordH[1],coordH[2])
+                            # link atom is O
+                            if eles[k] == 'O':
+                                scaletmp = Oscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
+                                coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
+                                coordlinetmp = '%-16s%14.8f%14.8f%14.8f \n'%('O ', coordH[0],coordH[1],coordH[2])
+                            else:
+                                scaletmp = Cscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
+                                coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
+                                coordlinetmp = '%-16s%14.8f%14.8f%14.8f \n'%('C ', coordH[0],coordH[1],coordH[2])
                     elif linkm[jlabel][k] == 3.0:
                         scaletmp = Nscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
                         coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
@@ -227,7 +245,7 @@ def write_frag_xyz_CH2_CH2(frag_list,link_list,eles,coords,linkm):
         xyzstr.append(xyzstr_i)
     return xyzstr
 
-#  frag  molecule using O for double bond
+#  frag  molecule 
 def frag_molecule(frag_list,link_list,eles,coords,linkm, fragchgspin, name=''):
     mols = []
     for i, frag_i in enumerate(frag_list):
@@ -245,10 +263,16 @@ def frag_molecule(frag_list,link_list,eles,coords,linkm, fragchgspin, name=''):
                         coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
                         
                     elif linkm[jlabel][k] == 2.0 :
-                        scaletmp = Oscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
-                        eletmp = 'O'
-                        coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
-                        
+                        # link atom is O
+                        if eles[k] == 'O':
+                            scaletmp = Oscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
+                            eletmp = 'O'
+                            coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
+                        else:
+                            scaletmp = Cscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
+                            eletmp = 'C'
+                            coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
+                            
                     elif linkm[jlabel][k] == 3.0 :
                         scaletmp = Nscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
                         eletmp = 'N'
@@ -289,9 +313,18 @@ def frag_molecule_CH2_CH2(frag_list,link_list,eles,coords,linkm,fragchgspin, nam
                             coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
                             
                         else:
-                            scaletmp = Oscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
-                            eletmp = 'O'
-                            coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
+                            # link atom is O
+                            if eles[k] == 'O':
+                                scaletmp = Oscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
+                                eletmp = 'O'
+                                coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
+                            else:
+                                scaletmp = Cscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
+                                eletmp = 'C'
+                                coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
+                            #scaletmp = Oscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
+                            #eletmp = 'O'
+                            #coordH = link2H(coords[jlabel][:],coords[k][:],scaletmp)
                             
                     elif linkm[jlabel][k] == 3.0:
                         scaletmp = Nscalematrix[eleslist.index(eles[k])][eleslist.index(eles[jlabel])]
@@ -742,3 +775,34 @@ def update_internal_frag(internal_list_in, fraglist, linkm):
             
     return internal_list_out,internal_list_out_act
 
+# check link atoms distance
+def check_link_dist(fraglist, linklist, mols):
+    # atoms in mol order: fraglist + linklist
+    for i, mol in enumerate(mols):
+        frag_atomnum = len(fraglist[i])
+        mol_atomnum = mol.get_num_atoms()
+        #linkatoms = [element for sublist in linklist[i] for element in sublist]
+        linkatoms = []
+        for sublist in linklist[i]:
+            for element in sublist:
+                if element in linkatoms:
+                    print("Error: atom %d appears twice as link atom!"%element)
+                linkatoms.append(element)
+        
+        link_atomnum = len(linkatoms)
+        elelist = mol.elements
+        #check atom numbers
+        if mol_atomnum != frag_atomnum + link_atomnum:
+            print('Warning: Atom number of mol_%d (%d) do not equal the sum of fragment number (%d) and link atom number (%d)' % (i, mol_atomnum, frag_atomnum, link_atomnum))
+        
+        for q in range(frag_atomnum, mol_atomnum):
+            for p in range(q+1, mol_atomnum):
+                dis_pq = np.linalg.norm(mol.get_atom_coordinates(p) - mol.get_atom_coordinates(q))
+                bond_r = (CR[elelist[p]] + CR[elelist[q]]) * CR_scale
+                if dis_pq < bond_r:
+                    #print(p,q)
+                    #print('Distance between (%f6.3 < %f6.3)'%(dis_pq, bond_r))
+                    print('Distance between link atom warning:  (%d, %d) in Mol %d'%(linkatoms[q-frag_atomnum], linkatoms[p-frag_atomnum], i))
+                    
+                    
+                    

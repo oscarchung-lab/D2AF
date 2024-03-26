@@ -7,7 +7,7 @@ packages = setuptools.find_packages(exclude=["tests"])
 
 setuptools.setup(
     name="FSV",
-    version="1.0.11",
+    version="1.0.13",
     description="Fragmentation-based Strain Visualisation ",
     authors="Zeyin YAN, Yunteng Liao, Lung Wa CHUNG",
     author_email="yanzy@sustech.edu.cn",

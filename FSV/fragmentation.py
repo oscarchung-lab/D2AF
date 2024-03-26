@@ -243,9 +243,16 @@ def fragmentation(elelist_ref, coords_ref, coords_confs,  matrix_link_ref, chgli
     print('*'*15+"  Get ref & conf fragments structure  "+'*'*15)
     # get frag lines containing ele and coordinates infomation
     frag_mol_ref = bf.frag_molecule(frag_ref,link_ref,elelist_ref,coords_ref,matrix_link_ref,fragchgspin,name='M1_ref')
+    
+    #check link atom distance
+    bf.check_link_dist(frag_ref, link_ref, frag_mol_ref)
+    
     frag_mol_confs = []
     for i in range(num_conf):
         frag_mol_conf = bf.frag_molecule(frag_ref,link_ref,elelist_ref,coords_confs[i][:][:],matrix_link_ref,fragchgspin,name='M1_conf_'+str(i))
+    #check link atom distance
+        bf.check_link_dist(frag_ref, link_ref, frag_mol_conf)
+        
         frag_mol_confs.append(frag_mol_conf)
     print('*'*15+"  Get ref & conf fragments structure  finished!  "+'*'*15)
     print()
@@ -280,6 +287,7 @@ def bondcut(elelist_ref, coords_ref, coords_confs,  matrix_link_ref, chglist, sp
     #get frag and link atoms of ref
     bondcut_frag_ref, bondcut_link_ref = bf.strcuture2cluster_frag(matrix_link_ref, internal_list)
 
+    
     #update special bonds 
     #bondcut_frag_ref, bondcut_link_ref = bf.update_bondcut_CH2_CH2(elelist_ref, bondcut_frag_ref, bondcut_link_ref,matrix_link_ref)
 
@@ -295,11 +303,16 @@ def bondcut(elelist_ref, coords_ref, coords_confs,  matrix_link_ref, chglist, sp
     # get frag lines containing ele and coordinates infomation
     #bondcut_frag_xyz_ref = bf.write_frag_xyz(bondcut_frag_act,bondcut_link_act,elelist_ref,coords_ref,matrix_link_ref)
     bondcut_mol_ref = bf.frag_molecule_CH2_CH2(bondcut_frag_ref,bondcut_link_ref,elelist_ref,coords_ref,matrix_link_ref,fragchgspin,name='M2_ref')
+    
+    #check link atom distance
+    bf.check_link_dist(bondcut_frag_ref, bondcut_link_ref, bondcut_mol_ref)
     # get conf xyz similar to ref with only one bond/angle changed
     print('*'*15+"  Get conf fragments structure  "+'*'*15)
     bondcut_mol_confs = []
     for i in range(num_conf):
         bondcut_mol_conf = bf.get_frag_mol_conf(bondcut_mol_ref,internal_list,confs_internal_values[i],name='M2_conf_'+str(i))
+    #check link atom distance
+        bf.check_link_dist(bondcut_frag_ref, bondcut_link_ref, bondcut_mol_conf)
         bondcut_mol_confs.append(bondcut_mol_conf)
     print('*'*15+"  Get ref & conf fragments structure  finished!  "+'*'*15)
     print()
@@ -361,11 +374,17 @@ def bondcut_fragmentation(elelist_ref, coords_ref, coords_confs,  matrix_link_re
     print('*'*15+"  Get ref fragments structure  "+'*'*15)
     # get frag lines containing ele and coordinates infomation
     bondcut_mol_ref = bf.frag_molecule_CH2_CH2(bondcut_frag_ref,bondcut_link_ref,elelist_ref,coords_ref,matrix_link_ref,bondcut_fragchgspin,name='M3_ref')
+    #check link atom distance
+    bf.check_link_dist(bondcut_frag_ref, bondcut_link_ref, bondcut_mol_ref)
+    
     # get conf xyz similar to ref with only one bond/angle changed
     print('*'*15+"  Get conf fragments structure  "+'*'*15)
     bondcut_mol_confs = []
     for i in range(num_conf):
         bondcut_mol_conf = bf.get_frag_mol_conf(bondcut_mol_ref,internal_list,confs_internal_values[i],name='M3_conf_'+str(i))
+    #check link atom distance
+        bf.check_link_dist(bondcut_frag_ref, bondcut_link_ref, bondcut_mol_conf)
+        
         bondcut_mol_confs.append(bondcut_mol_conf)
     print('*'*15+"  Get ref & conf fragments structure  finished!  "+'*'*15)
     print()
@@ -387,9 +406,15 @@ def bondcut_fragmentation(elelist_ref, coords_ref, coords_confs,  matrix_link_re
         print('*'*15+"  Get ref & conf fragments structure  "+'*'*15)
         # get frag lines containing ele and coordinates infomation
         frag_mol_ref = bf.frag_molecule(frag_ref,link_ref,elelist_ref,coords_ref,matrix_link_ref,fragchgspin,name='M3_frag_ref')
+        
+        #check link atom distance
+        bf.check_link_dist(frag_ref, link_ref, frag_mol_ref)
+        
         frag_mol_confs = []
         for i in range(num_conf):
             frag_mol_conf = bf.frag_molecule(frag_ref,link_ref,elelist_ref,coords_confs[i][:][:],matrix_link_ref,fragchgspin,name='M3_frag_conf_'+str(i))
+        #check link atom distance
+            bf.check_link_dist(frag_ref, link_ref, frag_mol_conf)
             frag_mol_confs.append(frag_mol_conf)
         print('*'*15+"  Get ref & conf fragments structure  finished!  "+'*'*15)
         print()

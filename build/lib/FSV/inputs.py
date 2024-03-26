@@ -120,6 +120,13 @@ def read_inp(inpf):
             Results.lognum = float(inp_dict['scale'])
         print('Using log (%s) scale for visualization'%inp_dict['scale'])
         
+    if 'CRscale' not in inp_dict.keys():
+        bf.CR_scale = 1.0
+        print('COVALENT_RADII scale set to 1.0')
+    else:
+        print('COVALENT_RADII scale set to '+inp_dict['CRscale'])
+        bf.CR_scale = float(inp_dict['CRscale'])
+            
     if 'calculator' not in inp_dict.keys():
         print('Warning: calculator was not given!')
         print('Using g16 for this calculation!')
@@ -210,6 +217,8 @@ def read_inp(inpf):
     else:
         print('number cpu set to '+inp_dict['cpu'])
         inp_dict['cpu'] = int(inp_dict['cpu'])
+        
+    
     
     if 'pal' not in inp_dict.keys():
         inp_dict['pal'] = 1
