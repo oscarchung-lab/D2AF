@@ -258,4 +258,85 @@ def GetGaussiansp(outname):
             print(errlines)
             print('')
 
+#orca calculate
+def calculate_mol_Orca(mols, addpara=None):
+    if 'mlines' in addpara.keys():
+        mlines = addpara['mlines']
+    else: 
+        mlines = None
+        
+    if os.path.exists('tmpdir'):
+        pass
+        #print('tmpdir already exits')
+    else:
+        os.mkdir('tmpdir')
+        print("tmpdir has been created.")
 
+    orca_inps = [] 
+    for i, mol in enumerate(mols):
+
+        name_i = os.path.join('tmpdir', mol.name+'.inp')
+        fw = open(name_i,'w')
+        if mlines==None:
+            fw.write('!DLPNO-CCSD(T) cc-pVTZ cc-pVTZ/C \n')
+        else:
+            for linetmp in mlines:
+                fw.write(linetmp.replace('#','!'))
+        fw.write('\n')
+
+        fw.write('%pal nprocs '+str(bf.ncpu)+' end \n')
+        fw.write('%maxcore='+str(bf.ncpu)+'000 \n')
+        
+        fw.write('\n')
+        fw.write('* xyz %d %d\n'%(mol.charge,mol.spin+1))
+        elestmp = mol.elements
+        coordtmp = mol.coordinates
+        for j in range(mol.get_num_atoms()):
+            fw.write('%-16s%14.8f%14.8f%14.8f \n'%(elestmp[j], coordtmp[j][0], coordtmp[j][1], coordtmp[j][2]))
+        fw.write('* \n')
+        fw.write('\n')
+        fw.close()
+        orca_inps.append(name_i)
+
+    #parallel computation for all gjfs
+    pool = multiprocessing.Pool(processes=bf.pal)
+    Esp = pool.map(Run_Orca,orca_inps)
+    pool.close()
+    pool.join()
+    print('Orca computations finish at: '+time.asctime())
+    print('')
+    return Esp
+
+def Run_Orca(orca_inp):
+    ene_sp = 0.0
+    name,tfile=os.path.splitext(orca_inp)
+    if os.path.exists(name+'.log'):
+        print(name+'.log exsits, skipt the computation!')
+        ene_sp = Get_Orca_SP(name+'.log')
+    else:
+        os.system('orca '+orca_inp+'> '+name+'.log')
+        ene_sp = Get_Orca_SP(name+'.log')
+    #print('Gauusian job('+gjfname+') ends at: '+time.asctime())
+    return ene_sp
+
+def Get_Orca_SP(outname):
+    fr = open(outname,"r") 
+    lines = fr.readlines()
+    fr.close()
+    index_of_energy = []
+    index_of_ext_energy = []
+    i = 0
+    errlines = []
+    for line in lines:
+        if "FINAL SINGLE POINT ENERGY" in line:
+            index_of_energy.append(i)
+        
+        i= i+1
+    try:
+        loc = int(index_of_energy[-1])
+        energy = lines[loc].split()[-1]
+        return float(energy)           
+    except IndexError:
+        print('Energy not found in %s file!'%outname)              #help check the bug   
+        print(errlines)
+        print('')
