@@ -1,13 +1,13 @@
 import sys
 import os
 import numpy as np 
-import FSV.basis_functions as bf
-from FSV import inputs
+import D2AF.basis_functions as bf
+from D2AF import inputs
 import pandas as pd
-from FSV import Results
+from D2AF import Results
 import copy
-from FSV.Molecule import Molecule
-from FSV.Calculator import calculate_mols
+from D2AF.Molecule import Molecule
+from D2AF.Calculator import calculate_mols
 
 '''
 the frist step of fragmentation

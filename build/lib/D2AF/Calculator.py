@@ -1,8 +1,8 @@
-import FSV.basis_functions as bf
+import D2AF.basis_functions as bf
 import os
 import time
 import multiprocessing
-from FSV.Molecule import Molecule
+from D2AF.Molecule import Molecule
 import numpy as np
 
 try:

@@ -2,8 +2,8 @@ import os
 import sys
 import numpy as np
 import pandas as pd
-import FSV.basis_functions as bf
-from FSV import Results
+import D2AF.basis_functions as bf
+from D2AF import Results
 import math
 #import in_coor as ic
 

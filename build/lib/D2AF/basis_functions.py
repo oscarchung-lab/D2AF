@@ -6,7 +6,7 @@ import pandas as pd
 from openbabel import pybel
 from itertools import combinations
 import copy
-from FSV.Molecule import Molecule 
+from D2AF.Molecule import Molecule 
 import os 
 
 eleslist = ['H','He',
@@ -30,7 +30,7 @@ Cscalematrix=np.loadtxt(os.path.join(current_dir, 'lib','ONIOM_Cscale.txt'),deli
 Nscalematrix=np.loadtxt(os.path.join(current_dir, 'lib','ONIOM_Nscale.txt'),delimiter=',',dtype=float)
 
 ncpu = 16
-jobname = 'FSV'
+jobname = 'D2AF'
 pal = 1
 
 def eles2numbers(eles):
