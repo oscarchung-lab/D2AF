@@ -3,7 +3,7 @@ import numpy as np
 import re
 import sys
 import pandas as pd
-from openbabel import pybel
+from openbabel import openbabel, pybel
 from itertools import combinations
 import copy
 from D2AF.Molecule import Molecule 
@@ -32,6 +32,8 @@ Nscalematrix=np.loadtxt(os.path.join(current_dir, 'lib','ONIOM_Nscale.txt'),deli
 ncpu = 16
 jobname = 'D2AF'
 pal = 1
+
+dihedral_value = 30
 
 def eles2numbers(eles):
     numa = len(eles)
@@ -805,4 +807,79 @@ def check_link_dist(fraglist, linklist, mols):
                     print('Distance between link atom warning:  (%d, %d) in Mol %d'%(linkatoms[q-frag_atomnum], linkatoms[p-frag_atomnum], i))
                     
                     
-                    
+# check the difference of dihedral between ref and confs
+
+#get dihedral angles (no hydrogen)
+def get_dihedrals_no_hydrogen(mol):
+    dihedrals = []
+    for bond in openbabel.OBMolBondIter(mol):
+        if bond.IsRotor():
+            begin_atom = bond.GetBeginAtom()
+            end_atom = bond.GetEndAtom()
+            if begin_atom.GetAtomicNum() == 1 or end_atom.GetAtomicNum() == 1:
+                continue
+            for neighbor1 in openbabel.OBAtomAtomIter(begin_atom):
+                if neighbor1.GetIdx() == end_atom.GetIdx() or neighbor1.GetAtomicNum() == 1:
+                    continue
+                for neighbor2 in openbabel.OBAtomAtomIter(end_atom):
+                    if neighbor2.GetIdx() == begin_atom.GetIdx() or neighbor2.GetAtomicNum() == 1:
+                        continue
+                    dihedral = (neighbor1.GetIdx(), begin_atom.GetIdx(), end_atom.GetIdx(), neighbor2.GetIdx())
+                    dihedrals.append(dihedral)
+    return dihedrals
+
+#get dihedral angles
+def get_dihedrals(mol):
+    dihedrals = []
+    for bond in openbabel.OBMolBondIter(mol):
+        if bond.IsRotor():
+            begin_atom = bond.GetBeginAtom()
+            end_atom = bond.GetEndAtom()
+            for neighbor1 in openbabel.OBAtomAtomIter(begin_atom):
+                if neighbor1.GetIdx() == end_atom.GetIdx():
+                    continue
+                for neighbor2 in openbabel.OBAtomAtomIter(end_atom):
+                    if neighbor2.GetIdx() == begin_atom.GetIdx():
+                        continue
+                    dihedral = (neighbor1.GetIdx(), begin_atom.GetIdx(), end_atom.GetIdx(), neighbor2.GetIdx())
+                    dihedrals.append(dihedral)
+    return dihedrals
+
+def create_molecule_from_coords(atom_symbols, coordinates):
+    numatom = len(atom_symbols)
+
+    xyzstrs = []
+
+    xyzstrs.append(str(numatom))
+    xyzstrs.append(" ")
+    for i in range(numatom):
+        xyzstrs.append(atom_symbols[i]+' '+str(coordinates[i][0])+' '+str(coordinates[i][1])+' '+str(coordinates[i][2]))
+    xyzfilestr = '\n'.join(xyzstrs)
+    mol = pybel.readstring("xyz",xyzfilestr)
+    return mol.OBMol
+
+
+def check_difference_dihedral(elelist, coords_ref, coords_confs):
+    num_atom = len(elelist)
+    num_conf = coords_confs.shape[0]
+
+    mol_ref = create_molecule_from_coords(elelist, coords_ref)
+    dihedrals = get_dihedrals_no_hydrogen(mol_ref)
+
+    if num_conf == 1:
+        mol_conf = create_molecule_from_coords(elelist, coords_confs[0][:][:])
+        for dihedral in dihedrals:
+            dihedral_ref = mol_ref.GetTorsion(*dihedral)
+            dihedral_conf = mol_conf.GetTorsion(*dihedral)
+            dihedral_diff = abs((dihedral_ref - dihedral_conf  + 180) % 360 - 180)
+            if dihedral_diff > dihedral_value:
+                print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff} degrees')
+    else:
+        for i in range(num_conf):
+            mol_conf = create_molecule_from_coords(elelist, coords_confs[i][:][:])
+            for dihedral in dihedrals:
+                dihedral_ref = mol_ref.GetTorsion(*dihedral)
+                dihedral_conf = mol_conf.GetTorsion(*dihedral)
+                dihedral_diff = abs((dihedral_ref - dihedral_conf  + 180) % 360 - 180)
+                if dihedral_diff > dihedral_value:
+                    print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff} degrees in conformer {i}')

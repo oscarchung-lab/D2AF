@@ -28,7 +28,8 @@ setuptools.setup(
                              'Combine_multi = D2AF.Combine_multi_conf:run',
                              'Combine_method = D2AF.Combine_method_SI:run',
                              'autofragment = D2AF.autofragment:run',
-                             'atompair = D2AF.atompair:run']
+                             'atompair = D2AF.atompair:run',
+                             'check_dihedral = D2AF.inputs:check_dihedral']
     }
 )
 

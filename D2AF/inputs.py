@@ -78,7 +78,11 @@ def read_inp(inpf):
                         elif len(varstmp) == 4: #torsion
                             a1 = min(int(varstmp[0]),int(varstmp[3]))
                             a2 = max(int(varstmp[0]),int(varstmp[3]))
-                            value.append([a1-1,int(varstmp[1])-1,int(varstmp[2])-1,a2-1])
+
+                            if a1 == int(varstmp[0]):
+                                value.append([a1-1,int(varstmp[1])-1,int(varstmp[2])-1,a2-1])
+                            else:
+                                value.append([a1-1,int(varstmp[2])-1,int(varstmp[1])-1,a2-1])
                         else:
                             print('Error: wrong format for bond/angle/torsion in '+linetmp)
                     j += 1
@@ -119,7 +123,14 @@ def read_inp(inpf):
         else:
             Results.lognum = float(inp_dict['scale'])
         print('Using log (%s) scale for visualization'%inp_dict['scale'])
-        
+
+    if 'Dihedral' not in inp_dict.keys():
+        bf.dihedral_value = 30
+        print('Dihedral threshold set to 30')
+    else:
+        print('Dihedral threshold set to '+inp_dict['Dihedral'])
+        bf.dihedral_value = int(inp_dict['Dihedral'])
+
     if 'CRscale' not in inp_dict.keys():
         bf.CR_scale = 1.0
         print('COVALENT_RADII scale set to 1.0')
@@ -430,4 +441,14 @@ def read_bond_angle(extraf):
                 print('Error: wrong format for bond/angle/torsion in '+linestr)
     return extra_list
 
+
+def check_dihedral():
+    if len(sys.argv) == 3:
+        elelist_ref, coords_ref, coords_confs, matrix_link_ref, addpara = read_ref_conf(sys.argv[1],sys.argv[2])
+        bf.check_difference_dihedral(elelist_ref, coords_ref, coords_confs)
+    else:
+        print('Input: ref conf ')
+        print('ref: in Gaussian gjf format')
+        print('conf: gjf or xyz(for multiple conformers)')
+    
 
