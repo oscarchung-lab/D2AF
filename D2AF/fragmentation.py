@@ -84,6 +84,7 @@ def fragmentations(calculator,method,ref,conf,chgf=[],spinf=[],input_para=None):
         include = input_para['include']
         exclude = input_para['exclude']
 
+        bf.check_difference_dihedral(elelist_ref, coords_ref, coords_confs)
         ref_mol, conf_mols, internals, ref_internal, confs_internal = bondcut(elelist_ref, coords_ref, coords_confs, matrix_link_ref, chglist, spinlist,include=include, exclude=exclude)
         
         Results.refmols2xyz(ref_mol,'M2')
@@ -133,6 +134,7 @@ def fragmentations(calculator,method,ref,conf,chgf=[],spinf=[],input_para=None):
         bf.check_fraglist(fraglist)
         bf.check_fraglist(coordlist)
         
+        bf.check_difference_dihedral(elelist_ref, coords_ref, coords_confs)
         ref_mol, conf_mols, internals, ref_internal, confs_internal, fraglist_clean, frag_ref_mol, frag_conf_mols = bondcut_fragmentation(elelist_ref, coords_ref, coords_confs, matrix_link_ref, chglist, spinlist, fraglist=fraglist, coordlist=coordlist, include=include, exclude=exclude)
         
         if len(frag_ref_mol) == 0:

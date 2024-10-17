@@ -446,9 +446,13 @@ def check_dihedral():
     if len(sys.argv) == 3:
         elelist_ref, coords_ref, coords_confs, matrix_link_ref, addpara = read_ref_conf(sys.argv[1],sys.argv[2])
         bf.check_difference_dihedral(elelist_ref, coords_ref, coords_confs)
+    if len(sys.argv) == 4:
+        elelist_ref, coords_ref, coords_confs, matrix_link_ref, addpara = read_ref_conf(sys.argv[1],sys.argv[2])
+        bf.check_difference_dihedral(elelist_ref, coords_ref, coords_confs, float(sys.argv[3]))
     else:
-        print('Input: ref conf ')
+        print('Input: ref conf thershold(optional)')
         print('ref: in Gaussian gjf format')
         print('conf: gjf or xyz(for multiple conformers)')
+        print('thershold: default 30, only > 30 difference will show')
     
 

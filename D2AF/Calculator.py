@@ -227,7 +227,7 @@ def RunGaussian(gjfname):
     else:
         os.system(Gauexe+' < '+gjfname+'> '+name+'.log')
         ene_sp = GetGaussiansp(name+'.log')
-    #print('Gauusian job('+gjfname+') ends at: '+time.asctime())
+    print('Gauusian job('+gjfname+') ends at: '+time.asctime())
     return ene_sp
 
 #get gaussian energy

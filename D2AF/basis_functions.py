@@ -48,7 +48,8 @@ def check_fraglist(fraglist):
     for frag_i in fraglist:
         allfraglist.extend(frag_i)
     if len(allfraglist) != len(set(allfraglist)):
-        sys.exit('fraglist has repeat element')
+        #sys.exit('fraglist has repeat element')
+        print('*'*15+"Warning !!!  fraglist has repeat element!!! "+'*'*15)
     print('*'*15+"  fragmentation list  OK "+'*'*15)
     print()
 #calculate bond & angle
@@ -735,45 +736,62 @@ def update_internal_frag(internal_list_in, fraglist, linkm):
             else:
                 pass
         elif len(sublist_i) == 4: #torsion
-            # 1-2-3-4 not in fraglist
-            if sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
-                internal_list_out.append(sublist_i)
-                internal_list_out_act.append(sublist_i)
+            list_allatom = []
+            list_allatom.extend(sublist_i)
+            fraglisttmp = []
+            for atomtmp in sublist_i:
                 
-            # 1 in fraglist
-            elif sublist_i[0] in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
-                internal_list_out.append(sublist_i)
+                if atomtmp in allfraglist:
+                    pos = find_sublist_pos(atomtmp,fraglist)
+                    listtmp =  reorder_fraglist(sublist_i, fraglist[pos], linkm)
+                    fraglisttmp.extend(listtmp)
+            list_allatom.extend(fraglisttmp)
 
-                pos = find_sublist_pos(sublist_i[0],fraglist)
-                listtmp =  reorder_fraglist(sublist_i, fraglist[pos], linkm)
-                internal_list_out_act.append(listtmp)
-            # 4 in fraglist    
-            elif sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] in allfraglist:
-                internal_list_out.append(sublist_i)
+            listtmp = list_unique(list_allatom)
 
-                pos = find_sublist_pos(sublist_i[3],fraglist)
-                listtmp =  reorder_fraglist(sublist_i, fraglist[pos], linkm)
-                internal_list_out_act.append(listtmp)
-                
-            # 1-2 in fraglist    
-            elif sublist_i[0] in allfraglist and sublist_i[1] in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
-                pos1 = find_sublist_pos(sublist_i[0],fraglist)
-                pos2 = find_sublist_pos(sublist_i[1],fraglist)
-                
-                if pos1 == pos2: #same frag
-                    internal_list_out.append(sublist_i)
-                    listtmp =  reorder_fraglist(sublist_i, fraglist[pos1], linkm)
-                    internal_list_out_act.append(listtmp)
-                
-            # 3-4 in fraglist    
-            elif sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] in allfraglist and sublist_i[3] in allfraglist:
-                pos1 = find_sublist_pos(sublist_i[2],fraglist)
-                pos2 = find_sublist_pos(sublist_i[3],fraglist)
-                
-                if pos1 == pos2: #same frag
-                    internal_list_out.append(sublist_i)
-                    listtmp =  reorder_fraglist(sublist_i, fraglist[pos1], linkm)
-                    internal_list_out_act.append(listtmp)   
+            internal_list_out.append(sublist_i)
+            internal_list_out_act.append(listtmp)
+                    
+               
+            ## 1-2-3-4 not in fraglist
+            #if sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
+            #    internal_list_out.append(sublist_i)
+            #    internal_list_out_act.append(sublist_i)
+            #    
+            ## 1 in fraglist
+            #elif sublist_i[0] in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
+            #    internal_list_out.append(sublist_i)
+#
+            #    pos = find_sublist_pos(sublist_i[0],fraglist)
+            #    listtmp =  reorder_fraglist(sublist_i, fraglist[pos], linkm)
+            #    internal_list_out_act.append(listtmp)
+            ## 4 in fraglist    
+            #elif sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] in allfraglist:
+            #    internal_list_out.append(sublist_i)
+#
+            #    pos = find_sublist_pos(sublist_i[3],fraglist)
+            #    listtmp =  reorder_fraglist(sublist_i, fraglist[pos], linkm)
+            #    internal_list_out_act.append(listtmp)
+            #    
+            ## 1-2 in fraglist    
+            #elif sublist_i[0] in allfraglist and sublist_i[1] in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
+            #    pos1 = find_sublist_pos(sublist_i[0],fraglist)
+            #    pos2 = find_sublist_pos(sublist_i[1],fraglist)
+            #    
+            #    if pos1 == pos2: #same frag
+            #        internal_list_out.append(sublist_i)
+            #        listtmp =  reorder_fraglist(sublist_i, fraglist[pos1], linkm)
+            #        internal_list_out_act.append(listtmp)
+            #    
+            ## 3-4 in fraglist    
+            #elif sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] in allfraglist and sublist_i[3] in allfraglist:
+            #    pos1 = find_sublist_pos(sublist_i[2],fraglist)
+            #    pos2 = find_sublist_pos(sublist_i[3],fraglist)
+            #    
+            #    if pos1 == pos2: #same frag
+            #        internal_list_out.append(sublist_i)
+            #        listtmp =  reorder_fraglist(sublist_i, fraglist[pos1], linkm)
+            #        internal_list_out_act.append(listtmp)   
             
     return internal_list_out,internal_list_out_act
 
@@ -859,7 +877,10 @@ def create_molecule_from_coords(atom_symbols, coordinates):
     return mol.OBMol
 
 
-def check_difference_dihedral(elelist, coords_ref, coords_confs):
+def check_difference_dihedral(elelist, coords_ref, coords_confs, thershold=None):
+    if thershold==None:
+        thershold = dihedral_value
+    
     num_atom = len(elelist)
     num_conf = coords_confs.shape[0]
 
@@ -872,7 +893,7 @@ def check_difference_dihedral(elelist, coords_ref, coords_confs):
             dihedral_ref = mol_ref.GetTorsion(*dihedral)
             dihedral_conf = mol_conf.GetTorsion(*dihedral)
             dihedral_diff = abs((dihedral_ref - dihedral_conf  + 180) % 360 - 180)
-            if dihedral_diff > dihedral_value:
+            if dihedral_diff > thershold:
                 print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff} degrees')
     else:
         for i in range(num_conf):
@@ -881,5 +902,5 @@ def check_difference_dihedral(elelist, coords_ref, coords_confs):
                 dihedral_ref = mol_ref.GetTorsion(*dihedral)
                 dihedral_conf = mol_conf.GetTorsion(*dihedral)
                 dihedral_diff = abs((dihedral_ref - dihedral_conf  + 180) % 360 - 180)
-                if dihedral_diff > dihedral_value:
+                if dihedral_diff > thershold:
                     print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff} degrees in conformer {i}')
