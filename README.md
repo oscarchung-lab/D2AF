@@ -1,4 +1,5 @@
 ### Distortion Distribution Analysis enabled by Fragmentation (D2AF)
+<div align=center><img src=Docs/toc.png  width="400" /></div>
 
 #### Description
 Distortion Distribution Analysis enabled by Fragmentation 
@@ -7,15 +8,14 @@ Distortion energy visualization of one/multiple conformers relative to the refer
 * 2. bond and angle resolution based on internal coordinates (bond, angle, dihedral)
 * 3. combination of 1 & 2
 
-##### Workflow and technique details
-<img src=Docs/Fig1.png  width="600" />
+##### Workflow
+<div align=center><img src=Docs/Fig1.png  width="400" /></div>
 
 <div align=center><big><b>Workflow</b></big></div>
-
-<img src=Docs/SchemeS1.png  width="600" />
-
+<!--
+<div align=center><img src=Docs/SchemeS1.png  width="400" /></div>
 <div align=center><big><b>Technique details</b></big></div>
-
+-->
 
 #### Installation
 conda env create -f environment.yml
