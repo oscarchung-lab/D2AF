@@ -8,8 +8,10 @@ Distortion energy visualization of one/multiple conformers relative to the refer
 * 3. combination of 1 & 2
 
 ##### Workflow and technique details
-![Workflow](.\\Docs\\Fig1.png) 
-![Workflow](.\\Docs\\SchemeS1.png) 
+<img src=Docs/Fig1.png  width="600" />
+<center><big><b>Workflow</b></big></center>
+<img src=Docs/SchemeS1.png  width="600" />
+<center><big><b>Technique details</b></big></center>
 
 
 #### Installation
