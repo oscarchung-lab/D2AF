@@ -7,6 +7,11 @@ Distortion energy visualization of one/multiple conformers relative to the refer
 * 2. bond and angle resolution based on internal coordinates (bond, angle, dihedral)
 * 3. combination of 1 & 2
 
+##### Workflow and technique details
+![Workflow](.\\Docs\\Fig1.png) 
+![Workflow](.\\Docs\\SchemeS1.png) 
+
+
 #### Installation
 conda env create -f environment.yml
 
