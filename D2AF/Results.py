@@ -225,22 +225,30 @@ def get_bondangle(bondcutlist, bondcut_ene):
             a3 = int(atoms_labes[2])+1
             a4 = int(atoms_labes[3])+1
             
-            if (min(a1,a2),max(a1,a2)) in torsion_ene.keys():
-                enetmp = torsion_ene[(min(a1,a2),max(a1,a2))]
-                torsion_ene[(min(a1,a2),max(a1,a2))] = enetmp + float(bondcut_ene[i])/3
-            else:
-                torsion_ene[(min(a1,a2),max(a1,a2))] = float(bondcut_ene[i])/3
+            #dihedral/1 center bond
             if (min(a2,a3),max(a2,a3)) in torsion_ene.keys():
                 enetmp = torsion_ene[(min(a2,a3),max(a2,a3)) ]
-                torsion_ene[(min(a2,a3),max(a2,a3)) ] = enetmp + float(bondcut_ene[i])/3
+                torsion_ene[(min(a2,a3),max(a2,a3)) ] = enetmp + float(bondcut_ene[i])
             else:
-                torsion_ene[(min(a2,a3),max(a2,a3)) ] = float(bondcut_ene[i])/3
-            
-            if (min(a3,a4),max(a3,a4)) in torsion_ene.keys():
-                enetmp = torsion_ene[(min(a3,a4),max(a3,a4)) ]
-                torsion_ene[(min(a3,a4),max(a3,a4)) ] = enetmp + float(bondcut_ene[i])/3
-            else:
-                torsion_ene[(min(a3,a4),max(a3,a4)) ] = float(bondcut_ene[i])/3
+                torsion_ene[(min(a2,a3),max(a2,a3)) ] = float(bondcut_ene[i])
+                
+            #dihedral/3  
+            #if (min(a1,a2),max(a1,a2)) in torsion_ene.keys():
+            #    enetmp = torsion_ene[(min(a1,a2),max(a1,a2))]
+            #    torsion_ene[(min(a1,a2),max(a1,a2))] = enetmp + float(bondcut_ene[i])/3
+            #else:
+            #    torsion_ene[(min(a1,a2),max(a1,a2))] = float(bondcut_ene[i])/3
+            #if (min(a2,a3),max(a2,a3)) in torsion_ene.keys():
+            #    enetmp = torsion_ene[(min(a2,a3),max(a2,a3)) ]
+            #    torsion_ene[(min(a2,a3),max(a2,a3)) ] = enetmp + float(bondcut_ene[i])/3
+            #else:
+            #    torsion_ene[(min(a2,a3),max(a2,a3)) ] = float(bondcut_ene[i])/3
+            #
+            #if (min(a3,a4),max(a3,a4)) in torsion_ene.keys():
+            #    enetmp = torsion_ene[(min(a3,a4),max(a3,a4)) ]
+            #    torsion_ene[(min(a3,a4),max(a3,a4)) ] = enetmp + float(bondcut_ene[i])/3
+            #else:
+            #    torsion_ene[(min(a3,a4),max(a3,a4)) ] = float(bondcut_ene[i])/3
         else: #problem
             exit('Please check the atoms number > 4')
             
@@ -652,22 +660,29 @@ def write_mol_bondcut_pml(molname, internal_list,strain, delta_values,maxene=Non
             a3 = int(atoms_labes[2])+1
             a4 = int(atoms_labes[3])+1
             
-            if (min(a1,a2),max(a1,a2)) in torsion_ene.keys():
-                enetmp = torsion_ene[(min(a1,a2),max(a1,a2))]
-                torsion_ene[(min(a1,a2),max(a1,a2))] = enetmp + float(strain[i])/3
-            else:
-                torsion_ene[(min(a1,a2),max(a1,a2))] = float(strain[i])/3
+            #dihedral/1 center bond
             if (min(a2,a3),max(a2,a3)) in torsion_ene.keys():
                 enetmp = torsion_ene[(min(a2,a3),max(a2,a3)) ]
-                torsion_ene[(min(a2,a3),max(a2,a3)) ] = enetmp + float(strain[i])/3
+                torsion_ene[(min(a2,a3),max(a2,a3)) ] = enetmp + float(strain[i])
             else:
-                torsion_ene[(min(a2,a3),max(a2,a3)) ] = float(strain[i])/3
-            
-            if (min(a3,a4),max(a3,a4)) in torsion_ene.keys():
-                enetmp = torsion_ene[(min(a3,a4),max(a3,a4)) ]
-                torsion_ene[(min(a3,a4),max(a3,a4)) ] = enetmp + float(strain[i])/3
-            else:
-                torsion_ene[(min(a3,a4),max(a3,a4)) ] = float(strain[i])/3
+                torsion_ene[(min(a2,a3),max(a2,a3)) ] = float(strain[i])
+            #dihedral/3  
+            #if (min(a1,a2),max(a1,a2)) in torsion_ene.keys():
+            #    enetmp = torsion_ene[(min(a1,a2),max(a1,a2))]
+            #    torsion_ene[(min(a1,a2),max(a1,a2))] = enetmp + float(strain[i])/3
+            #else:
+            #    torsion_ene[(min(a1,a2),max(a1,a2))] = float(strain[i])/3
+            #if (min(a2,a3),max(a2,a3)) in torsion_ene.keys():
+            #    enetmp = torsion_ene[(min(a2,a3),max(a2,a3)) ]
+            #    torsion_ene[(min(a2,a3),max(a2,a3)) ] = enetmp + float(strain[i])/3
+            #else:
+            #    torsion_ene[(min(a2,a3),max(a2,a3)) ] = float(strain[i])/3
+            #
+            #if (min(a3,a4),max(a3,a4)) in torsion_ene.keys():
+            #    enetmp = torsion_ene[(min(a3,a4),max(a3,a4)) ]
+            #    torsion_ene[(min(a3,a4),max(a3,a4)) ] = enetmp + float(strain[i])/3
+            #else:
+            #    torsion_ene[(min(a3,a4),max(a3,a4)) ] = float(strain[i])/3
         else: #problem
             exit('Please check the atoms number > 4')
 
@@ -706,6 +721,8 @@ def write_mol_bondcut_pml(molname, internal_list,strain, delta_values,maxene=Non
   
     write_pymol_bondcut_pml(molname,bond_ene,max_energy,min_energy,'_M2_bond')
     write_pymol_bondcut_pml(molname,angle_ene,max_energy,min_energy,'_M2_angle')
+    if torsion_ene:
+        write_pymol_bondcut_pml(molname,torsion_ene,max_energy,min_energy,'_M2_dihedral')
     write_pymol_bondcut_pml(molname,total_ene,max_energy,min_energy,'_M2_total')
 
 #view for method bondcut + fragmentations
@@ -756,22 +773,30 @@ def write_mol_bondcutfrag_pml(molname,internal_list,strain,delta_values,fraglist
             a3 = int(atoms_labes[2])+1
             a4 = int(atoms_labes[3])+1
             
-            if (min(a1,a2),max(a1,a2)) in torsion_ene.keys():
-                enetmp = torsion_ene[(min(a1,a2),max(a1,a2))]
-                torsion_ene[(min(a1,a2),max(a1,a2))] = enetmp + float(strain[i])/3
-            else:
-                torsion_ene[(min(a1,a2),max(a1,a2))] = float(strain[i])/3
+            #dihedral/1 center bond
             if (min(a2,a3),max(a2,a3)) in torsion_ene.keys():
                 enetmp = torsion_ene[(min(a2,a3),max(a2,a3)) ]
-                torsion_ene[(min(a2,a3),max(a2,a3)) ] = enetmp + float(strain[i])/3
+                torsion_ene[(min(a2,a3),max(a2,a3)) ] = enetmp + float(strain[i])
             else:
-                torsion_ene[(min(a2,a3),max(a2,a3)) ] = float(strain[i])/3
+                torsion_ene[(min(a2,a3),max(a2,a3)) ] = float(strain[i])
             
-            if (min(a3,a4),max(a3,a4)) in torsion_ene.keys():
-                enetmp = torsion_ene[(min(a3,a4),max(a3,a4)) ]
-                torsion_ene[(min(a3,a4),max(a3,a4)) ] = enetmp + float(strain[i])/3
-            else:
-                torsion_ene[(min(a3,a4),max(a3,a4)) ] = float(strain[i])/3
+            # dihedral/3
+            #if (min(a1,a2),max(a1,a2)) in torsion_ene.keys():
+            #    enetmp = torsion_ene[(min(a1,a2),max(a1,a2))]
+            #    torsion_ene[(min(a1,a2),max(a1,a2))] = enetmp + float(strain[i])/3
+            #else:
+            #    torsion_ene[(min(a1,a2),max(a1,a2))] = float(strain[i])/3
+            #if (min(a2,a3),max(a2,a3)) in torsion_ene.keys():
+            #    enetmp = torsion_ene[(min(a2,a3),max(a2,a3)) ]
+            #    torsion_ene[(min(a2,a3),max(a2,a3)) ] = enetmp + float(strain[i])/3
+            #else:
+            #    torsion_ene[(min(a2,a3),max(a2,a3)) ] = float(strain[i])/3
+            #
+            #if (min(a3,a4),max(a3,a4)) in torsion_ene.keys():
+            #    enetmp = torsion_ene[(min(a3,a4),max(a3,a4)) ]
+            #    torsion_ene[(min(a3,a4),max(a3,a4)) ] = enetmp + float(strain[i])/3
+            #else:
+            #    torsion_ene[(min(a3,a4),max(a3,a4)) ] = float(strain[i])/3
         else: #problem
             exit('Please check the atoms number > 4')
 
@@ -817,6 +842,8 @@ def write_mol_bondcutfrag_pml(molname,internal_list,strain,delta_values,fraglist
 
     write_pymol_bondcut_pml(molname,bond_ene,max_energy,min_energy,'_M3_bond')
     write_pymol_bondcut_pml(molname,angle_ene,max_energy,min_energy,'_M3_angle')
+    if torsion_ene:
+        write_pymol_bondcut_pml(molname,torsion_ene,max_energy,min_energy,'_M3_dihedral')
     write_pymol_bondcut_frag_pml(molname,frag_ene,max_energy,min_energy,extral_mark='_M3_frag')
     write_pymol_bondcutfrag_pml(molname,total_ene,frag_ene,max_energy,min_energy,'_M3_total')
 

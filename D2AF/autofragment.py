@@ -1,4 +1,4 @@
-import openbabel as ob
+from openbabel import openbabel as ob
 import networkx as nx
 import numpy as np
 from itertools import combinations
@@ -40,7 +40,7 @@ def xyz2fragments(xyzf):
     fw.close()
 
     write_frag_show_pml(xyzf,fraglist,extral_mark='_auto')
-   
+    write_M1_inp(fraglist, name=name)
 
 #with or withno connectivity gjf
 def gjf2fragments(gjff):
@@ -76,6 +76,7 @@ def gjf2fragments(gjff):
         matrix_link = linkmatrix(connlines)
         
         fraglist, linkm0 = mol2fraglist(mol,linkm = matrix_link)
+        write_M1_inp(fraglist, name=name)
     else:
         fraglist, linkm0 = mol2fraglist(mol) 
         #write new linkm gjf
@@ -90,9 +91,32 @@ def gjf2fragments(gjff):
         fw.writelines(connlines)
         fw.write('\n')
         fw.close()
-    
+        write_M1_inp(fraglist, name=name+'_link')
+        
     write_frag_show_pml(name+'.xyz',fraglist,extral_mark='_auto')
-  
+    write_M1_inp(fraglist, name=name+'_link')
+
+def write_M1_inp(fraglist, name='temp', calculator='g16'):
+    inp_name = name + '_M1.inp'
+    fw = open(inp_name, 'w')
+    fw.write('ref = %s.gjf\n'%name)
+    fw.write('conf = %s_conf.gjf\n'%name)
+    fw.write('method = 1\n')
+    fw.write('calculator = %s\n'%calculator)
+    fw.write('cpu = 4\n')
+    fw.write('pal = 6\n')
+    fw.write('scale = 10\n')
+    fw.write('\n')
+    fw.write('#fraglist\n')
+    for frag in fraglist:
+        fw.write(','.join(str(id) for id in frag)+'\n')
+    fw.write('\n')
+    fw.write('\n')
+    fw.close()
+
+    print('M1 input file (%s) written!!!'%inp_name) 
+    print('Please check the conf, calculator, cpu, pal etc. parameters for running!!!') 
+
 def linkm2conn(linkm):
     #write connectivity
     numa = linkm.shape[0]
@@ -156,7 +180,7 @@ def mol2fraglist(mol, **kwargs):
     # cycles in mol
     cycles = nx.cycle_basis(molG0)
     if len(cycles) > 0:
-        print('Cycle founds:')
+        print('Rings founds:')
         print(cycles)
         for cycle in cycles:
             atompair = list(combinations(cycle,2))
@@ -164,7 +188,7 @@ def mol2fraglist(mol, **kwargs):
                 if linkm[atoms[0]][atoms[1]] > 0.0:
                     molGf.add_edges_from([atoms])
     else:
-        print('No cycles found')
+        print('No rings found')
     
     subgraph = nx.connected_components(molGf)
     
@@ -262,7 +286,7 @@ def run():
     if len(sys.argv) == 2:
         file = sys.argv[1]
         type = os.path.splitext(file)[1]
-        print(type)
+        #print(type)
         if type == '.gjf' or type == '.com':
             gjf2fragments(file)
         elif type == '.xyz':
@@ -272,5 +296,5 @@ def run():
     else: 
         print('Input: xyz/gjf file for fragment(reforme bonds)')
         
-run()
+
         

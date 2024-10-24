@@ -4,7 +4,7 @@
 Distortion Distribution Analysis enabled by Fragmentation 
 Distortion energy visualization of one/multiple conformers relative to the reference structure(eg: global minima). Subsystem extracted based on ONIOM methods(link atoms and scale factors). The subsystem can be defined using three methods:
 * 1. atomic/fragments resolution based on fragmentations
-* 2. bond and angle resolution based on internal coordinates (bond & angle)
+* 2. bond and angle resolution based on internal coordinates (bond, angle, dihedral)
 * 3. combination of 1 & 2
 
 #### Installation
@@ -37,7 +37,7 @@ D2AF:
 - torchvision
 - torch 
 - torchani
-- MLatom (3.0.0))
+- MLatom (3.0.0)
 - scipy
 - pyh5md
 - statsmodels
@@ -95,7 +95,7 @@ inp file example:
     
 **conf**: conf.gjf/.xyz conformer structure, and multiple structure in one xyz file is acceptable
 
-**method**: 1 for framentation method, 2 for bond/angle method, 3 1+2
+**method**: 1 for framentation method (M1), 2 for bond/angle method (M2), 3 for 1+2 method (M3)
 
 **cpu**: number of cpu for subsystem computation
 
@@ -105,13 +105,13 @@ inp file example:
 
 **scale**: log scale factor for pymol visualization
 
-**fraglist**: method =1/3, define the fragmentation list
+**fraglist**: **M1/M3**, define the fragmentation list
 
-**coordination**: method =3, define the coordination center (similar to fraglist)
+**coordination**: **M3**, define the coordination center (similar to fraglist)
 
-**include**: method =2/3, additional bond/angle for non-connected atoms
+**include**: **M2/M3**, additional bond/angle for non-connected atoms
 
-**exclude**: method =2/3, exclude the bond/angle 
+**exclude**: **M2/M3**, exclude the bond/angle 
 
 **charge**: define the atomic charge if not 0 
 
@@ -153,3 +153,4 @@ inputs: `conf_id1 conf_id2 ... conf_idn` combine selected confs
 combine multiple pngs (M1, M2, M3) into one png for publication (label a/b/c/d) or ppt (file names)  
 
 #### Citation
+

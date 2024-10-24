@@ -3,7 +3,7 @@ import numpy as np
 import re
 import sys
 import pandas as pd
-from openbabel import pybel
+from openbabel import openbabel, pybel
 from itertools import combinations
 import copy
 from D2AF.Molecule import Molecule 
@@ -33,6 +33,8 @@ ncpu = 16
 jobname = 'D2AF'
 pal = 1
 
+dihedral_value = 30
+
 def eles2numbers(eles):
     numa = len(eles)
     numbers = np.zeros(numa, dtype=int)
@@ -46,7 +48,8 @@ def check_fraglist(fraglist):
     for frag_i in fraglist:
         allfraglist.extend(frag_i)
     if len(allfraglist) != len(set(allfraglist)):
-        sys.exit('fraglist has repeat element')
+        #sys.exit('fraglist has repeat element')
+        print('*'*15+"Warning !!!  fraglist has repeat element!!! "+'*'*15)
     print('*'*15+"  fragmentation list  OK "+'*'*15)
     print()
 #calculate bond & angle
@@ -733,45 +736,62 @@ def update_internal_frag(internal_list_in, fraglist, linkm):
             else:
                 pass
         elif len(sublist_i) == 4: #torsion
-            # 1-2-3-4 not in fraglist
-            if sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
-                internal_list_out.append(sublist_i)
-                internal_list_out_act.append(sublist_i)
+            list_allatom = []
+            list_allatom.extend(sublist_i)
+            fraglisttmp = []
+            for atomtmp in sublist_i:
                 
-            # 1 in fraglist
-            elif sublist_i[0] in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
-                internal_list_out.append(sublist_i)
+                if atomtmp in allfraglist:
+                    pos = find_sublist_pos(atomtmp,fraglist)
+                    listtmp =  reorder_fraglist(sublist_i, fraglist[pos], linkm)
+                    fraglisttmp.extend(listtmp)
+            list_allatom.extend(fraglisttmp)
 
-                pos = find_sublist_pos(sublist_i[0],fraglist)
-                listtmp =  reorder_fraglist(sublist_i, fraglist[pos], linkm)
-                internal_list_out_act.append(listtmp)
-            # 4 in fraglist    
-            elif sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] in allfraglist:
-                internal_list_out.append(sublist_i)
+            listtmp = list_unique(list_allatom)
 
-                pos = find_sublist_pos(sublist_i[3],fraglist)
-                listtmp =  reorder_fraglist(sublist_i, fraglist[pos], linkm)
-                internal_list_out_act.append(listtmp)
-                
-            # 1-2 in fraglist    
-            elif sublist_i[0] in allfraglist and sublist_i[1] in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
-                pos1 = find_sublist_pos(sublist_i[0],fraglist)
-                pos2 = find_sublist_pos(sublist_i[1],fraglist)
-                
-                if pos1 == pos2: #same frag
-                    internal_list_out.append(sublist_i)
-                    listtmp =  reorder_fraglist(sublist_i, fraglist[pos1], linkm)
-                    internal_list_out_act.append(listtmp)
-                
-            # 3-4 in fraglist    
-            elif sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] in allfraglist and sublist_i[3] in allfraglist:
-                pos1 = find_sublist_pos(sublist_i[2],fraglist)
-                pos2 = find_sublist_pos(sublist_i[3],fraglist)
-                
-                if pos1 == pos2: #same frag
-                    internal_list_out.append(sublist_i)
-                    listtmp =  reorder_fraglist(sublist_i, fraglist[pos1], linkm)
-                    internal_list_out_act.append(listtmp)   
+            internal_list_out.append(sublist_i)
+            internal_list_out_act.append(listtmp)
+                    
+               
+            ## 1-2-3-4 not in fraglist
+            #if sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
+            #    internal_list_out.append(sublist_i)
+            #    internal_list_out_act.append(sublist_i)
+            #    
+            ## 1 in fraglist
+            #elif sublist_i[0] in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
+            #    internal_list_out.append(sublist_i)
+#
+            #    pos = find_sublist_pos(sublist_i[0],fraglist)
+            #    listtmp =  reorder_fraglist(sublist_i, fraglist[pos], linkm)
+            #    internal_list_out_act.append(listtmp)
+            ## 4 in fraglist    
+            #elif sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] in allfraglist:
+            #    internal_list_out.append(sublist_i)
+#
+            #    pos = find_sublist_pos(sublist_i[3],fraglist)
+            #    listtmp =  reorder_fraglist(sublist_i, fraglist[pos], linkm)
+            #    internal_list_out_act.append(listtmp)
+            #    
+            ## 1-2 in fraglist    
+            #elif sublist_i[0] in allfraglist and sublist_i[1] in allfraglist and sublist_i[2] not in allfraglist and sublist_i[3] not in allfraglist:
+            #    pos1 = find_sublist_pos(sublist_i[0],fraglist)
+            #    pos2 = find_sublist_pos(sublist_i[1],fraglist)
+            #    
+            #    if pos1 == pos2: #same frag
+            #        internal_list_out.append(sublist_i)
+            #        listtmp =  reorder_fraglist(sublist_i, fraglist[pos1], linkm)
+            #        internal_list_out_act.append(listtmp)
+            #    
+            ## 3-4 in fraglist    
+            #elif sublist_i[0] not in allfraglist and sublist_i[1] not in allfraglist and sublist_i[2] in allfraglist and sublist_i[3] in allfraglist:
+            #    pos1 = find_sublist_pos(sublist_i[2],fraglist)
+            #    pos2 = find_sublist_pos(sublist_i[3],fraglist)
+            #    
+            #    if pos1 == pos2: #same frag
+            #        internal_list_out.append(sublist_i)
+            #        listtmp =  reorder_fraglist(sublist_i, fraglist[pos1], linkm)
+            #        internal_list_out_act.append(listtmp)   
             
     return internal_list_out,internal_list_out_act
 
@@ -805,4 +825,82 @@ def check_link_dist(fraglist, linklist, mols):
                     print('Distance between link atom warning:  (%d, %d) in Mol %d'%(linkatoms[q-frag_atomnum], linkatoms[p-frag_atomnum], i))
                     
                     
-                    
+# check the difference of dihedral between ref and confs
+
+#get dihedral angles (no hydrogen)
+def get_dihedrals_no_hydrogen(mol):
+    dihedrals = []
+    for bond in openbabel.OBMolBondIter(mol):
+        if bond.IsRotor():
+            begin_atom = bond.GetBeginAtom()
+            end_atom = bond.GetEndAtom()
+            if begin_atom.GetAtomicNum() == 1 or end_atom.GetAtomicNum() == 1:
+                continue
+            for neighbor1 in openbabel.OBAtomAtomIter(begin_atom):
+                if neighbor1.GetIdx() == end_atom.GetIdx() or neighbor1.GetAtomicNum() == 1:
+                    continue
+                for neighbor2 in openbabel.OBAtomAtomIter(end_atom):
+                    if neighbor2.GetIdx() == begin_atom.GetIdx() or neighbor2.GetAtomicNum() == 1:
+                        continue
+                    dihedral = (neighbor1.GetIdx(), begin_atom.GetIdx(), end_atom.GetIdx(), neighbor2.GetIdx())
+                    dihedrals.append(dihedral)
+    return dihedrals
+
+#get dihedral angles
+def get_dihedrals(mol):
+    dihedrals = []
+    for bond in openbabel.OBMolBondIter(mol):
+        if bond.IsRotor():
+            begin_atom = bond.GetBeginAtom()
+            end_atom = bond.GetEndAtom()
+            for neighbor1 in openbabel.OBAtomAtomIter(begin_atom):
+                if neighbor1.GetIdx() == end_atom.GetIdx():
+                    continue
+                for neighbor2 in openbabel.OBAtomAtomIter(end_atom):
+                    if neighbor2.GetIdx() == begin_atom.GetIdx():
+                        continue
+                    dihedral = (neighbor1.GetIdx(), begin_atom.GetIdx(), end_atom.GetIdx(), neighbor2.GetIdx())
+                    dihedrals.append(dihedral)
+    return dihedrals
+
+def create_molecule_from_coords(atom_symbols, coordinates):
+    numatom = len(atom_symbols)
+
+    xyzstrs = []
+
+    xyzstrs.append(str(numatom))
+    xyzstrs.append(" ")
+    for i in range(numatom):
+        xyzstrs.append(atom_symbols[i]+' '+str(coordinates[i][0])+' '+str(coordinates[i][1])+' '+str(coordinates[i][2]))
+    xyzfilestr = '\n'.join(xyzstrs)
+    mol = pybel.readstring("xyz",xyzfilestr)
+    return mol.OBMol
+
+
+def check_difference_dihedral(elelist, coords_ref, coords_confs, thershold=None):
+    if thershold==None:
+        thershold = dihedral_value
+    
+    num_atom = len(elelist)
+    num_conf = coords_confs.shape[0]
+
+    mol_ref = create_molecule_from_coords(elelist, coords_ref)
+    dihedrals = get_dihedrals_no_hydrogen(mol_ref)
+
+    if num_conf == 1:
+        mol_conf = create_molecule_from_coords(elelist, coords_confs[0][:][:])
+        for dihedral in dihedrals:
+            dihedral_ref = mol_ref.GetTorsion(*dihedral)
+            dihedral_conf = mol_conf.GetTorsion(*dihedral)
+            dihedral_diff = abs((dihedral_ref - dihedral_conf  + 180) % 360 - 180)
+            if dihedral_diff > thershold:
+                print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff} degrees')
+    else:
+        for i in range(num_conf):
+            mol_conf = create_molecule_from_coords(elelist, coords_confs[i][:][:])
+            for dihedral in dihedrals:
+                dihedral_ref = mol_ref.GetTorsion(*dihedral)
+                dihedral_conf = mol_conf.GetTorsion(*dihedral)
+                dihedral_diff = abs((dihedral_ref - dihedral_conf  + 180) % 360 - 180)
+                if dihedral_diff > thershold:
+                    print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff} degrees in conformer {i}')

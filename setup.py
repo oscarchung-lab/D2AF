@@ -7,7 +7,7 @@ packages = setuptools.find_packages(exclude=["tests"])
 
 setuptools.setup(
     name="D2AF",
-    version="1.0.0",
+    version="1.0.3",
     description="Distortion Distribution Analysis enabled by Fragmentation",
     authors="Zeyin YAN, Yunteng Liao, Lung Wa CHUNG",
     author_email="yanzy@sustech.edu.cn",
