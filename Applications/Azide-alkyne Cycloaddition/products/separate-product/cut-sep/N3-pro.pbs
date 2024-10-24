@@ -1,0 +1,33 @@
+#PBS -N N3-pro
+#PBS -l nodes=1:ppn=16
+#PBS -l mem=16GB
+#PBS -j oe
+#PBS -r n
+#PBS -l walltime=1:00:00
+#PBS -q N1
+cd $PBS_O_WORKDIR
+
+Node=`cat $PBS_NODEFILE | uniq`
+NNo=`cat $PBS_NODEFILE | uniq | sed -e 's/node//'`
+TEMP="tmp"
+
+
+mkdir -p /$TEMP/$PBS_JOBID
+cp N3-pro.gjf /$TEMP/$PBS_JOBID
+cd /$TEMP/$PBS_JOBID
+
+echo "This job is running on host $Node" > "N3-pro.log"
+echo "Current directory: $PBS_O_WORKDIR" >> "N3-pro.log"
+date >> "N3-pro.log"
+source /share/apps/gaussian/g16-env.sh
+export GAUSS_SCRDIR=/$TEMP/$PBS_JOBID
+echo $GAUSS_SCRDIR >> "N3-pro.log"
+
+g16 <N3-pro.gjf>> "N3-pro.log"
+
+date >> "N3-pro.log"
+
+#formchk .chk .fchk
+cp N3-pro.log $PBS_O_WORKDIR
+rm -rf $GAUSS_SCRDIR
+

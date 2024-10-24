@@ -1,0 +1,33 @@
+#PBS -N cutopt-pro
+#PBS -l nodes=1:ppn=16
+#PBS -l mem=16GB
+#PBS -j oe
+#PBS -r n
+#PBS -l walltime=1:00:00
+#PBS -q N1
+cd $PBS_O_WORKDIR
+
+Node=`cat $PBS_NODEFILE | uniq`
+NNo=`cat $PBS_NODEFILE | uniq | sed -e 's/node//'`
+TEMP="tmp"
+
+
+mkdir -p /$TEMP/$PBS_JOBID
+cp cutopt-pro.gjf /$TEMP/$PBS_JOBID
+cd /$TEMP/$PBS_JOBID
+
+echo "This job is running on host $Node" > "cutopt-pro.log"
+echo "Current directory: $PBS_O_WORKDIR" >> "cutopt-pro.log"
+date >> "cutopt-pro.log"
+source /share/apps/gaussian/g16-env.sh
+export GAUSS_SCRDIR=/$TEMP/$PBS_JOBID
+echo $GAUSS_SCRDIR >> "cutopt-pro.log"
+
+g16 <cutopt-pro.gjf>> "cutopt-pro.log"
+
+date >> "cutopt-pro.log"
+
+#formchk .chk .fchk
+cp cutopt-pro.log $PBS_O_WORKDIR
+rm -rf $GAUSS_SCRDIR
+

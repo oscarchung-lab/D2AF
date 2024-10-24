@@ -1,0 +1,43 @@
+#!/bin/bash
+#PBS -N Bnts-OMe_TS-prod
+#PBS -l nodes=1:ppn=24
+#PBS -l mem=24GB
+#PBS -j oe
+#PBS -r n
+#PBS -q N5
+#PBS -l walltime=1:00:00
+cd $PBS_O_WORKDIR
+
+Node=`cat $PBS_NODEFILE | uniq`
+NNo=`cat $PBS_NODEFILE | uniq | sed -e 's/node//'`
+
+#if [[ $NNo -gt 12  &&  $NNo -lt 30 ]]
+#then
+#   TEMP="tmp1"
+#else
+#   TEMP="tmp"
+#fi
+TEMP="tmp"
+
+
+mkdir -p /$TEMP/$PBS_JOBID
+mkdir -p /$TEMP/$PBS_JOBID/run
+
+cp -rf Bnts-OMe_TS-prod* /$TEMP/$PBS_JOBID/run
+cd /$TEMP/$PBS_JOBID/run
+echo "This job is running on host $Node" > "Bnts-OMe_TS-prod.log"
+echo "Current directory: $PBS_O_WORKDIR" >> "Bnts-OMe_TS-prod.log"
+date >> "Bnts-OMe_TS-prod.log"
+source /share/apps/gaussian/g16-env.sh
+export GAUSS_SCRDIR=/$TEMP/$PBS_JOBID/run
+echo $GAUSS_SCRDIR >> "Bnts-OMe_TS-prod.log"
+
+g16 <Bnts-OMe_TS-prod.gjf>> "Bnts-OMe_TS-prod.log"
+
+date >> "Bnts-OMe_TS-prod.log"
+
+#formchk Bnts-OMe_TS-prod.chk Bnts-OMe_TS-prod.fchk
+cp -rf Bnts-OMe_TS-prod* $PBS_O_WORKDIR
+
+rm -rf $TEMP
+

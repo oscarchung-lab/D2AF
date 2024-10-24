@@ -1,0 +1,33 @@
+#PBS -N bnts-pro-cut
+#PBS -l nodes=1:ppn=16 
+#PBS -l mem=16GB
+#PBS -j oe
+#PBS -r n
+#PBS -l walltime=1:00:00
+#PBS -q N1
+cd $PBS_O_WORKDIR
+
+Node=`cat $PBS_NODEFILE | uniq`
+NNo=`cat $PBS_NODEFILE | uniq | sed -e 's/node//'`
+TEMP="tmp"
+
+
+mkdir -p /$TEMP/$PBS_JOBID
+cp bnts-pro-cut.gjf /$TEMP/$PBS_JOBID
+cd /$TEMP/$PBS_JOBID
+
+echo "This job is running on host $Node" > "bnts-pro-cut.log"
+echo "Current directory: $PBS_O_WORKDIR" >> "bnts-pro-cut.log"
+date >> "bnts-pro-cut.log"
+source /share/apps/gaussian/g16-env.sh
+export GAUSS_SCRDIR=/$TEMP/$PBS_JOBID
+echo $GAUSS_SCRDIR >> "bnts-pro-cut.log"
+
+g16 <bnts-pro-cut.gjf>> "bnts-pro-cut.log"
+
+date >> "bnts-pro-cut.log"
+
+#formchk .chk .fchk
+cp bnts-pro-cut.log $PBS_O_WORKDIR
+rm -rf $GAUSS_SCRDIR
+
