@@ -18,17 +18,18 @@ Distortion energy visualization of one/multiple conformers relative to the refer
 -->
 
 #### Installation
-**using conda**
+**conda env**
 
     conda env create -f environment.yml
-    
-    pip install D2AF-x.x.x-py3-none-any.whl
+
 
 **using pypi**
-
+        
     pip install D2AF  
+or
 
-
+    pip install D2AF-x.x.x-py3-none-any.whl
+     
 ##### requirements
 D2AF: 
 - python=3.9
