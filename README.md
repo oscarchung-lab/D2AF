@@ -9,11 +9,11 @@ Distortion energy visualization of one/multiple conformers relative to the refer
 * 3. combination of 1 & 2
 
 ##### Workflow
-<div align=center><img src=Docs/Fig1.png  width="400" /></div>
+<div align=center><img src=Docs/Fig1.png  width="640" /></div>
 
 <div align=center><big><b>Workflow</b></big></div>
 <!--
-<div align=center><img src=Docs/SchemeS1.png  width="400" /></div>
+<div align=center><img src=Docs/SchemeS1.png  width="640" /></div>
 <div align=center><big><b>Technique details</b></big></div>
 -->
 
