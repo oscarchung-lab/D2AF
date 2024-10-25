@@ -163,4 +163,4 @@ inputs: `conf_id1 conf_id2 ... conf_idn` combine selected confs
 combine multiple pngs (M1, M2, M3) into one png for publication (label a/b/c/d) or ppt (file names)  
 
 #### Citation
-
+Efficient and Flexible Approach for Local Distortion: Distortion Distribution Analysis enabled by Fragmentation. Z. Yan, Y. S. Liao, X. Li, and L. W. Chung, 2024. (submitted)
