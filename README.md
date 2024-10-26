@@ -82,24 +82,27 @@ Quantum chemical calculation packages:
 
 autofragment.py coord
 
-where coord is any xyz file or Gaussian gjf file with/without connectivity. It will generate a new gjf file with connectivity, fraglist for **M1** as well as a new D2AF template input file@ (users can modify). No need for **M2**
+-where coord is any xyz file or Gaussian gjf file with/without connectivity. It will generate a new gjf file with connectivity, fraglist for **M1** as well as a new D2AF template input file@ (users can modify). No need for **M2**
 
 
 (To run all proccess: fragmentation, calculations via our calls, and analysis)
+
 D2AF -inp input.inp 
 
 
 (To run fragmentation only; run/call quantum chemistry calculations by users)
+
 D2AF -inp input.inp -nocalc
 
 
 (To list commands)
+
 D2AF -h
 
 The -inp input.inp are recommended @
 
 
-##### example of the D2AF input file showed in our example directories
+##### An example of the D2AF input file showed in our example directories
 calculator available: 
     ['g03', 'g09', 'g16','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1']
 
@@ -168,6 +171,7 @@ inp file example:
 #### Additional D2AF tools:  
 
 **autofragment.py**  `autofragment` 
+
 Auto fragmentation!
 
 input: xyz file/ or Gaussian gjf file with/without connectivity
@@ -176,6 +180,7 @@ ouput: gjf file with connectivity， fraglist for M1, pymol script for visualiza
 
 
 **atompair.py**  `atompair` 
+
 Pairing atom order between two gjfs with the same connectivity info but different label order 
 
 input: gjf1 gjf2 Gaussian files with connectivity
@@ -218,6 +223,7 @@ Combine multiple distortion maps/pngs (M1, M2, M3) into one png for publication 
 
 
 #### Citations
+
 Efficient and Flexible Approach for Local Distortion: Distortion Distribution Analysis enabled by Fragmentation. Z. Yan, Y. S. Liao, X. Li, and L. W. Chung, **2024** *(submitted)*.
 
 The ONIOM Method and its Applications. Chung, L. W.; Sameera, W. M. C.; Ramozzi, R.; Page, A. J.; Hatanaka, M.; Petrova, G. P.; Harris, T. V.; Li, X.; Ke, Z.; Liu, F.; Li, H.-B.; Ding, L. Morokuma, K. *Chem. Rev.* **2015**, 115, 5678.[DOI: https://doi.org/10.1021/cr5004419](https://doi.org/10.1021/cr5004419)
