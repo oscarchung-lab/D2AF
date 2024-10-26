@@ -77,7 +77,7 @@ Quantum chemical calculation packages:
 
 
 #### Usage
-           *(Optional: to generate suggestive fragmentation list for **M1 or M3**)*
+*(Optional: to generate suggestive fragmentation list for **M1 or M3**)*
 
 autofragment.py coord
 
@@ -85,19 +85,19 @@ autofragment.py coord
 
 
 
-           **(To run all proccess: fragmentation, calculations via our calls, and analysis)**
+**(To run all proccess: fragmentation, calculations via our calls, and analysis)**
 
 D2AF -inp input.inp 
 
 
 
-           *(To run fragmentation only; run/call quantum chemistry calculations by users)*
+*(To run fragmentation only; run/call quantum chemistry calculations by users)*
 
 D2AF -inp input.inp -nocalc
 
 
 
-           *(To list commands)*
+*(To list commands)*
 
 D2AF -h
 
