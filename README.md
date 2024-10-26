@@ -12,7 +12,8 @@ Fragmentation of subsystems can be defined using three approachs:
 * 2. Individual bond and angle resolution based on internal coordinates (bond, angle, optionlly dihedral) (**M2**)
 * 3. Combination of **M1 & M2**  (**M3**), esp. complex systems containing aromatic and/or metal-coordination 
 
-##### Workflow
+
+#### Workflow
 <div align=center><img src=Docs/Fig1.png  width="640" /></div>
 
 <div align=center><big><b>Workflow</b></big></div>
@@ -20,6 +21,7 @@ Fragmentation of subsystems can be defined using three approachs:
 <div align=center><img src=Docs/SchemeS1.png  width="640" /></div>
 <div align=center><big><b>Technique details</b></big></div>
 -->
+
 
 #### Installation
 **conda env**
@@ -68,10 +70,11 @@ D2AF:
 - ORCA 5 (users need to submit our generated ORCA inputs by themselve)
 
 Quantum chemical calculation packages:
-Gaussian: Gaussian03,09,16
-xTB: xTB-python
-ANI: torchani
-Mlatom: AIQM1
+- Gaussian: Gaussian03,09,16
+- xTB: xTB-python
+- ANI: torchani
+- Mlatom: AIQM1
+
 
 #### Usage
 (Optional: to generate suggestive fragmentation list for **M1 or M3**)
