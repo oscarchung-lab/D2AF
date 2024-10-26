@@ -77,20 +77,27 @@ Quantum chemical calculation packages:
 
 
 #### Usage
+
 (Optional: to generate suggestive fragmentation list for **M1 or M3**)
+
 autofragment.py coord
+
 where coord is any xyz file or Gaussian gjf file with/without connectivity. It will generate a new gjf file with connectivity, fraglist for **M1** as well as a new D2AF template input file@ (users can modify). No need for **M2**
+
 
 (To run all proccess: fragmentation, calculations via our calls, and analysis)
 D2AF -inp input.inp 
 
+
 (To run fragmentation only; run/call quantum chemistry calculations by users)
 D2AF -inp input.inp -nocalc
+
 
 (To list commands)
 D2AF -h
 
 The -inp input.inp are recommended @
+
 
 ##### example of the D2AF input file showed in our example directories
 calculator available: 
@@ -127,7 +134,7 @@ inp file example:
     #spin (optional: only if spin charge  of the whole system not zero required)
     3 1
 
-##### preparations
+#### Input preparations
 **ref**: ref.gjf, a reference structure (**Ref** form) in Gaussian file, containing **method lines**, **cartesian coordinates** and **connectivity**
 * the connectivity (bond order) values should be **1.0, 2.0, 3.0** only! 
 * **1.5 is forbidden**, it should be modified before running D2AF!
@@ -158,7 +165,7 @@ inp file example:
 
 
 
-##### Additional D2AF tools:  
+#### Additional D2AF tools:  
 
 **autofragment.py**  `autofragment` 
 Auto fragmentation!
@@ -209,7 +216,8 @@ inputs: `conf_id1 conf_id2 ... conf_idn` combine selected confs
 Combine multiple distortion maps/pngs (M1, M2, M3) into one png for publication (label a/b/c/d) or ppt (file names)  
 
 
-#### Citation
+
+#### Citations
 Efficient and Flexible Approach for Local Distortion: Distortion Distribution Analysis enabled by Fragmentation. Z. Yan, Y. S. Liao, X. Li, and L. W. Chung, **2024** *(submitted)*.
 
 The ONIOM Method and its Applications. Chung, L. W.; Sameera, W. M. C.; Ramozzi, R.; Page, A. J.; Hatanaka, M.; Petrova, G. P.; Harris, T. V.; Li, X.; Ke, Z.; Liu, F.; Li, H.-B.; Ding, L. Morokuma, K. *Chem. Rev.* **2015**, 115, 5678.[DOI: https://doi.org/10.1021/cr5004419](https://doi.org/10.1021/cr5004419)
