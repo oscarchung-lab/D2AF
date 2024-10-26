@@ -2,11 +2,12 @@
 <div align=center><img src=Docs/toc.png  width="400" /></div>
 
 #### Description
-Distortion Distribution Analysis enabled by Fragmentation 
-Distortion energy visualization of one/multiple conformers relative to the reference structure(eg: global minima). Subsystem extracted based on ONIOM methods(link atoms and scale factors). The subsystem can be defined using three methods:
-* 1. atomic/fragments resolution based on fragmentations
-* 2. bond and angle resolution based on internal coordinates (bond, angle, dihedral)
-* 3. combination of 1 & 2
+Distortion Distribution Analysis enabled by Fragmentation (D2AF) is an efficient, general and flexible fragmentation-based approach for local distortion distribution analysis on various chemical and biological-related molecules. D2AF bases on fragmentation and ONIOM-type boundary strategies to evaluate/estimate (relative) local distortion energies of one (or multiple) structures/conformers (**Tar**) relative to the reference structure (**Ref**; less distortion) at the given computational chemistry level (the user adopts). **Any type of structures (stationary point structures: e.g., local minimum, transition state(s); non-stationary point structures: e.g., MD- or IRC-derived structures) can be adopted and compared in D2AF.**  (Relative) Local distortion energies of all subsystems/fragments for the **Tar** structure(s) relative to the **Ref** structure can be used for visualization (so-called distortion map or distortion distribution). 
+
+Fragmentation of subsystems can be defined using three approachs:
+* 1. Atomic/fragment resolution (**M1**)
+* 2. Individual bond and angle resolution based on internal coordinates (bond, angle, optionlly dihedral) (**M2**)
+* 3. Combination of **M1 & M2**  (**M3**)
 
 ##### Workflow
 <div align=center><img src=Docs/Fig1.png  width="640" /></div>
