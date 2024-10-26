@@ -77,27 +77,22 @@ Quantum chemical calculation packages:
 
 
 #### Usage
-*(Optional: to generate suggestive fragmentation list for **M1 or M3**)*
+*Optional: to generate suggestive fragmentation list for **M1 or M3***
 
     autofragment.py coord
 
 -where coord is any xyz file or Gaussian gjf file with/without connectivity. It will generate a new gjf file with connectivity, fraglist for **M1** as well as a new D2AF template input file@ (users can modify). No need for **M2**
 
 
-
-**(To run all proccess: fragmentation, calculations via our calls, and analysis)**
+**To run all proccess: fragmentation, calculations via our calls, and analysis**
 
     D2AF -inp input.inp 
 
-
-
-*(To run fragmentation only; run/call quantum chemistry calculations by users)*
+*To run fragmentation only; run/call quantum chemistry calculations by users*
 
     D2AF -inp input.inp -nocalc
 
-
-
-*(To list commands)*
+*To list commands*
 
     D2AF -h
 
