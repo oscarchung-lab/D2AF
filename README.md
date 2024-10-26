@@ -128,10 +128,10 @@ inp file example:
     4 7 
     4 7 9
 
-    #charge (optional: only if atomic charge of the whole system is not zero required)
+    #charge (optional: only if atomic charge (second value) of the pariticular atom (first value) is not zero; required)
     5 1
     
-    #spin (optional: only if spin charge  of the whole system not zero required)
+    #spin (optional: only if atomic spin (second value) of the pariticular atom (first value) is not zero; required)
     3 1
 
 #### Input preparations
