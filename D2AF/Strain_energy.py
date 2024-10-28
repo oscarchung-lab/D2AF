@@ -58,10 +58,6 @@ inp file example:
                         type=str,
                         default=None, 
                         help='scale method (log is available)')
-    parser.add_argument('-n','--scale',    
-                        type=str,
-                        default=None, 
-                        help='scale method (log is available)')
     return parser.parse_args(arg_list)
 
 def run():
