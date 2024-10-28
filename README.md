@@ -67,8 +67,17 @@ D2AF:
 - statsmodels
 
 [ORCA](https://orcaforum.kofo.mpg.de/):
-- ORCA 5 (users need to submit our generated ORCA inputs by themselve)
-
+- ORCA 5 (method info of orca should writen in the method line of gjf file)
+see example in \Applications\reverse Cope elimination\CCSD\4F-reactant.gjf
+    *\#* + **orca method** + *geom=connectivity*
+```    
+    # DLPNO-CCSD(T) cc-pVTZ cc-pVTZ/C RIJDX geom=connectivity
+```
+need define **$ORCA_BIN** in the environment variable (where executable **orca** file installed) e.g. 
+ ```
+    export $ORCA_BIN=/home/username/orca_5.0.0_linux_x86-64/bin
+ ``` 
+ 
 Quantum chemical calculation packages:
 - Gaussian: Gaussian03,09,16
 - xTB: xTB-python
@@ -90,8 +99,19 @@ Quantum chemical calculation packages:
 
 *To run fragmentation only; run/call quantum chemistry calculations by users*
 
-    D2AF -inp input.inp -nocalc
-
+1. generate fragments and write to **\tmpdir** folder (xyz files with charge and multiplicity in the second line)
+```       
+    D2AF -inp input.inp  # with calculator=nocalc 
+```
+    
+2. Run and extract the energies
+(a) *run the calculations by users (fragments in **xxx_i.xyz** files generated in the **\tmpdir** folder)*
+(b) *extract the energies to **xxx_i.log** (in a.u. unit; 1 line) for each structure in the **\tmpdir** folder*
+        
+3. Run again
+```         
+    D2AF -inp input.inp  # with calculator=nocalc
+``` 
 *To list commands*
 
     D2AF -h
@@ -101,7 +121,7 @@ The -inp input.inp are recommended @
 
 ##### An example of the D2AF input file showed in our example directories
 calculator available: 
-    ['g03', 'g09', 'g16','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1']
+    ['g03', 'g09', 'g16','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1', 'nocalc']
 
 inp file example:
     

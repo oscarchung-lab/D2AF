@@ -105,9 +105,51 @@ def calculate_mols(mols,calculator,addpara=None):
     elif calculator.lower() == 'orca':
         print(calculator.lower()+' computations of begin at: '+time.asctime())
         return calculate_mol_Orca(mols, addpara)
+    elif calculator.lower() == 'no':
+        return calculate_mols_nocalc(mols)
     else:
         raise ValueError('Unknown calculator: {}'.format(calculator))
 
+
+def calculate_mols_nocalc(mols):
+    if os.path.exists('tmpdir'):
+        pass
+    else:
+        os.mkdir('tmpdir')
+        print("tmpdir has been created.")
+        
+    #generate fragment xyz
+    for i, mol in enumerate(mols):
+        name_i = os.path.join('tmpdir', mol.name+'.xyz')
+        
+        if os.path.exists(name_i):
+            continue 
+        fw = open(name_i,'w')
+
+        fw.write('%d\n'%(mol.get_num_atoms()))
+        fw.write('%d %d\n'%(mol.charge,mol.spin+1))
+        elestmp = mol.elements
+        coordtmp = mol.coordinates
+        for j in range(mol.get_num_atoms()):
+            fw.write('%-16s%14.8f%14.8f%14.8f \n'%(elestmp[j], coordtmp[j][0], coordtmp[j][1], coordtmp[j][2]))
+        fw.write('\n')
+        fw.write('\n')
+        fw.close()
+    #get fragment energies if name_i.log exits
+    Esp = [0.0]*len(mols)  
+    for i, mol in enumerate(mols):
+        name_i = os.path.join('tmpdir', mol.name+'.log')
+        if os.path.exists(name_i):
+            fr = open(name_i,'r')
+            try:
+                lines = fr.readlines()
+                Esp[i] = float(lines[0].split()[0])
+            except:
+                print('Error in reading energy data from %s'%name_i)
+                print('Only energy value in a.u. unit in %s'%name_i)
+            fr.close()
+        else:
+            continue
 '''
 methods_map = {
     'aiqm1': ['AIQM1', 'AIQM1@DFT', 'AIQM1@DFT*'],

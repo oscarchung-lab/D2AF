@@ -16,7 +16,7 @@ def read_inp(inpf):
     #required: ref, conf, method
     #if method = 1 or 3, fraglist is required
     #
-    calculators = ['g03', 'g09', 'g16','xtb','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1', 'orca']
+    calculators = ['g03', 'g09', 'g16','xtb','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1', 'orca', 'no']
     fr = open(inpf,"r")
     lines = fr.readlines()
     fr.close()
