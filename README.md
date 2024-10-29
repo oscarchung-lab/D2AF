@@ -244,7 +244,7 @@ Combine multiple distortion maps/pngs (M1, M2, M3) into one png for publication 
 
 #### Citations
 
-Efficient and Flexible Approach for Local Distortion: Distortion Distribution Analysis enabled by Fragmentation. Z. Yan, Y. S. Liao, X. Li, and L. W. Chung, **2024** *(submitted)*.
+Efficient and Flexible Approach for Local Distortion: Distortion Distribution Analysis enabled by Fragmentation. Z. Yan, Y. S. Liao, X. Li, and L. W. Chung, **2024** *(submitted)* & *ChemRxiv.* DOI: 10.26434/chemrxiv-2024-07rmf (https://doi.org/10.26434/chemrxiv-2024-07rmf) This content is a preprint and has not been peer-reviewed.
 
 The ONIOM Method and its Applications. Chung, L. W.; Sameera, W. M. C.; Ramozzi, R.; Page, A. J.; Hatanaka, M.; Petrova, G. P.; Harris, T. V.; Li, X.; Ke, Z.; Liu, F.; Li, H.-B.; Ding, L. Morokuma, K. *Chem. Rev.* **2015**, 115, 5678.[DOI: https://doi.org/10.1021/cr5004419](https://doi.org/10.1021/cr5004419)
 
