@@ -78,7 +78,7 @@ need define **$ORCA_BIN** in the environment variable (where executable **orca**
     export $ORCA_BIN=/home/username/orca_5.0.0_linux_x86-64/bin
  ``` 
  
-Quantum chemical calculation packages:
+Quantum Chemical (QC) calculation packages:
 - Gaussian: Gaussian03,09,16
 - xTB: xTB-python
 - ANI: torchani
@@ -90,38 +90,41 @@ Quantum chemical calculation packages:
 
     autofragment.py coord
 
--where coord is any xyz file or Gaussian gjf file with/without connectivity. It will generate a new gjf file with connectivity, fraglist for **M1** as well as a new D2AF template input file@ (users can modify). No need for **M2**
+where coord is any xyz file or Gaussian gjf file with/without connectivity. It will generate a new gjf file with connectivity, fraglist for **M1** as well as a new D2AF template input file@ (users can modify). No need for **M2**
 
 
 **To run all proccess: fragmentation, calculations via our calls, and analysis**
 
     D2AF -inp input.inp 
 
-*To run fragmentation only; run/call quantum chemistry calculations by users*
+The "-inp input.inp" is recommended
 
-1. generate fragments and write to **\tmpdir** folder (xyz files with charge and multiplicity in the second line)
+
+*To run fragmentation only; run/call quantum chemistry calculations (setting "calculator=nocalc" in D2AF input.inp) by users*
+
+1. Generate fragments, which are written to **\tmpdir** folder (xyz files with charge and multiplicity in the second line)
 ```       
-    D2AF -inp input.inp  # with calculator=nocalc 
+    D2AF -inp input.inp
 ```
     
-2. Run and extract the energies
+2. Run QC calculations and extract the energies by users
 (a) *run the calculations by users (fragments in **xxx_i.xyz** files generated in the **\tmpdir** folder)*
 (b) *extract the energies to **xxx_i.log** (in a.u. unit; 1 line) for each structure in the **\tmpdir** folder*
         
-3. Run again
+3. Run D2AF again to do analysis
 ```         
     D2AF -inp input.inp  # with calculator=nocalc
 ``` 
+
+
 *To list commands*
 
     D2AF -h
 
-The -inp input.inp are recommended @
-
 
 ##### An example of the D2AF input file showed in our example directories
 calculator available: 
-    ['g03', 'g09', 'g16','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1', 'nocalc']
+    ['g03', 'g09', 'g16','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1', 'nocalc'@]
 
 inp file example:
     
@@ -140,7 +143,7 @@ inp file example:
     #coordination (optional: only method = 3 available)
     3-5
     
-    #include (optional: only method = 2/3; add extra bonds/angles/diherals (no connection@) users want)
+    #include (optional: only method = 2/3; add extra bonds/angles/diherals (no connection/boundary@) users want)
     1 2
     1 2 3 
 
@@ -167,7 +170,7 @@ inp file example:
 
 **pal**: number of paralle subsystem computations (available for Gaussian, xTB)
 
-**calculator**: calculator (Gaussian, xTB, ANI, AIQM1) for subsystem computation
+**calculator**: calculator (Gaussian, xTB, ANI, AIQM1) for subsystem computation. nocalc for calling QC calculations by users 
 
 **scale**: log/e scale factor for pymol visualization@
 
