@@ -67,53 +67,52 @@ D2AF:
 - statsmodels
 
 [ORCA](https://orcaforum.kofo.mpg.de/):
-- ORCA 5 (method info of orca should writen in the method line of gjf file)
+- ORCA 5 (method info of orca should be written in the method line of gjf file)
 see example in \Applications\reverse Cope elimination\CCSD\4F-reactant.gjf
     *\#* + **orca method** + *geom=connectivity*
 ```    
     # DLPNO-CCSD(T) cc-pVTZ cc-pVTZ/C RIJDX geom=connectivity
 ```
-need define **$ORCA_BIN** in the environment variable (where executable **orca** file installed) e.g. 
+You need to define **$ORCA_BIN** in the environment variable (where executable **orca** file installed) e.g. 
  ```
     export $ORCA_BIN=/home/username/orca_5.0.0_linux_x86-64/bin
  ``` 
  
 Quantum Chemical (QC) calculation packages:
 - Gaussian: Gaussian03,09,16
-- xTB: xTB-python
-- ANI: torchani
-- Mlatom: AIQM1
-
+- xTB: xTB-python (not support "calculator=nocalc")
+- ANI: torchani  (not support "calculator=nocalc")
+- Mlatom: AIQM1 (not support "calculator=nocalc")
+- Any codes are possible through generating their corresponding QC input files from our generated XYZ files for each fragment, running them and extracting energy (in a.u.) by users' script(s) (using "calculator=nocalc" in the D2AF input; see below) 
 
 #### Usage
 *Optional: to generate suggestive fragmentation list for **M1 or M3***
 
-    autofragment.py coord
+    autofragment coord
 
-where coord is any xyz file or Gaussian gjf file with/without connectivity. It will generate a new gjf file with connectivity, fraglist for **M1** as well as a new D2AF template input file@ (users can modify). No need for **M2**
+where coord is any xyz file or Gaussian gjf file with/without connectivity. It will generate a new gjf file with connectivity, fraglist for **M1** as well as a new D2AF template input file (users can modify). No need for **M2**
 
 
 **To run all proccess: fragmentation, calculations via our calls, and analysis**
 
-    D2AF -inp input.inp 
-
-The "-inp input.inp" is recommended
+    D2AF -inp ABC.inp > ABC.dat 
 
 
-*To run fragmentation only; run/call quantum chemistry calculations (setting "calculator=nocalc" in D2AF input.inp) by users*
 
-1. Generate fragments, which are written to **\tmpdir** folder (xyz files with charge and multiplicity in the second line)
+*To run fragmentation only; run/call quantum chemistry calculations (setting "calculator=nocalc" in the D2AF input file) by users*
+
+1. Generate fragments, which are then written in **\tmpdir** folder (xyz files with charge and multiplicity in the second line)
 ```       
-    D2AF -inp input.inp
+    D2AF -inp ABC.inp  > ABC.dat
 ```
     
-2. Run QC calculations and extract the energies by users
+2. Run QC calculations and extract the energies by users (e.g. running jobs in different machine or a way to use specific QC codes users want). 
 (a) *run the calculations by users (fragments in **xxx_i.xyz** files generated in the **\tmpdir** folder)*
-(b) *extract the energies to **xxx_i.log** (in a.u. unit; 1 line) for each structure in the **\tmpdir** folder*
+(b) *extract the energies to **xxx_i.log** (in a.u. unit; 1st line) for each structure in the **\tmpdir** folder*
         
-3. Run D2AF again to do analysis
+3. Run D2AF again to do analysis only, after the QC results are extracted in the above step 2 by users (**setting "calculator=nocalc" in the D2AF input file**)
 ```         
-    D2AF -inp input.inp  # with calculator=nocalc
+    D2AF -inp ABC.inp  > ABC_anal.dat
 ``` 
 
 
@@ -124,17 +123,17 @@ The "-inp input.inp" is recommended
 
 ##### An example of the D2AF input file showed in our example directories
 calculator available: 
-    ['g03', 'g09', 'g16','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1', 'nocalc'@]
+    ['g03', 'g09', 'g16','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1', 'nocalc']
 
 inp file example:
     
-    ref = ref.gjf
-    conf = conf.gjf
-    method = int
+    ref = ABC-ref.gjf
+    conf = ABC-conf.gjf
+    method = 1
     cpu = int
     pal = int
     calculator = g16 
-    scale = e/10.0 (optional for color visualization)
+    scale = log
     
     #fraglist (optional: only method = 1/3 required)
     1-2,4-6
@@ -143,7 +142,7 @@ inp file example:
     #coordination (optional: only method = 3 available)
     3-5
     
-    #include (optional: only method = 2/3; add extra bonds/angles/diherals (no connection/boundary@) users want)
+    #include (optional: only method = 2/3; add extra bonds/angles/diherals users want)
     1 2
     1 2 3 
 
@@ -158,45 +157,55 @@ inp file example:
     3 1
 
 #### Input preparations
-**ref**: ref.gjf, a reference structure (**Ref** form) in Gaussian file, containing **method lines**, **cartesian coordinates** and **connectivity**
+**ref**: e.g., ABC-ref.gjf, a reference structure (**Ref** form) in a Gaussian file format, containing **method lines**, **cartesian coordinates** and **connectivity**
 * the connectivity (bond order) values should be **1.0, 2.0, 3.0** only! 
 * **1.5 is forbidden**, it should be modified before running D2AF!
     
-**conf**: conf.gjf/.xyz, a target structure (gjf or xyz), or multiple target structures in one xyz file (**Tar** form)
+**conf**: e.g., ABC-conf.gjf or ABC-conf.xyz, a target structure (gjf or xyz), or multiple target structures in one xyz file (**Tar** form)
 
 **method**: 1 for atomic/framentation-based (**M1**), 2 for bond/angle/diheral based (**M2**; users need to give the diheral list in #include), 3 for 1+2 method (**M3**)
 
-**cpu**: number of cpu for subsystem computation
+**cpu**: number of cpu for subsystem computation (int)
 
-**pal**: number of paralle subsystem computations (available for Gaussian, xTB)
+**pal**: number of paralle subsystem computations (available for Gaussian, xTB; int)
 
-**calculator**: calculator (Gaussian, xTB, ANI, AIQM1) for subsystem computation. nocalc for calling QC calculations by users 
+**calculator**: calculator (Gaussian, xTB, ANI, AIQM1) for subsystem computation. Alternatively, "nocalc" for calling QC calculations or do analysis by users 
 
-**scale**: log/e scale factor for pymol visualization@
+**scale**: log/e scale factor for pymol visualization
 
 **fraglist**: **M1/M3**, define the fragmentation list
 
-**coordination**: **M3**, define the metal coordination center/region@ (similar to fraglist)
+**coordination**: **M3**, define the metal coordination center/region (same listing format as fraglist)
 
-**include**: **M2/M3**, additional bond/angle/diheral for non-connected atoms
+**include**: **M2/M3**, add additional bond(s)/angle(s)/diheral(s) users want. *By default, all diherals are not considered. Users should add the diheral list they want.* 
 
-**exclude**: **M2/M3**, exclude the bond/angle 
+**exclude**: **M2/M3**, exclude the bond(s)/angle(s) users want
 
-**charge**: define the atomic charge if not 0 
+**charge**: define the atomic charge (second value) of the pariticular atom (first value) if not 0 
 
-**spin**: define the atomic spin if not 0 (using integer: spin * 2)
+**spin**: define the atomic spin (second value) of the pariticular atom (first value) if not 0 (using integer: spin * 2)
 
+
+*Currently, if users want to use different link atoms for some specific boundary(ies) they like, users need to manually modify their corresponding QC input files* Possibly, new keywords will be added to modify a few link atoms.
+
+
+
+#### Analysis on our generate files :  
+
+ - An excel (M1/M2/M3.xlsx) stores all detailed (relative) distortion energy as well as changes (delta) of the coordinates.
+ - A few Python scripts display (relative) distortion map (e.g., *M1_frag.pml, *M2_total.pml, *M2_bond.pml, *M2_angle.pml) as well as changes (delta) of the coordinates (e.g., *bond_delta.pml, *anglep_delta.pml, *anglen_delta.pml). *anglep_delta.pml and *anglen_delta.pml represent the positive and negative changes in the bond angles. *frag_show.pml shows fragmentation (e.g. M1).    
+ - Pymol possibly display slim bonds with hydrogen atoms. Users can type "set stick_h_scale, 0.9" and/or "set stick_radius, 0.2" in the Pymol command bar to modify the H stick thickness and the stick radius users like. If users prefer to use their preferred Pymol setting(s), users can add setting commands in their pymol file (pymolrc.pml or .pymolrc.py) Please see Pymol Wiki website (https://pymolwiki.org/)  
 
 
 #### Additional D2AF tools:  
 
 **autofragment.py**  `autofragment` 
 
-Auto fragmentation!
+Auto fragmentation. A pymol script (**_auto_frag_show.pml) is generated. Users can check fragments and judge whether fragments are chemically reasonable. Users can manually modify the D2AF input to change fragments, if some are not reasonable.
 
-input: xyz file/ or Gaussian gjf file with/without connectivity
+input: xyz file or Gaussian gjf file with/without connectivity
 
-ouput: gjf file with connectivity， fraglist for M1, pymol script for visualization
+ouput: gjf file with connectivity，suggestive fraglist for M1, pymol script for visualization
 
 
 **atompair.py**  `atompair` 
@@ -207,12 +216,12 @@ input: gjf1 gjf2 Gaussian files with connectivity
 
 ouput: new gjf2 with same atom label to gjf1
 
-the symmetric atoms cannot be separated (warning information)
+the symmetric atoms cannot be applid (warning information)
 
 
 **pml_str.py**  `pml_str`
 
-Add addtional commands to Pymol script (pml) files such as `bond id x, id x` and `unbond id x, id x` (using `;` to separate lines) in a `""` **not** `''`
+Add addtional commands to Pymol script (pml) files for `bond id x, id x` and `unbond id x, id x` (using `;` to separate lines) in a `""` **not** `''`
 
 
 **write_run_pml.py**  `write_run_pml`
