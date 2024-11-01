@@ -1,10 +1,10 @@
-### Distortion Distribution Analysis enabled by Fragmentation (D2AF)
+### Distortion Map: Distortion Distribution Analysis enabled by Fragmentation (D2AF)
 <div align=center><img src=Docs/toc.png  width="400" /></div>
 
 #### (A) Description
 D2AF is an efficient, general and flexible fragmentation-based approach for local distortion analysis on various chemical and biological-related molecules. D2AF bases on fragmentation and ONIOM-type boundary strategies to evaluate/estimate (relative) local distortion energies of one (or multiple) structure(s)/conformer(s) (**Tar**; more distortion) relative to the reference structure (**Ref**; less distortion) at the given computational chemistry level (the user adopts). 
 
-**Any type of structures (stationary-point structures: e.g., local minimum, transition state(s); non-stationary-point structures: e.g., MD- or IRC-derived structures) can be adopted and compared in D2AF.**  (Relative) Local distortion energies of all subsystems/fragments for the **Tar** structure(s) relative to the **Ref** structure can be used for visualization (so-called distortion map or distortion distribution). 
+**Any type of structures (stationary-point structures: e.g., local minimum, transition state(s); non-stationary-point structures: e.g., MD- or IRC-derived structures) can be adopted as **Tar** and **Ref** and compared in D2AF.**  (Relative) Local distortion energies of all subsystems/fragments for the **Tar** structure(s) relative to the **Ref** structure can be used for visualization (so-called **distortion map** or distortion distribution). 
 
 
 Fragmentation of subsystems can be defined using three approachs:
@@ -98,7 +98,7 @@ where coord is any xyz file or Gaussian gjf file with/without connectivity. It w
     D2AF -inp ABC.inp > ABC.dat 
 
   
-*To run fragmentation only; run/call quantum chemistry calculations (**setting "calculator=nocalc" in the D2AF input file**) by users*
+*To run fragmentation only; subsequently run/call quantum chemistry calculations (**setting "calculator=nocalc" in the D2AF input file**) by users*
 
 1. Generate fragments, which are then written in **\tmpdir** folder (xyz files with charge and multiplicity in the second line). E.g.,
 ```       
@@ -194,8 +194,10 @@ D2AF input file example:
 #### (F) Analysis on our generate files :  
 
  - An excel file (*M1/M2/M3.xlsx) stores all detailed (relative) distortion energy as well as changes (delta) of the coordinates.
- - A few Python scripts display (relative) distortion map (e.g., *M1_frag.pml, *M2_total.pml, *M2_bond.pml, *M2_angle.pml) as well as changes (delta) of the coordinates (e.g., *bond_delta.pml, *anglep_delta.pml, *anglen_delta.pml). *anglep_delta.pml and *anglen_delta.pml represent the positive and negative changes in the bond angles. *frag_show.pml shows fragmentation (e.g. M1).    
- - Pymol possibly display slim bonds with hydrogen atoms. Users can type "set stick_h_scale, 0.9" and/or "set stick_radius, 0.2" in the Pymol command bar to modify the H stick thickness and/or the stick radius users like. If users prefer to use their preferred Pymol setting(s), users can add setting commands in their pymol file (.pymolrc.py) Please see Pymol Wiki website (https://pymolwiki.org/)  
+ - A few Python scripts display (relative) distortion map (e.g., *M1_frag.pml, *M2_total.pml, *M2_bond.pml, *M2_angle.pml)
+ -  A few Python scripts display the difference (delta) of the coordinates (e.g., *bond_delta.pml, *anglep_delta.pml, *anglen_delta.pml). *anglep_delta.pml and *anglen_delta.pml represent the positive and negative changes in the bond angles.
+ -  *frag_show.pml shows fragmentation (e.g. M1).    
+ - *Pymol possibly display slim bonds with hydrogen atoms. Users can type "set stick_h_scale, 0.9" and/or "set stick_radius, 0.2" in the Pymol command bar* to modify the H stick thickness and/or the stick radius users like. If users prefer to use their preferred Pymol setting(s), users can add setting commands in their pymol file (.pymolrc.py) Please see Pymol Wiki website (https://pymolwiki.org/)  
 
 
 #### (G) Additional D2AF tools:  
