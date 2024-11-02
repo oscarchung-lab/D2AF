@@ -151,10 +151,10 @@ D2AF input file example:
     4 7 
     4 7 9
 
-    #charge (optional: only if atomic charge (second value) of the pariticular atom (first value) is not zero; required)
+    #charge (optional: only if formal atomic charge (second value) of the pariticular atom(s) (first value) is not zero; required)
     5 1
     
-    #spin (optional: only if atomic spin (second value) of the pariticular atom (first value) is not zero; required)
+    #spin (optional: only if formal atomic spin (second value) of the pariticular atom(s) (first value) is not zero; required)
     3 1
 
 #### (E) Input preparations/commmand explanations
@@ -182,9 +182,9 @@ D2AF input file example:
 
 **exclude**: **for M2/M3**, exclude the bond(s)/angle(s) users want
 
-**charge**: define the atomic charge (second value) of the pariticular atom (first value) if not 0 
+**charge**: define the formal atomic charge (second value) of the pariticular atom(s) (first value) if not 0 
 
-**spin**: define the atomic spin (second value) of the pariticular atom (first value) if not 0 (using integer: spin * 2)
+**spin**: define the formal atomic spin (second value) of the pariticular atom(s) (first value) if not 0 (using integer: spin * 2)
 
 
 *Currently, if users want to use different link atoms for some specific boundary(ies) they like, users need to manually modify their corresponding QC input files* Possibly, new keywords will be added to modify a few link atoms.
