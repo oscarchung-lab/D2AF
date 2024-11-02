@@ -109,7 +109,7 @@ where coord is any xyz file or Gaussian gjf file with/without connectivity. It w
    
 - (a) *run the calculations by users (fragments in **xxx_i.xyz** files generated in the **\tmpdir** folder)*
 
-- (b) *extract the energies to **xxx_i.log** (in a.u. unit; 1st line) for each structure in the **\tmpdir** folder*
+- (b) *extract the energies to **xxx_i.log** (in a.u. unit; 1st line) for each structure in the **\tmpdir** folder* **Make sure your QC output file names does not have *.log*, (or add the energy to the 1st line of the log files, if you use different QC packages and prefer to use .log as your QC output file names.**
         
 3. Run D2AF again to do analysis only, after the QC results are extracted in the above step 2 by users (**setting "calculator=nocalc" in the D2AF input file**). E.g.,
 ```         
