@@ -109,7 +109,7 @@ where coord is any xyz file or Gaussian gjf file with/without connectivity. It w
    
 - (a) *run the calculations by users (fragments in **xxx_i.xyz** files generated in the **\tmpdir** folder)*
 
-- (b) *extract the energies to **xxx_i.log** (in a.u. unit; 1st line) for each structure in the **\tmpdir** folder* **Make sure your QC output file names does not have *.log*, (or add the energy to the 1st line of the log files, if you use different QC packages and prefer to use .log as your QC output file names.**
+- (b) *extract the energies to **xxx_i.log** (in a.u. unit; 1st line) for each structure in the **\tmpdir** folder* **Make sure your QC output file names does not have *.log*, (or add the energy to the 1st line of the log files, if you use different QC packages and prefer to use .log as your QC output file names.** Possibly a new keyword would be added to read an external file with a list of energies.  
         
 3. Run D2AF again to do analysis only, after the QC results are extracted in the above step 2 by users (**setting "calculator=nocalc" in the D2AF input file**). E.g.,
 ```         
@@ -195,10 +195,10 @@ D2AF input file example:
 
  - An excel file (*M1/M2/M3.xlsx) stores all detailed (relative) distortion energy as well as changes (delta) of the coordinates.
  - A few Python scripts display (relative) distortion map (e.g., *M1_frag.pml, *M2_total.pml, *M2_bond.pml, *M2_angle.pml)
- -  A few Python scripts display the difference (delta) of the coordinates (e.g., *bond_delta.pml, *anglep_delta.pml, *anglen_delta.pml). *anglep_delta.pml and *anglen_delta.pml represent the positive and negative changes in the bond angles.
+ -  A few Python scripts display the difference (delta) of the coordinates (e.g., *bond_delta.pml, *anglep_delta.pml, *anglen_delta.pml). *anglep_delta.pml and *anglen_delta.pml represent the positive and negative changes in the bond angles, respectively.
  -  *frag_show.pml shows fragmentation (e.g. M1).    
  - *Pymol possibly display slim bonds with hydrogen atoms. Users can type "set stick_h_scale, 0.9" and/or "set stick_radius, 0.2" in the Pymol command bar* to modify the H stick thickness and/or the stick radius users like. If users prefer to use their preferred Pymol setting(s), users can add setting commands in their pymol file (.pymolrc.py) Please see Pymol Wiki website (https://pymolwiki.org/)
- - D2AF output (e.g., ABC.dat; cf., the above **(D) Usage section**) lists the key info. Also, a large change/difference in diheral(s) are given/listed in the output file for **the M2/M3 case. By default, (relative) distortion energy for diherals are not considered. If large change/difference in some diherals are found, users should add these diheral list in the "#include" keyword and restart analysis (running calculations of new diheral fragment(s) only if all old files kept intact) again at the same directory.** Meanwhile, users can **modify the fraglist of the D2AF input to expand the size of the related fragments (including diheral contribution) for the M1/M3 cases and perform a new D2AF calculations.** In this case, *restart D2AF* is **NOT recommended for the M1/M3 cases**, as the fraglist (as well as fragments) is changed.      
+ - D2AF output (e.g., ABC.dat; cf., the above **(D) Usage section**) lists the key info. Also, a large change/difference in diheral(s) are given/listed in the output file for **the M2/M3 case. By default, (relative) distortion energy for diherals are not considered. If large change/difference in some diherals are found, users should add these diheral list in the "#include" keyword and restart analysis for M2 (running calculations of new diheral fragment(s) only if all old files kept intact) again at the same directory.** Meanwhile, users can **modify the fraglist of the D2AF input to expand the size of the related fragments (including diheral contribution) for the M1/M3 cases and perform new D2AF calculations.** In this case, *restart D2AF* is **NOT recommended for the M1/M3 cases**, as the fraglist (as well as fragments) is changed.      
 
 
 #### (G) Additional D2AF tools:  
