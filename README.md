@@ -90,10 +90,10 @@ Quantum Chemical (QC) calculation packages:
 
     autofragment coord
 
-where coord is any xyz file or Gaussian gjf file with/without connectivity. It will generate a new gjf file with connectivity, fraglist for **M1** as well as a new D2AF template input file (users can modify). No need for **M2**
+where coord is any xyz file or Gaussian gjf file with/without connectivity. It will generate a new gjf file with connectivity, fraglist for **M1 or M3** as well as a new D2AF template input file (users can modify). No need for **M2**
 
 
-**To run all proccess: fragmentation, calculations via our calls, and analysis. E.g.,** 
+**To run all proccess: fragmentation, calculations via our calls, and analysis. D2AF input (e.g., ABC.inp) and output (e.g., ABC.dat) E.g.,** 
 
     D2AF -inp ABC.inp > ABC.dat 
 
@@ -176,7 +176,7 @@ D2AF input file example:
 
 **fraglist**: **for M1/M3**, define the fragmentation list
 
-**coordination**: **for M3**, define the metal coordination center/region (same listing format as fraglist)
+**coordination**: **for M3**, define the metal coordination center/region (same listing format as fraglist). Some molecular editors (e.g., Gauview, pymol, VMD) may easily set th coordination sphere and get the list of these atoms involved
 
 **include**: **for M2/M3**, add additional bond(s)/angle(s)/diheral(s) users want. *By default, all diherals are not considered. Users should add the diheral list they want.* 
 
@@ -197,7 +197,8 @@ D2AF input file example:
  - A few Python scripts display (relative) distortion map (e.g., *M1_frag.pml, *M2_total.pml, *M2_bond.pml, *M2_angle.pml)
  -  A few Python scripts display the difference (delta) of the coordinates (e.g., *bond_delta.pml, *anglep_delta.pml, *anglen_delta.pml). *anglep_delta.pml and *anglen_delta.pml represent the positive and negative changes in the bond angles.
  -  *frag_show.pml shows fragmentation (e.g. M1).    
- - *Pymol possibly display slim bonds with hydrogen atoms. Users can type "set stick_h_scale, 0.9" and/or "set stick_radius, 0.2" in the Pymol command bar* to modify the H stick thickness and/or the stick radius users like. If users prefer to use their preferred Pymol setting(s), users can add setting commands in their pymol file (.pymolrc.py) Please see Pymol Wiki website (https://pymolwiki.org/)  
+ - *Pymol possibly display slim bonds with hydrogen atoms. Users can type "set stick_h_scale, 0.9" and/or "set stick_radius, 0.2" in the Pymol command bar* to modify the H stick thickness and/or the stick radius users like. If users prefer to use their preferred Pymol setting(s), users can add setting commands in their pymol file (.pymolrc.py) Please see Pymol Wiki website (https://pymolwiki.org/)
+ - D2AF output (e.g., ABC.dat; cf., the above **(D) Usage section**) lists the key info. Also, a large change/difference in diheral(s) are given/listed in the output file for **the M2/M3 case. By default, (relative) distortion energy for diherals are not considered. If large change/difference in some diherals are found, users should add these diheral list in the "#include" keyword and re-do analysis (running calculations of new diheral fragment(s) only if all old files kept intact) again at the same directory.**  
 
 
 #### (G) Additional D2AF tools:  
