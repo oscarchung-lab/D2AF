@@ -86,7 +86,15 @@ Quantum Chemical (QC) calculation packages:
 - *Any codes are possible through generating their corresponding QC input files from our generated XYZ files for each fragment, running them and extracting energy (in a.u.) by users' script(s) (using "calculator=nocalc" in the D2AF input; see below)* 
 
 #### (D) Usage
-*Optional: to generate suggestive fragmentation list for **M1 or M3***
+
+*Optional: to check any large diheral difference bewteen the reference and target forms. If detecting any large diheral difference(s), modify **fraglist** for **M1** or add **#include** for **M1 or M2*** e.g.
+
+    check_dihedral ABC-ref.gjf ABC-conf.gjf
+    check_dihedral ABC-ref.gjf ABC-conf.gjf thershold(optional)
+    
+where ABC-ref.gjf & ABC-conf.gjf are any xyz or Gaussian gjf files for the reference and target forms. A value is the thershold (optional) for the large diheral(s) to be printed. 
+
+*Optional: to generate suggestive fragmentation list for **M1 or M3*** e.g.
 
     autofragment coord
 
