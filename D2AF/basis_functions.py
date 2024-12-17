@@ -894,7 +894,7 @@ def check_difference_dihedral(elelist, coords_ref, coords_confs, thershold=None)
             dihedral_conf = mol_conf.GetTorsion(*dihedral)
             dihedral_diff = abs((dihedral_ref - dihedral_conf  + 180) % 360 - 180)
             if dihedral_diff > thershold:
-                print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff} degrees')
+                print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff:.1f} degrees')
     else:
         for i in range(num_conf):
             mol_conf = create_molecule_from_coords(elelist, coords_confs[i][:][:])
@@ -903,4 +903,4 @@ def check_difference_dihedral(elelist, coords_ref, coords_confs, thershold=None)
                 dihedral_conf = mol_conf.GetTorsion(*dihedral)
                 dihedral_diff = abs((dihedral_ref - dihedral_conf  + 180) % 360 - 180)
                 if dihedral_diff > thershold:
-                    print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff} degrees in conformer {i}')
+                    print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff:.1f} degrees in conformer {i}')

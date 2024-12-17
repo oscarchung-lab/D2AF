@@ -446,7 +446,7 @@ def check_dihedral():
     if len(sys.argv) == 3:
         elelist_ref, coords_ref, coords_confs, matrix_link_ref, addpara = read_ref_conf(sys.argv[1],sys.argv[2])
         bf.check_difference_dihedral(elelist_ref, coords_ref, coords_confs)
-    if len(sys.argv) == 4:
+    elif len(sys.argv) == 4:
         elelist_ref, coords_ref, coords_confs, matrix_link_ref, addpara = read_ref_conf(sys.argv[1],sys.argv[2])
         bf.check_difference_dihedral(elelist_ref, coords_ref, coords_confs, float(sys.argv[3]))
     else:
