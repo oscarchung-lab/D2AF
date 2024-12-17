@@ -87,7 +87,7 @@ Quantum Chemical (QC) calculation packages:
 
 #### (D) Usage
 
-*Optional: to check any large diheral difference bewteen the reference and target forms. If detecting any large diheral difference(s), modify **fraglist** for **M1** or add **#include** for **M1 or M2*** e.g.
+*Optional: to check any large diheral difference bewteen the reference and target forms by Openbabel. If detecting any large diheral difference(s), modify **fraglist** for **M1** or add **#include** for **M1 or M2*** e.g.
 
     check_dihedral ABC-ref.gjf ABC-conf.gjf
     check_dihedral ABC-ref.gjf ABC-conf.gjf thershold(optional)
