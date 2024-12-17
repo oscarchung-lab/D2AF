@@ -265,10 +265,13 @@ Combine multiple distortion maps/pngs (M1, M2, M3) into one png for publication 
 
 #### Citations
 
+**D2AF**
+
 Efficient and Flexible Approach for Local Distortion: Distortion Distribution Analysis enabled by Fragmentation. Z. Yan, Y. S. Liao, X. Li, and L. W. Chung, **2024** *(submitted)* & *ChemRxiv.* DOI: 10.26434/chemrxiv-2024-07rmf (https://doi.org/10.26434/chemrxiv-2024-07rmf) This content is a preprint and has not been peer-reviewed.
 
 
 **Distortion/Interaction-Activation Strain Model**
+
 The activation strain model and molecular orbital theory: understanding and designing chemical reactions. I. Fernandez and F. M. Bickelhaupt, Chem. Soc. Rev., **2014**, 43, 4953-4967. [DOI: 10.1039/C4CS00055B](https://pubs.rsc.org/en/content/articlelanding/2014/cs/c4cs00055b))
 
 Analyzing Reaction Rates with the Distortion/Interaction-Activation Strain Model. F. M. Bickelhaupt and K. N. Houk, Angew. Chem., Int. Ed., **2017**, 56, 10070-10086. [DOI: 10.1002/anie.201701486](https://onlinelibrary.wiley.com/doi/10.1002/anie.201701486)
@@ -278,9 +281,11 @@ Distortion/Interaction Energy Control of 1,3-Dipolar Cycloaddition Reactivity. D
 An ab initio molecular orbital study of organic reactions. The energy, charge, and spin decomposition analyses at the transition state and along the reaction pathway. S. Nagase and K. Morokuma, J. Am. Chem. Soc., **1978**, 100, 1666-1672. [DOI: 10.1021/ja00474a005](https://pubs.acs.org/doi/10.1021/ja00474a005)
 
 **ONIOM Link-atom Treatment**
+
 The ONIOM Method and its Applications. Chung, L. W.; Sameera, W. M. C.; Ramozzi, R.; Page, A. J.; Hatanaka, M.; Petrova, G. P.; Harris, T. V.; Li, X.; Ke, Z.; Liu, F.; Li, H.-B.; Ding, L. Morokuma, K. *Chem. Rev.* **2015**, 115, 5678. [DOI: 10.1021/cr5004419](https://doi.org/10.1021/cr5004419)
 
 **The other approach to analyze strain**
+
 A quantitative quantum-chemical analysis tool for the distribution of mechanical force in molecules. T. Stauch and A. Dreuw, J. Chem. Phys., **2014**, 140, 134107. [DOI: 10.1063/1.4870334](https://pubs.aip.org/aip/jcp/article/140/13/134107/351239)
 
 Strain visualization for strained macrocycles. C. E. Colwell, T. W. Price, T. Stauch and R. Jasti, Chem. Sci., **2020**, 11, 3923-3930. [DOI: 10.1039/D0SC00629G](https://pubs.rsc.org/en/content/articlelanding/2020/sc/d0sc00629g)
