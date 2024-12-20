@@ -61,6 +61,19 @@ inp file example:
     return parser.parse_args(arg_list)
 
 def run():
+    print('\n              D2AF (V.1.0.2): Distortion Distribution Analysis enabled by Fragmentation') #@
+    print('                          Zeyin Yan, Yunteng Sam Liao and (Oscar) Lung Wa Chung')  #@
+    print('                          Southern University of Science and Technology (SUSTech)\n')  #@
+    print('Citations')  #@
+    print('Yan, Z.; Liao, Y. S.; Li, X. Chung, L. W. Chem. Sci., 2025 . DOI: \n')  #@
+    print('Distortion/Interaction-Activation Strain Model:')  #@
+    print('Nagase, S. Morokuma, K. J. Am. Chem. Soc., 1978, 100, 1666-1672. DOI: 10.1021/ja00474a005') #@
+    print('Fernandez, I.; Bickelhaupt, F. M. Chem. Soc. Rev., 2014, 43, 4953-4967. DOI: 10.1039/C4CS00055B') #@
+    print('Bickelhaupt, F. M.; Houk, K. N. Angew. Chem., Int. Ed., 2017, 56, 10070-10086. DOI: 10.1002/anie.201701486') #@
+    print('Ess, D. H.; Houk, K. J. Am. Chem. Soc., 2007, 129, 10646-10647. DOI: 10.1021/ja0734086\n') #@
+    print('ONIOM Link-atom Treatment:')  #@
+    print('Chung, L. W.; Sameera, W. M. C.; Ramozzi, R.; Page, A. J.; Hatanaka, M.; Petrova, G. P.; Harris, T. V.; Li, X.; Ke, Z.; Liu, F.; Li, H.-B.; Ding, L. Morokuma, K. Chem. Rev. 2015, 115, 5678. DOI: 10.1021/cr5004419') #@
+    
     print('Job starts at: '+time.asctime())
     args = get_arguments()
 
