@@ -65,7 +65,7 @@ def run():
     print('                          Zeyin Yan, Yunteng Sam Liao and (Oscar) Lung Wa Chung')  #@
     print('                          Southern University of Science and Technology (SUSTech)\n')  #@
     print('Citations')  #@
-    print('Distortion Distribution Analysis enabled by Fragmentation (D2AF): \n')  #@
+    print('Distortion Distribution Analysis enabled by Fragmentation (D2AF):')  #@
     print('Yan, Z.; Liao, Y. S.; Li, X. Chung, L. W. Chem. Sci., 2025 . DOI: \n')  #@
     print('Distortion/Interaction-Activation Strain Model:')  #@
     print('Nagase, S. Morokuma, K. J. Am. Chem. Soc., 1978, 100, 1666-1672. DOI: 10.1021/ja00474a005') #@
