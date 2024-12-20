@@ -16,7 +16,7 @@ def read_inp(inpf):
     #required: ref, conf, method
     #if method = 1 or 3, fraglist is required
     #
-    calculators = ['g03', 'g09', 'g16','xtb','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1', 'orca']
+    calculators = ['g03', 'g09', 'g16','xtb','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1', 'orca', 'no']
     fr = open(inpf,"r")
     lines = fr.readlines()
     fr.close()
@@ -84,7 +84,7 @@ def read_inp(inpf):
                             else:
                                 value.append([a1-1,int(varstmp[2])-1,int(varstmp[1])-1,a2-1])
                         else:
-                            print('Error: wrong format for bond/angle/torsion in '+linetmp)
+                            print('Error: wrong format for bond/angle/torsion in '+linetmp +' \n') #@
                     j += 1
                 inp_dict[key] = value
             elif key == 'charge' or key == 'spin': # charge, spin
@@ -111,7 +111,7 @@ def read_inp(inpf):
     if 'conf' not in inp_dict.keys():
         sys.exit('conf file was not given!')
     else:
-        print('conf file: '+inp_dict['conf'])
+        print('conf file: '+inp_dict['conf'] +' \n') #@
         
     if 'scale' not in inp_dict.keys():
         Results.iflog = False
@@ -133,20 +133,20 @@ def read_inp(inpf):
 
     if 'CRscale' not in inp_dict.keys():
         bf.CR_scale = 1.0
-        print('COVALENT_RADII scale set to 1.0')
+        print('COVALENT_RADII scale set to 1.0 \n') #@
     else:
         print('COVALENT_RADII scale set to '+inp_dict['CRscale'])
-        bf.CR_scale = float(inp_dict['CRscale'])
+        bf.CR_scale = float(inp_dict['CRscale']   +' \n') #@
             
     if 'calculator' not in inp_dict.keys():
         print('Warning: calculator was not given!')
-        print('Using g16 for this calculation!')
+        print('Using g16 for this calculation!\n') #@
         inp_dict['calculator'] = 'g16'
     else:
         if inp_dict['calculator'].lower() not in calculators:
             print(inp_dict['calculator']+ ' was not supported!')
             print('calculator available:')
-            print(calculators)
+            print(calculators +' \n') #@
             sys.exit()
     if 'method' not in inp_dict.keys():
         sys.exit('method was not given!')
@@ -212,7 +212,7 @@ def read_inp(inpf):
 
     if 'charge' not in inp_dict.keys():
         inp_dict['charge'] = []
-        print('All atomic charge are 0!')
+        print('\nAll atomic charge are 0!') #@
     else:
         print('%d atomic charge are defined!'%len(inp_dict['charge']))
     
@@ -233,9 +233,9 @@ def read_inp(inpf):
     
     if 'pal' not in inp_dict.keys():
         inp_dict['pal'] = 1
-        print('number pal set to 1')
+        print('number pal set to 1\n') #@
     else:
-        print('number pal set to '+inp_dict['pal'])
+        print('number pal set to '+inp_dict['pal'] +'\n') #@
         inp_dict['pal'] = int(inp_dict['pal'])
 
     return inp_dict
@@ -324,7 +324,7 @@ def readgjf(filename):
         matrix_link = linkmatrix(connlines)
     else:
         matrix_link = np.zeros((len(lines),len(lines)), dtype=float)
-        print('Warning: '+filename+' No connectivity information!')   
+        print('Warning: '+filename+' No connectivity information!\n') #@   
 
     #gen basis set
     addlines = []
@@ -446,7 +446,7 @@ def check_dihedral():
     if len(sys.argv) == 3:
         elelist_ref, coords_ref, coords_confs, matrix_link_ref, addpara = read_ref_conf(sys.argv[1],sys.argv[2])
         bf.check_difference_dihedral(elelist_ref, coords_ref, coords_confs)
-    if len(sys.argv) == 4:
+    elif len(sys.argv) == 4:
         elelist_ref, coords_ref, coords_confs, matrix_link_ref, addpara = read_ref_conf(sys.argv[1],sys.argv[2])
         bf.check_difference_dihedral(elelist_ref, coords_ref, coords_confs, float(sys.argv[3]))
     else:
