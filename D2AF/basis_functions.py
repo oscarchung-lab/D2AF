@@ -51,7 +51,7 @@ def check_fraglist(fraglist):
         #sys.exit('fraglist has repeat element')
         print('*'*15+"Warning !!!  fraglist has repeat element!!! "+'*'*15)
     print('*'*15+"  fragmentation list  OK "+'*'*15)
-    print()
+    print('\n') #@
 #calculate bond & angle
 def getbond(p1,p2):
     return np.linalg.norm(p2-p1) 
@@ -128,13 +128,13 @@ def frag_chg_spin(eles, frags, links, linkm, chgl, spinl):
         # the link atom (H, C, O ,N using 1 2 2 3 eletron replace) contribute no extra charge and spin
         if (neletmp+chgtmp) % 2 == 0 and spintmp % 2 != 0:
             print('Warning: the charge %d and spin (2S) %d not match in frag_%d !'%(neletmp, spintmp, i))
-            print('Please check the input #charge and #spin !')
+            print('Please check the input #charge and #spin !\n') #@
             #print('Automaticly correct the spin to 0')
 
             #spintmp = 0
         elif (neletmp+chgtmp) % 2 != 0 and spintmp % 2 == 0:
             print('Warning: the charge %d and spin (2S) %d not match in frag_%d !'%(neletmp, spintmp, i))
-            print('Please check the input #charge and #spin !')
+            print('Please check the input #charge and #spin !\n')  #@
             #print('Automaticly correct the spin to 1')
             print('')
             #spintmp = 1
@@ -389,7 +389,7 @@ def remove_bond_angle(orilist, exclude):
         if listtmp in update_list:
             update_list.remove(listtmp)
         else:
-            print('Warning: '+str(listtmp)+' is not in the frag list!')
+            print('Warning: '+str(listtmp)+' is not in the frag list!\n') #@
     return update_list
 
 # add include bond/angle/torsion
@@ -397,7 +397,7 @@ def add_bond_angle(orilist, include):
     update_list = copy.deepcopy(orilist)
     for listtmp in include:
         if listtmp in update_list:
-            print('Warning: '+str(listtmp)+' is already in the frag list!')
+            print('Warning: '+str(listtmp)+' is already in the frag list!\n') #@
         else:
             update_list.append(listtmp)
     return update_list
@@ -519,7 +519,7 @@ def save_bond_angle_list(bond_angle_list):
         else: #angle
             fw.write('%s\n'%(' '.join([str(x) for x in bond_angle])))
     fw.close()
-    print('Bonds/angles data are saved in '+jobname+'_bond_angle.dat')
+    print('Bonds/angles data are saved in '+jobname+'_bond_angle.dat\n') #@
 
 # generate conf frag based on ref xyz with only internal coordinates modified
 def get_frag_mol_conf(frag_mol_ref, intercoordlist, internalvalues, name=''):
@@ -894,7 +894,7 @@ def check_difference_dihedral(elelist, coords_ref, coords_confs, thershold=None)
             dihedral_conf = mol_conf.GetTorsion(*dihedral)
             dihedral_diff = abs((dihedral_ref - dihedral_conf  + 180) % 360 - 180)
             if dihedral_diff > thershold:
-                print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff:.1f} degrees')
+                print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff:.1f} degrees\n') #@
     else:
         for i in range(num_conf):
             mol_conf = create_molecule_from_coords(elelist, coords_confs[i][:][:])
@@ -903,4 +903,4 @@ def check_difference_dihedral(elelist, coords_ref, coords_confs, thershold=None)
                 dihedral_conf = mol_conf.GetTorsion(*dihedral)
                 dihedral_diff = abs((dihedral_ref - dihedral_conf  + 180) % 360 - 180)
                 if dihedral_diff > thershold:
-                    print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff:.1f} degrees in conformer {i}')
+                    print(f'Dihedral between atoms {dihedral}: varies by {dihedral_diff:.1f} degrees in conformer {i} \n') #@
