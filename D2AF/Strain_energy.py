@@ -66,7 +66,7 @@ def run():
     print('                          Southern University of Science and Technology (SUSTech)\n')  #@
     print('Citations')  #@
     print('Distortion Distribution Analysis enabled by Fragmentation (D2AF):')  #@
-    print('Yan, Z.; Liao, Y. S.; Li, X. Chung, L. W. Chem. Sci., 2025 . DOI: \n')  #@
+    print('Yan, Z.; Liao, Y. S.; Li, X. Chung, L. W. Chem. Sci., 2024, XX. DOI: 10.1039/D4SC07226J\n')  #@
     print('Distortion/Interaction-Activation Strain Model:')  #@
     print('Nagase, S. Morokuma, K. J. Am. Chem. Soc., 1978, 100, 1666-1672. DOI: 10.1021/ja00474a005') #@
     print('Fernandez, I.; Bickelhaupt, F. M. Chem. Soc. Rev., 2014, 43, 4953-4967. DOI: 10.1039/C4CS00055B') #@
