@@ -267,12 +267,12 @@ Combine multiple distortion maps/pngs (M1, M2, M3) into one png for publication 
 
 **D2AF**
 
-Efficient and Flexible Approach for Local Distortion: Distortion Distribution Analysis enabled by Fragmentation. Z. Yan, Y. S. Liao, X. Li, and L. W. Chung, **2024** *(submitted)* & *ChemRxiv.* DOI: 10.26434/chemrxiv-2024-07rmf (https://doi.org/10.26434/chemrxiv-2024-07rmf) This content is a preprint and has not been peer-reviewed.
+Efficient and Flexible Approach for Local Distortion: Distortion Distribution Analysis enabled by Fragmentation. Z. Yan, Y. S. Liao, X. Li, and L. W. Chung, **2024** (Accepted). [DOI: 10.1039/D4SC07226J](https://pubs.rsc.org/en/Content/ArticleLanding/2025/SC/D4SC07226J)
 
 
 **Distortion/Interaction-Activation Strain Model**
 
-The activation strain model and molecular orbital theory: understanding and designing chemical reactions. I. Fernandez and F. M. Bickelhaupt, Chem. Soc. Rev., **2014**, 43, 4953-4967. [DOI: 10.1039/C4CS00055B](https://pubs.rsc.org/en/content/articlelanding/2014/cs/c4cs00055b))
+The activation strain model and molecular orbital theory: understanding and designing chemical reactions. I. Fernandez and F. M. Bickelhaupt, Chem. Soc. Rev., **2014**, 43, 4953-4967. [DOI: 10.1039/C4CS00055B](https://pubs.rsc.org/en/content/articlelanding/2014/cs/c4cs00055b)
 
 Analyzing Reaction Rates with the Distortion/Interaction-Activation Strain Model. F. M. Bickelhaupt and K. N. Houk, Angew. Chem., Int. Ed., **2017**, 56, 10070-10086. [DOI: 10.1002/anie.201701486](https://onlinelibrary.wiley.com/doi/10.1002/anie.201701486)
 
