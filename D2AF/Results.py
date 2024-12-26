@@ -7,6 +7,9 @@ import numpy as np
 import sys
 import math
 from D2AF.Molecule import Molecule
+import logging 
+
+logger = logging.getLogger('main.Results')
 
 iflog = False
 #math.e, 10 ...
@@ -19,15 +22,15 @@ def xlsx2pml(method, mol_file, xlsx):
     if method == 1:        
         if len(sheet_names) == 1:
             df = pd.read_excel(xlsx, sheet_name='fragcut',index_col=0)
+
             atomsstr = df['fragatom'].tolist()
             strainstr = df['strain'].tolist()
-
             fraglist = [bf.str2list(str) for str in atomsstr]
             strain = [float(x) for x in strainstr]
             
             write_mol_frag_pml(mol_file,fraglist,strain)
         else:
-            print('There are %d sheets in %s!'%(len(sheet_names), xlsx))
+            logger.critical('There are %d sheets in %s!\n'%(len(sheet_names), xlsx))
             mol_name = mol_file.split('.')[0]
             
             strain_frags = []
@@ -49,7 +52,7 @@ def xlsx2pml(method, mol_file, xlsx):
         
     elif method == 2:
         if len(sheet_names) == 1:
-            df = pd.read_excel(xlsx, sheet_name='bondcut',index_col=0)
+            df = pd.read_excel(xlsx, sheet_name='intcoord',index_col=0)
             atomsstr = df['atoms'].tolist()
             strainstr = df['strain'].tolist()
             deltastr = df['delta'].tolist()
@@ -60,13 +63,13 @@ def xlsx2pml(method, mol_file, xlsx):
 
             write_mol_bondcut_pml(mol_file, internals, strain, delta)
         else:
-            print('There are %d sheets in %s!'%(len(sheet_names), xlsx))
+            logger.critical('There are %d sheets in %s!\n'%(len(sheet_names), xlsx))
             mol_name = mol_file.split('.')[0]
             
             strain_bondcut = []
             delta_bondcut = []
             for i in range(len(sheet_names)):
-                df = pd.read_excel(xlsx, sheet_name='bondcut_%d'%i,index_col=0)
+                df = pd.read_excel(xlsx, sheet_name='intcoord_%d'%i,index_col=0)
                 atomsstr = df['atoms'].tolist()
                 strainstr = df['strain'].tolist()
                 deltastr = df['delta'].tolist()
@@ -87,7 +90,7 @@ def xlsx2pml(method, mol_file, xlsx):
             
     elif method == 3:
         if len(sheet_names) == 2:
-            df1 = pd.read_excel(xlsx, sheet_name='bondcut',index_col=0)
+            df1 = pd.read_excel(xlsx, sheet_name='intcoord',index_col=0)
             df2 = pd.read_excel(xlsx, sheet_name='fragcut',index_col=0)
             atomsstr = df1['atoms'].tolist()
             strainstr = df1['strain'].tolist()
@@ -105,7 +108,7 @@ def xlsx2pml(method, mol_file, xlsx):
 
             write_mol_bondcutfrag_pml(mol_file, internals, strain, delta, fraglist, frag_strain)
         else:
-            print('There are %d sheets in %s!'%(len(sheet_names), xlsx))
+            logger.critical('There are %d sheets in %s!\n'%(len(sheet_names), xlsx))
             num_mol = int(len(sheet_names)/2)
             mol_name = mol_file.split('.')[0]
             
@@ -113,7 +116,7 @@ def xlsx2pml(method, mol_file, xlsx):
             delta_bondcut = []
             strain_frags = []
             for i in range(num_mol):
-                df1 = pd.read_excel(xlsx, sheet_name='bondcut_%d'%i,index_col=0)
+                df1 = pd.read_excel(xlsx, sheet_name='intcoord_%d'%i,index_col=0)
                 df2 = pd.read_excel(xlsx, sheet_name='fragcut_%d'%i,index_col=0)
                 atomsstr = df1['atoms'].tolist()
                 strainstr = df1['strain'].tolist()
@@ -140,7 +143,127 @@ def xlsx2pml(method, mol_file, xlsx):
                 mol_file_i = mol_name+'_%d.xyz'%i
                 write_mol_bondcutfrag_pml(mol_file_i, internals, strain_bondcut[i],delta_bondcut[i], fraglist, strain_frags[i],maxene=maxene, minene=minene,mindelta=mindelta,maxdelta=maxdelta)
     else:
-        print('method number %d not supported!'%method)
+        logger.critical('method number %d not supported!'%method)
+#pair frag_id and energy based on xyz file computed by user
+#index conformer id
+def Get_deltaE(frag_id, ene_dict, method, index):
+    strainE = [0.0] * len(frag_id)
+    for i in range(len(frag_id)):
+        frag_index = frag_id[i].split('_')[-1]
+        refkeystr = '%s_ref_%s'% (method, frag_index)
+        confkeystr = '%s_conf_%d_%s'% (method, index, frag_index)
+        strainE[i] = (ene_dict[confkeystr] - ene_dict[refkeystr])*627.51
+    return strainE
+
+def update_xlsx_ene(method, xlsx, ene_dat):
+    xls = pd.ExcelFile(xlsx)
+    sheet_names = xls.sheet_names
+    ene_dict = bf.read_E_dat(ene_dat)
+    writer = pd.ExcelWriter('new_'+xlsx)
+    if method == 1:
+        if len(sheet_names) == 1:
+            df = pd.read_excel(xlsx, sheet_name='fragcut')
+            frag_id = df['frag_id'].tolist()
+            atomsstr = df['fragatom'].tolist()
+            strain = Get_deltaE(frag_id, ene_dict, 'M1', 0)
+            strain_ene = np.around(np.array(strain),2) 
+            df = pd.DataFrame({'frag_id':frag_id,'fragatom':atomsstr,'strain':strain_ene})
+            df.to_excel(writer, sheet_name="fragcut", index=False)
+            writer.close()
+        else:
+            for j in range(len(sheet_names)):
+                df = pd.read_excel(xlsx, sheet_name="fragcut_%d"%j)
+                frag_id = df['frag_id'].tolist()
+                atomsstr = df['fragatom'].tolist()
+                strain = Get_deltaE(frag_id, ene_dict, 'M1', j)
+
+                strain_ene = np.around(np.array(strain),2) 
+                df = pd.DataFrame({'frag_id':frag_id,'fragatom':atomsstr,'strain':strain_ene})
+                df.to_excel(writer, sheet_name="fragcut_%d"%j, index=False)
+            writer.close()
+    elif method == 2:
+        if len(sheet_names) == 1:
+            df = pd.read_excel(xlsx, sheet_name='intcoord')
+            frag_id = df['frag_id'].tolist()
+            idlist = df['ID'].tolist()
+            atomsstr = df['atoms'].tolist()
+            delta = df['delta'].tolist()
+            strain = Get_deltaE(frag_id, ene_dict, 'M2', 0)
+
+            strain_ene = np.around(np.array(strain),2) 
+            df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'strain':strain_ene,'delta':delta })
+            df.to_excel(writer, sheet_name="intcoord", index=False)
+            writer.close()
+        else:
+            for j in range(len(sheet_names)):
+                df = pd.read_excel(xlsx, sheet_name="intcoord_%d"%j)
+                frag_id = df['frag_id'].tolist()
+                idlist = df['ID'].tolist()
+                atomsstr = df['atoms'].tolist()
+                delta = df['delta'].tolist()
+                strain = Get_deltaE(frag_id, ene_dict, 'M2', j)
+
+                strain_ene = np.around(np.array(strain),2) 
+                df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'strain':strain_ene,'delta':delta })
+                df.to_excel(writer, sheet_name="intcoord_%d"%j, index=False)
+            writer.close()
+    elif method == 3:
+        writer = pd.ExcelWriter('new_'+xlsx)
+        if len(sheet_names) == 2:
+            #internal coord sheet
+            df = pd.read_excel(xlsx, sheet_name='intcoord')
+            frag_id = df['frag_id'].tolist()
+            idlist = df['ID'].tolist()
+            atomsstr = df['atoms'].tolist()
+            delta = df['delta'].tolist()
+            strain = Get_deltaE(frag_id, ene_dict, 'M3', 0)
+
+            strain_ene = np.around(np.array(strain),2) 
+            
+            df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'strain':strain_ene,'delta':delta })
+            df.to_excel(writer, sheet_name="intcoord", index=False)
+
+            #fragcut sheet
+            df = pd.read_excel(xlsx, sheet_name='fragcut')
+            frag_id = df['frag_id'].tolist()
+            atomsstr = df['fragatom'].tolist()
+            strain = Get_deltaE(frag_id, ene_dict, 'M3_frag', 0)
+
+            strain_ene = np.around(np.array(strain),2) 
+            df = pd.DataFrame({'frag_id':frag_id,'fragatom':atomsstr,'strain':strain_ene})
+            df.to_excel(writer, sheet_name="fragcut", index=False)
+
+            writer.close()
+        else:
+            writer = pd.ExcelWriter('new_'+xlsx)
+
+            for j in range(len(sheet_names)):
+                #internal coord sheet
+                df = pd.read_excel(xlsx, sheet_name="intcoord_%d"%j)
+                frag_id = df['frag_id'].tolist()
+                idlist = df['ID'].tolist()
+                atomsstr = df['atoms'].tolist()
+                delta = df['delta'].tolist()
+                strain = Get_deltaE(frag_id, ene_dict, 'M3', j)
+
+                strain_ene = np.around(np.array(strain),2) 
+                
+                df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'strain':strain_ene,'delta':delta })
+                df.to_excel(writer, sheet_name="intcoord_%d"%j, index=False)
+
+                #fragcut sheet
+                df = pd.read_excel(xlsx, sheet_name="fragcut_%d"%j)
+                frag_id = df['frag_id'].tolist()
+                atomsstr = df['fragatom'].tolist()
+                strain = Get_deltaE(frag_id, ene_dict, 'M3_frag', j)
+
+                strain_ene = np.around(np.array(strain),2) 
+                df = pd.DataFrame({'frag_id':frag_id,'fragatom':atomsstr,'strain':strain_ene})
+                df.to_excel(writer, sheet_name="fragcut_%d"%j, index=False)
+            writer.close()
+    else:
+        logger.critical('method number %d not supported!'%method)
+    os.replace('new_'+xlsx, xlsx) 
 
 # get mim and max for multiconfomer strain energy 
 def get_max_min(fraglist, bondcutlist, frag_enelist, bondcut_enelist):
@@ -190,7 +313,8 @@ def get_bondangle_delta(bondcutlist, bondcut_delta):
         elif len(atoms_labes) == 4: #torsion
             torsion_delta.append(bondcut_delta[i])
         else: #problem
-            exit('Please check the atoms number > 4')
+            logger.error('Error: Please check the atoms number > 4')
+            sys.exit()
             
     return min(bond_delta), max(bond_delta)
 
@@ -250,7 +374,8 @@ def get_bondangle(bondcutlist, bondcut_ene):
             #else:
             #    torsion_ene[(min(a3,a4),max(a3,a4)) ] = float(bondcut_ene[i])/3
         else: #problem
-            exit('Please check the atoms number > 4')
+            logger.error('Error: Please check the atoms number > 4')
+            sys.exit()
             
             
             
@@ -294,8 +419,12 @@ def fragresult2xlsx(fraglist,strain,name=''):
     df = pd.DataFrame({'frag_id':frag_id,'fragatom':atom_str,'strain':strain_ene})
     df.to_excel(writer, sheet_name="fragcut", index=False)
     writer.close()
-    print('Resutls are saved in '+bf.jobname+'_M1'+name+'.xlsx')
-    print()
+
+    logger.critical('')
+    logger.critical('*************** Resutls:***************')
+    logger.critical('Strain energies are saved in '+bf.jobname+'_M1'+name+'.xlsx \n')
+        
+    logger.info("\n%s", df.to_string())
     
 #save the fragmentation strain energy into xlsx (conformers case)
 def fragresults2xlsx(fraglist,strain_all,name=''):
@@ -314,8 +443,9 @@ def fragresults2xlsx(fraglist,strain_all,name=''):
         df.to_excel(writer, sheet_name="fragcut_%d"%j, index=False)
     writer.close()
     
-    print('Resutls (%d sheets) are saved in '%len(strain_all)+bf.jobname+'_M1_'+name+'.xlsx')
-    print()
+    logger.critical('Strain energies of multiple conformers (%d) are saved in '%len(strain_all)+bf.jobname+'_M1_'+name+'.xlsx\n')
+          
+    logger.info("\n%s", df.to_string())
 
 #save the bondcut strain energy into xlsx
 def bondcutresult2xlsx(internal_list,strain,delta_values,name=''):
@@ -336,21 +466,21 @@ def bondcutresult2xlsx(internal_list,strain,delta_values,name=''):
             Batoms.append(bf.list2str(intercoord))
             Bstrain.append(strain[i])
             deltaB.append(delta_values[i])
-            frag_idB.append('frag_%d'%i)
+            frag_idB.append('intcoord_%d'%i)
         elif len(intercoord) == 3: #angle
             numa += 1
             Aid.append('A%-d'%numa)
             Aatoms.append(bf.list2str(intercoord))
             Astrain.append(strain[i])
             deltaA.append(delta_values[i])
-            frag_idA.append('frag_%d'%i)
+            frag_idA.append('intcoord_%d'%i)
         elif len(intercoord) == 4: #torsion
             numd += 1
             Did.append('D%-d'%numd)
             Datoms.append(bf.list2str(intercoord))
             Dstrain.append(strain[i])
             deltaD.append(delta_values[i])
-            frag_idD.append('frag_%d'%i)
+            frag_idD.append('intcoord_%d'%i)
             
     Bstrain_ene = np.around(np.array(Bstrain),2)   
     Astrain_ene = np.around(np.array(Astrain),2) 
@@ -367,10 +497,14 @@ def bondcutresult2xlsx(internal_list,strain,delta_values,name=''):
     frag_id = frag_idB + frag_idA + frag_idD
     writer = pd.ExcelWriter(bf.jobname+'_M2'+name+'.xlsx')
     df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atoms,'strain':strain_AB,'delta':delta_AB })
-    df.to_excel(writer, sheet_name="bondcut", index=False)
+    df.to_excel(writer, sheet_name="intcoord", index=False)
     writer.close()
-    print('Resutls are saved in '+bf.jobname+'_M2'+name+'.xlsx')
-    print()
+    logger.critical('')
+    logger.critical('*************** Resutls:***************')
+
+    logger.critical('Strain energies are saved in '+bf.jobname+'_M2'+name+'.xlsx\n')
+        
+    logger.info("\n%s", df.to_string())
 
 
 #save the bondcut strain energy into xlsx (conformers case)
@@ -395,21 +529,21 @@ def bondcutresults2xlsx(internal_list,strain_all,delta_values_all,name=''):
                 Batoms.append(bf.list2str(intercoord))
                 Bstrain.append(strain[i])
                 deltaB.append(delta_values[i])
-                frag_idB.append('frag_%d'%i)
+                frag_idB.append('intcoord_%d'%i)
             elif len(intercoord) == 3: #angle
                 numa += 1
                 Aid.append('A%-d'%numa)
                 Aatoms.append(bf.list2str(intercoord))
                 Astrain.append(strain[i])
                 deltaA.append(delta_values[i])
-                frag_idA.append('frag_%d'%i)
+                frag_idA.append('intcoord_%d'%i)
             elif len(intercoord) == 4: #torsion
                 numd += 1
                 Did.append('D%-d'%numd)
                 Datoms.append(bf.list2str(intercoord))
                 Dstrain.append(strain[i])
                 deltaD.append(delta_values[i])
-                frag_idD.append('frag_%d'%i)
+                frag_idD.append('intcoord_%d'%i)
                 
         Bstrain_ene = np.around(np.array(Bstrain),2)   
         Astrain_ene = np.around(np.array(Astrain),2) 
@@ -426,11 +560,11 @@ def bondcutresults2xlsx(internal_list,strain_all,delta_values_all,name=''):
         frag_id = frag_idB + frag_idA + frag_idD
         
         df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atoms,'strain':strain_AB,'delta':delta_AB })
-        df.to_excel(writer, sheet_name="bondcut_%d"%j, index=False)
+        df.to_excel(writer, sheet_name="intcoord_%d"%j, index=False)
     writer.close()
-    print('Resutls (%d sheets) are saved in '%len(strain_all)+bf.jobname+'_M2'+name+'.xlsx')
-    print()
-    
+    logger.critical('Strain energies of multiple conformers (%d) are saved in '%len(strain_all)+bf.jobname+'_M2'+name+'.xlsx\n')
+        
+  
     
 #save the bondcut strain energy into xlsx
 def bondcutfragresult2xlsx(internal_list,strain,delta_values,fraglist,strain_frag,name=''):
@@ -451,21 +585,21 @@ def bondcutfragresult2xlsx(internal_list,strain,delta_values,fraglist,strain_fra
             Batoms.append(bf.list2str(intercoord))
             Bstrain.append(strain[i])
             deltaB.append(delta_values[i])
-            bondcut_idB.append('bondcut_%d'%i)
+            bondcut_idB.append('intcoord_%d'%i)
         elif len(intercoord) == 3: #angle
             numa += 1
             Aid.append('A%-d'%numa)
             Aatoms.append(bf.list2str(intercoord))
             Astrain.append(strain[i])
             deltaA.append(delta_values[i])
-            bondcut_idA.append('bondcut_%d'%i)
+            bondcut_idA.append('intcoord_%d'%i)
         elif len(intercoord) == 4: #angle
             numd += 1
             Did.append('D%-d'%numd)
             Datoms.append(bf.list2str(intercoord))
             Dstrain.append(strain[i])
             deltaD.append(delta_values[i])
-            bondcut_idD.append('bondcut_%d'%i)
+            bondcut_idD.append('intcoord_%d'%i)
             
     Bstrain_ene = np.around(np.array(Bstrain),2)   
     Astrain_ene = np.around(np.array(Astrain),2) 
@@ -482,9 +616,16 @@ def bondcutfragresult2xlsx(internal_list,strain,delta_values,fraglist,strain_fra
     bondcut_id = bondcut_idB + bondcut_idA + bondcut_idD
 
     writer = pd.ExcelWriter(bf.jobname+'_M3'+name+'.xlsx')
-    df = pd.DataFrame({'bondcut_id':bondcut_id,'ID':idlist,'atoms':atoms,'strain':strain_AB,'delta':delta_AB })
-    df.to_excel(writer, sheet_name="bondcut", index=False)
+    df = pd.DataFrame({'frag_id':bondcut_id,'ID':idlist,'atoms':atoms,'strain':strain_AB,'delta':delta_AB })
+    df.to_excel(writer, sheet_name="intcoord", index=False)
     
+    logger.critical('')
+    logger.critical('*************** Resutls:***************')
+    logger.critical('Strain energies are saved in '+bf.jobname+'_M3'+name+'.xlsx\n')
+
+    logger.info('## Strain energies of internal coordinates ##')
+    logger.info("\n%s", df.to_string())    
+    logger.info('')
     #frag
     frag_id = []
     atom_str = []
@@ -498,8 +639,9 @@ def bondcutfragresult2xlsx(internal_list,strain,delta_values,fraglist,strain_fra
 
     writer.close()
 
-    print('Resutls are saved in '+bf.jobname+'_M3'+name+'.xlsx')
-    print()
+    logger.info('## Strain energies of fragments ##')
+    logger.info("\n%s", df.to_string())    
+    logger.info('')
 
 #save the bondcut strain energy into xlsx (conformers case)
 def bondcutfragresults2xlsx(internal_list,strain_all,delta_values_all,fraglist,strain_frag_all,name=''):
@@ -530,21 +672,21 @@ def bondcutfragresults2xlsx(internal_list,strain_all,delta_values_all,fraglist,s
                 Batoms.append(bf.list2str(intercoord))
                 Bstrain.append(strain[i])
                 deltaB.append(delta_values[i])
-                bondcut_idB.append('bondcut_%d'%i)
+                bondcut_idB.append('intcoord_%d'%i)
             elif len(intercoord) == 3: #angle
                 numa += 1
                 Aid.append('A%-d'%numa)
                 Aatoms.append(bf.list2str(intercoord))
                 Astrain.append(strain[i])
                 deltaA.append(delta_values[i])
-                bondcut_idA.append('bondcut_%d'%i)
+                bondcut_idA.append('intcoord_%d'%i)
             elif len(intercoord) == 4: #angle
                 numd += 1
                 Did.append('D%-d'%numd)
                 Datoms.append(bf.list2str(intercoord))
                 Dstrain.append(strain[i])
                 deltaD.append(delta_values[i])
-                bondcut_idD.append('bondcut_%d'%i)
+                bondcut_idD.append('intcoord_%d'%i)
 
         Bstrain_ene = np.around(np.array(Bstrain),2)   
         Astrain_ene = np.around(np.array(Astrain),2) 
@@ -561,8 +703,8 @@ def bondcutfragresults2xlsx(internal_list,strain_all,delta_values_all,fraglist,s
         bondcut_id = bondcut_idB + bondcut_idA + bondcut_idD
 
         
-        df = pd.DataFrame({'bondcut_id':bondcut_id,'ID':idlist,'atoms':atoms,'strain':strain_AB,'delta':delta_AB })
-        df.to_excel(writer, sheet_name="bondcut_%d"%j, index=False)
+        df = pd.DataFrame({'frag_id':bondcut_id,'ID':idlist,'atoms':atoms,'strain':strain_AB,'delta':delta_AB })
+        df.to_excel(writer, sheet_name="intcoord_%d"%j, index=False)
         
         
 
@@ -572,8 +714,7 @@ def bondcutfragresults2xlsx(internal_list,strain_all,delta_values_all,fraglist,s
 
     writer.close()
 
-    print('Resutls (%d sheets) are saved in '%len(strain_all)*2+bf.jobname+'_M3'+name+'.xlsx')
-    print()
+    logger.critical('Strain energies of multiple conformers (%d) are saved in '%len(strain_all)*2+bf.jobname+'_M3'+name+'.xlsx\n')
     
     
 def molecule2xyz(mol,molname):
@@ -595,7 +736,7 @@ def Get_pml_fragmentation(confmol,fraglist,strain, maxene=None, minene=None):
         #print('tmpdir already exits')
     else:
         os.mkdir('pymol')
-        print("pymol has been created.")
+        logger.critical("pymol has been created.")
 
     molname = os.path.join('pymol',confmol.name+'.xyz')
     
@@ -610,16 +751,15 @@ def write_mol_frag_pml(molname,fraglist,strain, maxene=None, minene=None):
         frag_ene[tuple(atomic_labes)] = float(strain[i])
 
     write_pymol_frag_pml(molname,frag_ene,extral_mark='_M1',maxene=maxene, minene=minene)
-    write_frag_show_pml(molname,frag_ene,'_M1')
+    #write_frag_show_pml(molname,fraglist,'_M1')
     
 #view for method bondcut
 def Get_pml_bondcut(confmol,internal_list,strain,delta_values,maxene=None, minene=None,mindelta=None, maxdelta=None):
     if os.path.exists('pymol'):
         pass
-        #print('tmpdir already exits')
     else:
         os.mkdir('pymol')
-        print("pymol has been created.")
+        logger.critical("pymol has been created.\n")
 
     molname = os.path.join('pymol',confmol.name+'.xyz')
     molecule2xyz(confmol,molname)
@@ -629,7 +769,7 @@ def Get_pml_bondcut(confmol,internal_list,strain,delta_values,maxene=None, minen
 
 def write_mol_bondcut_pml(molname, internal_list,strain, delta_values,maxene=None, minene=None,mindelta=None, maxdelta=None):
     # delta_values = bf.delta_internal_values(refValues,confValues)
-    draw_bondcut_delta(molname, internal_list, delta_values, mindelta=mindelta,maxdelta=maxdelta,extral_mark='_M2')
+    #draw_bondcut_delta(molname, internal_list, delta_values, mindelta=mindelta,maxdelta=maxdelta,extral_mark='_M2')
 
     bond_ene = {}
     angle_ene = {}
@@ -684,7 +824,8 @@ def write_mol_bondcut_pml(molname, internal_list,strain, delta_values,maxene=Non
             #else:
             #    torsion_ene[(min(a3,a4),max(a3,a4)) ] = float(strain[i])/3
         else: #problem
-            exit('Please check the atoms number > 4')
+            logger.error('Error: Please check the atoms number > 4')
+            sys.exit()
 
     total_ene = copy.deepcopy(bond_ene)
     for keytmp in angle_ene.keys():
@@ -729,10 +870,9 @@ def write_mol_bondcut_pml(molname, internal_list,strain, delta_values,maxene=Non
 def Get_pml_bondcut_fragmentation(confmol,internal_list,strain,delta_values,fraglist,strain_frag, maxene=None, minene=None,mindelta=None,maxdelta=None):
     if os.path.exists('pymol'):
         pass
-        #print('tmpdir already exits')
     else:
         os.mkdir('pymol')
-        print("pymol has been created.")
+        logger.critical("pymol has been created.\n")
 
     molname = os.path.join('pymol',confmol.name+'.xyz')
     molecule2xyz(confmol,molname)
@@ -742,7 +882,7 @@ def Get_pml_bondcut_fragmentation(confmol,internal_list,strain,delta_values,frag
     
 
 def write_mol_bondcutfrag_pml(molname,internal_list,strain,delta_values,fraglist,strain_frag,maxene=None, minene=None,mindelta=None,maxdelta=None):
-    draw_bondcut_delta(molname, internal_list, delta_values,maxdelta=maxdelta,mindelta=mindelta,extral_mark='_M3')
+    #draw_bondcut_delta(molname, internal_list, delta_values,maxdelta=maxdelta,mindelta=mindelta,extral_mark='_M3')
 
     bond_ene = {}
     angle_ene = {}
@@ -798,7 +938,8 @@ def write_mol_bondcutfrag_pml(molname,internal_list,strain,delta_values,fraglist
             #else:
             #    torsion_ene[(min(a3,a4),max(a3,a4)) ] = float(strain[i])/3
         else: #problem
-            exit('Please check the atoms number > 4')
+            logger.error('Error: Please check the atoms number > 4')
+            sys.exit()
 
     total_ene = copy.deepcopy(bond_ene)
     for keytmp in angle_ene.keys():
@@ -885,9 +1026,10 @@ def draw_bondcut_delta(molf, internal_list, delta_values, mindelta=None, maxdelt
                 else:
                     angle_deltap[(min(a2,a3),max(a2,a3)) ] = float(delta_values[i])/2
         elif len(atoms_labes) == 4: #torsion
-            print('Delta torsion was not showed ')
+            logger.critical('Delta torsion was not showed \n')
         else: #problem
-            exit('Please check the atoms number > 4')
+            logger.critical('Error: Please check the atoms number > 4')
+            sys.exit()
 
     write_bond_show_pml(molf,bond_delta,mindelta=mindelta, maxdelta=maxdelta,extral_mark=extral_mark+'_bond')
     write_bondangle_show_pml(molf,angle_deltap,extral_mark+'_anglep')
@@ -897,7 +1039,15 @@ def draw_bondcut_delta(molf, internal_list, delta_values, mindelta=None, maxdelt
 def write_bondangle_show_pml(mol_file,angle_chg,extral_mark=''):
     fname = os.path.splitext(mol_file)[0]
     molname = mol_file.split('/')[-1]
-    pml_name = fname+extral_mark+'_delta.pml'
+
+    if os.path.exists('pymol'):
+        pass
+        #print('tmpdir already exits')
+    else:
+        os.mkdir('pymol')
+        logger.critical("pymol has been created.")
+
+    pml_name = os.path.join('pymol',fname+extral_mark+'_delta_Geo.pml') 
 
     num_angle = len(angle_chg)
     if num_angle == 0:
@@ -985,7 +1135,7 @@ def gjf2xyz(gjfn,dir):
 def write_pymol_bondcut_frag_pml(mol_file, frag_ene, max_energy, min_energy, extral_mark=''):
     fname = os.path.splitext(mol_file)[0]
     molname = mol_file.split('/')[-1]
-    pml_name = fname+extral_mark+'.pml'
+    pml_name = fname+extral_mark+'_E.pml'
     
     median_energy = (min_energy+max_energy)/2
     
@@ -1051,7 +1201,7 @@ def write_pymol_bondcut_frag_pml(mol_file, frag_ene, max_energy, min_energy, ext
 def write_pymol_frag_pml(mol_file, frag_ene, extral_mark='', maxene=None, minene=None):
     fname = os.path.splitext(mol_file)[0]
     molname = mol_file.split('/')[-1]
-    pml_name = fname+extral_mark+'_frag.pml'
+    pml_name = fname+extral_mark+'_total_E.pml'
 
     if maxene == None:
         max_energy = max(frag_ene.values())
@@ -1124,10 +1274,20 @@ def write_pymol_frag_pml(mol_file, frag_ene, extral_mark='', maxene=None, minene
     fw.close()
 
 # show fraglist in pymol
-def write_frag_show_pml(mol_file,frag_ene,extral_mark=''):
+def write_frag_show_pml(mol_file,frag_list,extral_mark=''):
+    
+
     fname = os.path.splitext(mol_file)[0]
     molname = mol_file.split('/')[-1]
-    pml_name = fname+extral_mark+'_frag_show.pml'
+
+    if os.path.exists('pymol'):
+        pass
+        #print('tmpdir already exits')
+    else:
+        os.mkdir('pymol')
+        logger.critical("pymol has been created.")
+    pml_name = os.path.join('pymol', fname+extral_mark+'_frag_show.pml')
+    
 
     fw = open(pml_name,'w')
     #load mol
@@ -1146,7 +1306,7 @@ def write_frag_show_pml(mol_file,frag_ene,extral_mark=''):
     fw.write('# Adding a representation with the appropriate colorID for each frag\n')
     fw.write('\n')
 
-    numfrag = len(frag_ene.keys())
+    numfrag = len(frag_list)
 
     colorrgb0 = [[1.00, 0.00, 0.00],[0.00, 1.00, 0.00],[0.00, 0.00, 1.00],
                  [1.00, 1.00, 0.00],[1.00, 0.00, 1.00],[0.00, 1.00, 1.00],
@@ -1156,7 +1316,7 @@ def write_frag_show_pml(mol_file,frag_ene,extral_mark=''):
                  [0.55, 0.70, 0.40],[0.75, 0.75, 1.00],[0.75, 1.00, 0.25],
                  [1.00, 0.75, 0.87],[0.00, 0.75, 0.75],[1.00, 0.75, 0.87]]
 
-    for i, keystmp in enumerate(frag_ene.keys()):
+    for i, keystmp in enumerate(frag_list):
         colorrgb = colorrgb0[i%len(colorrgb0)]
         keystmp_list = list(keystmp)
         atom_labes = '+'.join(str(num) for num in keystmp_list)
@@ -1171,7 +1331,15 @@ def write_frag_show_pml(mol_file,frag_ene,extral_mark=''):
 def write_bond_show_pml(mol_file,bond_chg, mindelta=None, maxdelta=None, extral_mark=''):
     fname = os.path.splitext(mol_file)[0]
     molname = mol_file.split('/')[-1]
-    pml_name = fname+extral_mark+'_delta.pml'
+
+    if os.path.exists('pymol'):
+        pass
+        #print('tmpdir already exits')
+    else:
+        os.mkdir('pymol')
+        logger.critical("pymol has been created.")
+
+    pml_name = os.path.join('pymol', fname+extral_mark+'_delta_Geo.pml')
 
     if mindelta==None:
         min_chg = min(bond_chg.values())
@@ -1227,7 +1395,7 @@ def write_bond_show_pml(mol_file,bond_chg, mindelta=None, maxdelta=None, extral_
 def write_pymol_bondcut_pml(mol_file, bond_energies, max_energy, min_energy, extral_mark=''):
     fname = os.path.splitext(mol_file)[0]
     molname = mol_file.split('/')[-1]
-    pml_name = fname+extral_mark+'.pml'
+    pml_name = fname+extral_mark+'_E.pml'
 
     #min_energy = min(bond_energies.values())
     #max_energy = max(bond_energies.values())
@@ -1292,7 +1460,7 @@ def write_pymol_bondcut_pml(mol_file, bond_energies, max_energy, min_energy, ext
 def write_pymol_bondcutfrag_pml(mol_file, bond_energies, frag_ene, max_energy, min_energy, extral_mark=''):
     fname = os.path.splitext(mol_file)[0]
     molname = mol_file.split('/')[-1]
-    pml_name = fname+extral_mark+'.pml'
+    pml_name = fname+extral_mark+'_E.pml'
 
     #min_energy = min(bond_energies.values())
     #max_energy = max(bond_energies.values())
@@ -1406,3 +1574,22 @@ def confsmols2xyz(confsmols,name='',list=None):
             fw.write('%s\n'%(mol.name))
             fw.write(xyzlines)
     fw.close()    
+
+
+# bond delta pymol
+def bond_delta(ref_coord, conf_coords, linkm):
+    num_conf = conf_coords.shape[0]
+    internal_list = bf.linkm2intercoord(linkm)
+    ref_internal_values = bf.get_intercoord_values(internal_list,ref_coord)
+
+    if num_conf == 1:
+        molname = 'Conf'
+        conf_internal_values = bf.get_intercoord_values(internal_list,conf_coords[0])
+        delta_values = bf.delta_internal_values(ref_internal_values, conf_internal_values)
+        draw_bondcut_delta(molname, internal_list, delta_values)
+    else:
+        for i in range(num_conf):
+            molname = 'Conf_'+str(i)
+            conf_internal_values = bf.get_intercoord_values(internal_list,conf_coords[i])
+            delta_values = bf.delta_internal_values(ref_internal_values, conf_internal_values)
+            draw_bondcut_delta(molname, internal_list, delta_values)

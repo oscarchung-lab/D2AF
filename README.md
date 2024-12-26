@@ -115,9 +115,14 @@ where coord is any xyz file or Gaussian gjf file with/without connectivity. It w
     
 2. Run QC calculations and extract the energies by users (e.g. running jobs in different machine or a way to use specific QC codes users want).
    
-- (a) *run the calculations by users (fragments in **xxx_i.xyz** files generated in the **\tmpdir** folder)*
+- (a) *run the calculations by users (fragments in **xxx_i.xyz** files generated in the **\tmpdir** folder, and a **M\*_.xlxs** file with the strain energy set to 0)*
 
-- (b) *extract the energies to **xxx_i.log** (in a.u. unit; 1st line) for each structure in the **\tmpdir** folder* **Make sure your QC output file names does not have *.log*, (or add the energy to the 1st line of the log files, if you use different QC packages and prefer to use .log as your QC output file names.** Possibly a new keyword would be added to read an external file with a list of energies.  
+- (b.1) *extract the energies to **xxx_i.log** (in a.u. unit; 1st line) for each structure in the **\tmpdir** folder* **Make sure your QC output file names does not have *.log*, (or add the energy to the 1st line of the log files, if you use different QC packages and prefer to use .log as your QC output file names.** Possibly a new keyword would be added to read an external file with a list of energies.  
+
+- (b.2) *extract all the energies to a energy data file (e.g., **xxx.dat**), run the following command to update the xlxs file and generate the pymol script for maps:
+```         
+    D2AF -d M1.xlsx -m 1  -f pymol/Conf.xyz -e xxx.dat
+``` 
         
 3. Run D2AF again to do analysis only, after the QC results are extracted in the above step 2 by users (**setting "calculator=nocalc" in the D2AF input file**). E.g.,
 ```         

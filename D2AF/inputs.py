@@ -5,7 +5,9 @@ import pandas as pd
 import D2AF.basis_functions as bf
 from D2AF import Results
 import math
-#import in_coor as ic
+import logging 
+
+logger = logging.getLogger('main.inputs')
 
 
 '''
@@ -16,10 +18,11 @@ def read_inp(inpf):
     #required: ref, conf, method
     #if method = 1 or 3, fraglist is required
     #
-    calculators = ['g03', 'g09', 'g16','xtb','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1', 'orca', 'no']
+    calculators = ['g03', 'g09', 'g16','xtb','gfn1-xtb', 'gfn2-xtb','ani-1x', 'ani-2x', 'ani-1ccx', 'aiqm1', 'orca', 'nocalc']
     fr = open(inpf,"r")
     lines = fr.readlines()
     fr.close()
+    logger.critical('*************** Input Parameters:***************\n')
     #read inp parameters
     inp_dict = {}
     i = 0
@@ -84,7 +87,7 @@ def read_inp(inpf):
                             else:
                                 value.append([a1-1,int(varstmp[2])-1,int(varstmp[1])-1,a2-1])
                         else:
-                            print('Error: wrong format for bond/angle/torsion in '+linetmp +' \n') #@
+                            logger.error('Error: wrong format for bond/angle/torsion in '+linetmp +' \n')
                     j += 1
                 inp_dict[key] = value
             elif key == 'charge' or key == 'spin': # charge, spin
@@ -99,143 +102,168 @@ def read_inp(inpf):
                     j += 1
                 inp_dict[key] = value
             else:
-                sys.exit(key+' was illegal!')
+                logger.error('Error: '+key+' was illegal!')
+                sys.exit()
             i += j
     
     #check input parameter
     if 'ref' not in inp_dict.keys():
-        sys.exit('ref file was not given!')
+        logger.error('Error: reference file was not given!')
+        sys.exit()
     else:
-        print('ref file: '+inp_dict['ref'])
+        logger.critical('Input reference file: '+inp_dict['ref'])
     
     if 'conf' not in inp_dict.keys():
-        sys.exit('conf file was not given!')
+        logger.error('Error: conformer file was not given!')
+        sys.exit()
     else:
-        print('conf file: '+inp_dict['conf'] +' \n') #@
+        logger.critical('Input Conformer file: '+inp_dict['conf'] +' \n')
         
     if 'scale' not in inp_dict.keys():
         Results.iflog = False
-        print('Using Normal scale for visualization')
+        logger.critical('Using Normal scale for visualization')
     else:
         Results.iflog = True
         if inp_dict['scale'] == 'e':
             Results.lognum = math.e
         else:
             Results.lognum = float(inp_dict['scale'])
-        print('Using log (%s) scale for visualization'%inp_dict['scale'])
+        logger.critical('Using log (%s) scale for visualization'%inp_dict['scale'])
 
     if 'Dihedral' not in inp_dict.keys():
         bf.dihedral_value = 30
-        print('Dihedral threshold set to 30')
+        logger.critical('Dihedral threshold set to 30')
     else:
-        print('Dihedral threshold set to '+inp_dict['Dihedral'])
+        logger.critical('Dihedral threshold set to '+inp_dict['Dihedral'])
         bf.dihedral_value = int(inp_dict['Dihedral'])
 
     if 'CRscale' not in inp_dict.keys():
         bf.CR_scale = 1.0
-        print('COVALENT_RADII scale set to 1.0 \n') #@
+        logger.critical('COVALENT_RADII scale set to 1.0' +' \n')
     else:
-        print('COVALENT_RADII scale set to '+inp_dict['CRscale'])
-        bf.CR_scale = float(inp_dict['CRscale']   +' \n') #@
+        logger.critical('COVALENT_RADII scale set to '+inp_dict['CRscale']+' \n')
+        bf.CR_scale = float(inp_dict['CRscale'] +' \n')
             
     if 'calculator' not in inp_dict.keys():
-        print('Warning: calculator was not given!')
-        print('Using g16 for this calculation!\n') #@
+        logger.warning('Warning: calculator was not given!')
+        logger.warning('Using g16 for this calculation!' +' \n')
         inp_dict['calculator'] = 'g16'
     else:
         if inp_dict['calculator'].lower() not in calculators:
-            print(inp_dict['calculator']+ ' was not supported!')
-            print('calculator available:')
-            print(calculators +' \n') #@
+            logger.error(inp_dict['calculator']+ ' was not supported!')
+            logger.error('calculator available:')
+            logger.error(calculators +' \n')
             sys.exit()
+        else:
+            logger.critical('Calculator: '+inp_dict['calculator']+' \n')
+
     if 'method' not in inp_dict.keys():
-        sys.exit('method was not given!')
+        logger.error('Error: method was not given!')
+        sys.exit()
     else:
-        print('method: '+inp_dict['method'])
+        logger.critical('method: '+inp_dict['method'])
         if inp_dict['method'] == '1':
-            print('fragmentation')
+            logger.critical('M1 (fragmentation) was used!')
             if 'fraglist' not in inp_dict.keys():
-                sys.exit('fraglist was not given!')
+                logger.error('Error: fraglist was not given!')
+                sys.exit()
             else:
-                print('%d fragments was given!'%len(inp_dict['fraglist']))
+                logger.critical('%d fragments was given:'%len(inp_dict['fraglist']))
+                logger.info(inp_dict['fraglist'])
         elif inp_dict['method'] == '2':
-            print('internal coordinates')
+            logger.critical('M2 (fragmentation) was used!')
             if 'include' not in inp_dict.keys():
                 inp_dict['include'] = []
-                print('No extral bonds/angles added')
+                logger.info('No extral internal coordinate(s) added')
             else:
-                print('%d bonds/angles added'%len(inp_dict['include']))
+                logger.info('%d internal coordinate(s) added:'%len(inp_dict['include']))
+                logger.info(inp_dict['include'])
             if 'exclude' not in inp_dict.keys():
                 inp_dict['exclude'] = []
-                print('No bonds/angles removed')
+                logger.info('No internal coordinate(s) removed')
             else:
-                print('%d bonds/angles removed'%len(inp_dict['exclude']))
+                logger.info('%d internal coordinate(s) removed:'%len(inp_dict['exclude']))
+                logger.info(inp_dict['exclude'])
         elif inp_dict['method'] == '3':
-            print('internal coordinates & fragmentation')
+            logger.critical('M3 (fragmentation) was used!')
             
             if 'fraglist' in inp_dict.keys() and 'coordination' in inp_dict.keys():
-                print('%d fragments was given!'%len(inp_dict['fraglist']))
-                print('%d coordination was given'%len(inp_dict['coordination']))
+                logger.info('%d fragments was given:'%len(inp_dict['fraglist']))
+                logger.info(inp_dict['fraglist'])
+                logger.info('')
+                logger.info('%d coordination was given:'%len(inp_dict['coordination']))
+                logger.info(inp_dict['coordination'])
                 
             elif 'fraglist' in inp_dict.keys() and 'coordination' not in inp_dict.keys():   
                 inp_dict['coordination'] = []
-                print('%d fragments was given!'%len(inp_dict['fraglist']))
-                print('No coordination list')
+                logger.info('%d fragments was given:'%len(inp_dict['fraglist']))
+                logger.info(inp_dict['fraglist'])
+                logger.info('')
+                logger.info('No coordination list')
             elif 'fraglist' not in inp_dict.keys() and 'coordination' in inp_dict.keys():
-                print('%d coordination was given'%len(inp_dict['coordination']))
+                logger.info('%d coordination was given:'%len(inp_dict['coordination']))
+                logger.info(inp_dict['coordination'])
                 inp_dict['fraglist'] = inp_dict['coordination']
             else:
-                sys.exit('fraglist/coordination was not given!')
+                logger.error('Error:fraglist/coordination was not given!')
+                logger.error('Means you want to use M2?')
+                sys.exit()
             
-            if 'coordination' not in inp_dict.keys():
-                inp_dict['coordination'] = []
-                print('No coordination list')
-            else:
-                print('%d coordination was given'%len(inp_dict['coordination']))
+            #if 'coordination' not in inp_dict.keys():
+            #    inp_dict['coordination'] = []
+            #    logger.info('No coordination list')
+            #else:
+            #    logger.info('%d coordination was given:'%len(inp_dict['coordination']))
+            #    logger.info(inp_dict['coordination'])
                 
             if 'include' not in inp_dict.keys():
                 inp_dict['include'] = []
-                print('No extral bonds/angles added')
+                logger.info('No extral internal coordinate(s) added')
             else:
-                print('%d bonds/angles added'%len(inp_dict['include']))
+                logger.info('%d internal coordinate(s) added:'%len(inp_dict['include']))
+                logger.info(inp_dict['include'])
             if 'exclude' not in inp_dict.keys():
                 inp_dict['exclude'] = []
-                print('No bonds/angles removed')
+                logger.info('No internal coordinate(s) removed')
             else:
-                print('%d bonds/angles removed'%len(inp_dict['exclude']))
+                logger.info('%d internal coordinate(s) removed:'%len(inp_dict['exclude']))
+                logger.info(inp_dict['exclude'])
             
             
         else:
-            sys.exit(inp_dict['method']+' was illegal!')
+            logger.error('Error: '+inp_dict['method']+' was illegal!')
+            sys.exit()
 
     inp_dict['method'] = int(inp_dict['method'])
-
+    logger.info('')
     if 'charge' not in inp_dict.keys():
         inp_dict['charge'] = []
-        print('\nAll atomic charge are 0!') #@
+        logger.info('All atomic charge are 0!')
     else:
-        print('%d atomic charge are defined!'%len(inp_dict['charge']))
+        logger.info('%d atomic charge are defined:'%len(inp_dict['charge']))
+        logger.info(inp_dict['charge'])
     
     if 'spin' not in inp_dict.keys():
         inp_dict['spin'] = []
-        print('All atomic spin are 0!')
+        logger.info('All atomic spin are 0!')
     else:
-        print('%d atomic spin are defined!'%len(inp_dict['spin']))
-
+        logger.info('%d atomic spin are defined:'%len(inp_dict['spin']))
+        logger.info(inp_dict['spin'])
+    logger.info('')
     if 'cpu' not in inp_dict.keys():
         inp_dict['cpu'] = 1
-        print('number cpu set to 1')
+        logger.info('Each sub-system computation will use 1 cpu')
     else:
-        print('number cpu set to '+inp_dict['cpu'])
+        logger.info('Each sub-system computation will use '+inp_dict['cpu']+' cpus')
         inp_dict['cpu'] = int(inp_dict['cpu'])
         
     
     
     if 'pal' not in inp_dict.keys():
         inp_dict['pal'] = 1
-        print('number pal set to 1\n') #@
+        logger.info('Parrallel computation is not used\n')
     else:
-        print('number pal set to '+inp_dict['pal'] +'\n') #@
+        logger.info(inp_dict['pal']+' subsystem calculations in parallel\n')
         inp_dict['pal'] = int(inp_dict['pal'])
 
     return inp_dict
@@ -250,7 +278,8 @@ def read_ref_conf(ref, conf):
         addpara['mlines'] = mlines_ref
         addpara['addlines'] = addlines_ref
     else:
-        sys.exit(reftype+' input is not supported for ref input!')
+        logger.error(reftype+' input is not supported for ref input!')
+        sys.exit()
 
     if conftype == '.gjf' or conftype == '.com':
         mlines_conf, elelist_conf, coords_conf, matrix_link_conf, addlines_conf= readgjf(conf)
@@ -260,10 +289,34 @@ def read_ref_conf(ref, conf):
     elif conftype == '.xyz':
         elelist_conf, coords_confs = readxyz(conf)
     else:
-        sys.exit(reftype+' input is not supported for ref input!')
+        logger.error(reftype+' input is not supported for ref input!')
+        sys.exit()
 
     if elelist_conf != elelist_ref:
-        sys.exit('ref and conf have different atom types!')
+        logger.error('ref and conf have different atom types!')
+        sys.exit()
+
+    num_atom = len(elelist_ref)
+    num_conf = coords_confs.shape[0]
+
+    logger.critical(' %d atoms in input structure !'%num_atom)
+
+    #logger coordinates
+    logger.info('')
+    logger.info('### Coordinates of reference structure ###')
+    for i in range(num_atom):
+        logger.info('%2s %14.6f %14.6f %14.6f'%(elelist_ref[i], coords_ref[i][0], coords_ref[i][1], coords_ref[i][2]))
+    logger.info('')
+
+    logger.critical(' %d structure in conformer input!'%num_conf)
+    if num_conf == 1:
+        logger.info('')
+        logger.info('### Coordinates of conformer structure ###')
+        for i in range(num_atom):
+            logger.info('%2s %14.6f %14.6f %14.6f'%(elelist_ref[i], coords_confs[0][i][0], coords_confs[0][i][1], coords_confs[0][i][2]))
+        logger.info('')
+    else:
+        logger.info('Multiple structures in conformer input!')
         
     return elelist_ref, coords_ref, coords_confs, matrix_link_ref, addpara
 
@@ -286,7 +339,8 @@ def readxyz(filename):
             i += natom+2
 
         else:
-            sys.exit('Error in the line %d of file %s'%(i+1, filename))
+            logger.error('Error in the line %d of file %s'%(i+1, filename))
+            sys.exit()
 
     coords = np.zeros((nummol,natom,3),dtype=float)
     
@@ -324,7 +378,7 @@ def readgjf(filename):
         matrix_link = linkmatrix(connlines)
     else:
         matrix_link = np.zeros((len(lines),len(lines)), dtype=float)
-        print('Warning: '+filename+' No connectivity information!\n') #@   
+        logger.warning('Warning: '+filename+' No connectivity information!\n')   
 
     #gen basis set
     addlines = []
@@ -366,7 +420,7 @@ def getcoords(lines):
         if linestr == '\n':
             return elelist, coords
         vartmp=linestr.split()
-        #print(vartmp[0])
+
         elelist.append(vartmp[0])
         coords[i][0]=float(vartmp[1])
         coords[i][1]=float(vartmp[2])
@@ -438,7 +492,7 @@ def read_bond_angle(extraf):
                 a2 = max(int(varstmp[0]),int(varstmp[3]))
                 extra_list.append([a1-1,int(varstmp[1])-1,int(varstmp[2])-1,a2-1])
             else:
-                print('Error: wrong format for bond/angle/torsion in '+linestr)
+                logger.error('Error: wrong format for bond/angle/torsion in '+linestr)
     return extra_list
 
 

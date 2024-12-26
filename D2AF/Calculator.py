@@ -5,10 +5,14 @@ import multiprocessing
 from D2AF.Molecule import Molecule
 import numpy as np
 
+import logging 
+
+logger = logging.getLogger('main.Calculator')
+
 try:
     import mlatom as ml
 except ImportError:
-    print('Warning: no mlatom module')
+    logger.warning('Warning: no mlatom module')
     pass
 
 try:
@@ -16,7 +20,7 @@ try:
     from xtb.interface import Calculator, Param
     xtbparm = Param.GFN2xTB
 except ImportError:
-    print('Warning: no xtb module')
+    logger.warning('Warning: no xtb module')
     pass
 
 try:
@@ -25,7 +29,7 @@ try:
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = None
 except ImportError:
-    print('Warning: no torchani module')
+    logger.warning('Warning: no torchani module')
     pass
 
 #try:
@@ -63,21 +67,20 @@ def calculate_mols(mols,calculator,addpara=None):
         os.system('export OMP_NUM_THREADS=%d'% bf.ncpu)
         os.system('export MKL_NUM_THREADS=%d'% bf.ncpu)
 
-        print('xTB computations begin at: '+time.asctime())
+        logger.critical('xTB computations begin at: '+time.asctime()+'\n')
         pool = multiprocessing.Pool(processes=bf.pal)
         Esp = pool.map(calculate_mol_xTB,mols)
         pool.close()
         pool.join()
-        print('xTB computations finish at: '+time.asctime())
-        print('')
+        logger.critical('xTB computations finish at: '+time.asctime()+'\n')
         return Esp
     elif calculator.lower() in ['aiqm1']:
-        print(calculator.lower()+' computations of begin at: '+time.asctime())
+        logger.critical(calculator.lower()+' computations of begin at: '+time.asctime()+'\n')
         Esp = []
         for mol in mols:
             Esp.append(calculate_mol_mlatom(mol))
-        print(calculator.lower()+' computations of finish at: '+time.asctime())
-        print('')
+        logger.critical(calculator.lower()+' computations of finish at: '+time.asctime()+'\n')
+
         return Esp
     elif calculator.lower() in ['ani-1x', 'ani-2x','ani-1ccx']:
         if calculator.lower() == 'ani-2x':
@@ -87,10 +90,10 @@ def calculate_mols(mols,calculator,addpara=None):
         elif calculator.lower() == 'ani-1x':
             model = torchani.models.ANI1x(periodic_table_index=True).to(device).double()
         else:
-            print('Error: Method not recognised, Using ANI2x instead')
+            logger.error('Error: Method not recognised, Using ANI2x instead\n')
             model = torchani.models.ANI2x(periodic_table_index=True).to(device).double()
         
-        print(calculator.lower()+' computations of begin at: '+time.asctime())
+        logger.critical(calculator.lower()+' computations of begin at: '+time.asctime()+'\n')
         #pool = multiprocessing.Pool(processes=bf.pal)
         #Esp = pool.map(calculate_mol_ANI,mols)
         #pool.close()
@@ -98,14 +101,15 @@ def calculate_mols(mols,calculator,addpara=None):
         Esp = []
         for mol in mols:
             Esp.append(calculate_mol_ANI(mol))
-        print(calculator.lower()+' computations of finish at: '+time.asctime())
-        print('')
-        
+        logger.critical(calculator.lower()+' computations of finish at: '+time.asctime()+'\n')
+
         return Esp
     elif calculator.lower() == 'orca':
-        print(calculator.lower()+' computations of begin at: '+time.asctime())
-        return calculate_mol_Orca(mols, addpara)
-    elif calculator.lower() == 'no':
+        logger.critical(calculator.lower()+' computations of begin at: '+time.asctime()+'\n')
+        Esp = calculate_mol_Orca(mols, addpara)
+        logger.critical(calculator.lower()+' computations of finish at: '+time.asctime()+'\n')
+        return Esp
+    elif calculator.lower() == 'nocalc':
         return calculate_mols_nocalc(mols)
     else:
         raise ValueError('Unknown calculator: {}'.format(calculator))
@@ -116,7 +120,7 @@ def calculate_mols_nocalc(mols):
         pass
     else:
         os.mkdir('tmpdir')
-        print("tmpdir has been created.")
+        logger.critical("tmpdir has been created.")
         
     #generate fragment xyz
     for i, mol in enumerate(mols):
@@ -145,11 +149,13 @@ def calculate_mols_nocalc(mols):
                 lines = fr.readlines()
                 Esp[i] = float(lines[0].split()[0])
             except:
-                print('Error in reading energy data from %s'%name_i)
-                print('Only energy value in a.u. unit in %s'%name_i)
+                logger.error('Error in reading energy data from %s\n'%name_i)
+                logger.error('Only energy value in a.u. unit in %s\n'%name_i)
             fr.close()
         else:
-            continue
+            logger.error('No log file for %s\n'%name_i)
+            return Esp
+    return Esp
 '''
 methods_map = {
     'aiqm1': ['AIQM1', 'AIQM1@DFT', 'AIQM1@DFT*'],
@@ -212,17 +218,15 @@ def calculate_mol_Gaussian(mols, addpara=None):
         addlines = []
     gjfnames = write_mols_gjf(mols, mlines, addlines)
     
-    print('%d Gaussian '%len(mols)+ ' gjfs have been created!')
-    print('Gaussian computations begin at: '+time.asctime())
-    print('')
+    logger.critical('%d Gaussian '%len(mols)+ ' gjfs have been created!')
+    logger.critical('Gaussian computations begin at: '+time.asctime()+'\n')
     
     #parallel computation for all gjfs
     pool = multiprocessing.Pool(processes=bf.pal)
     Esp = pool.map(RunGaussian,gjfnames)
     pool.close()
     pool.join()
-    print('Gaussian computations finish at: '+time.asctime())
-    print('')
+    logger.critical('Gaussian computations finish at: '+time.asctime()+'\n')
     return Esp
 
 def write_mols_gjf(mols, mlines, addlines=''):
@@ -231,7 +235,7 @@ def write_mols_gjf(mols, mlines, addlines=''):
         #print('tmpdir already exits')
     else:
         os.mkdir('tmpdir')
-        print("tmpdir has been created.")
+        logger.critical("tmpdir has been created.")
     
     gjfnames = []
     for i, mol in enumerate(mols):
@@ -264,12 +268,11 @@ def RunGaussian(gjfname):
     ene_sp = 0.0
     name,tfile=os.path.splitext(gjfname)
     if os.path.exists(name+'.log'):
-        print(name+'.log exsits, skipt the computation!')
+        logger.info(name+'.log exsits, skipt the computation!')
         ene_sp = GetGaussiansp(name+'.log')
     else:
         os.system(Gauexe+' < '+gjfname+'> '+name+'.log')
         ene_sp = GetGaussiansp(name+'.log')
-    print('Gauusian job('+gjfname+') ends at: '+time.asctime())
     return ene_sp
 
 #get gaussian energy
@@ -299,9 +302,9 @@ def GetGaussiansp(outname):
             energy = lines[loc].split()[2]
             return float(energy)
         except IndexError:
-            print('Energy not found in %s file!'%outname)              #help check the bug   
-            print(errlines)
-            print('')
+            logger.error('Error: Energy not found in %s file!'%outname)              #help check the bug   
+            logger.error(errlines)
+            logger.error('')
 
 
 #orca calculate
@@ -316,7 +319,7 @@ def calculate_mol_Orca(mols, addpara=None):
         #print('tmpdir already exits')
     else:
         os.mkdir('tmpdir')
-        print("tmpdir has been created.")
+        logger.critical("tmpdir has been created.")
 
     orca_inps = [] 
     for i, mol in enumerate(mols):
@@ -349,8 +352,6 @@ def calculate_mol_Orca(mols, addpara=None):
     Esp = pool.map(Run_Orca,orca_inps)
     pool.close()
     pool.join()
-    print('Orca computations finish at: '+time.asctime())
-    print('')
     return Esp
 
     #Esp = []
@@ -390,7 +391,7 @@ def Get_Orca_SP(outname):
         energy = lines[loc].split()[-1]
         return float(energy)           
     except IndexError:
-        print('Energy not found in %s file!'%outname)              #help check the bug   
-        print(errlines)
-        print('')
+        logger.error('Error: Energy not found in %s file!'%outname)              #help check the bug   
+        logger.error(errlines)
+
 

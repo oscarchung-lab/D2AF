@@ -7,14 +7,14 @@ packages = setuptools.find_packages(exclude=["tests"])
 
 setuptools.setup(
     name="D2AF",
-    version="1.0.3",
+    version="1.1.0",
     description="Distortion Distribution Analysis enabled by Fragmentation",
     authors="Zeyin YAN, Yunteng Liao, Lung Wa CHUNG",
     author_email="yanzy@sustech.edu.cn",
     long_description=long_description,
     long_description_content_type="text/markdown",
     python_requires="~=3.9",
-    url = "",
+    url = "https://github.com/yanjordan/D2AF",
     packages=["D2AF"],
     include_package_data=True,
     #install_requires = ['argparse','numpy','openbabel','itertools','copy','pandas','time','re','torch','torchani','xtb-python'],
