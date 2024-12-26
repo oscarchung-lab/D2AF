@@ -1,0 +1,229 @@
+This job is running on host node95
+Current directory: 
+Thu Dec 26 10:50:39 CST 2024
+/tmp/103470.mgr
+       Distortion Distribution Analysis enabled by Fragmentation   
+
+                             *****************                     
+                             * D   2   A   F *                     
+                             *    V 1.1.0    *                     
+                             *****************                     
+
+                  ######     ######       #      #########         
+                  ##   ##   ##    ##    ## ##    ##                
+                  ##    ##        ##   ##   ##   ##                
+                  ##    ##       ##   ##     ##  #######           
+                  ##    ##     ##     #########  ##                
+                  ##   ##    ##       ##     ##  ##                
+                  ######    ########  ##     ##  ##                
+
+
+         ########################################################  
+         #                        -***-                         #  
+         #                   OscarChung lab,                    #  
+         #               Shenzhen Grubbs Institute,             #  
+         #              Department of Chemistry and             #  
+         #   Guangdong Provincial Key Laboratory of Catalysis,  #  
+         #     Southern University of Science and Technology,   #  
+         #                 Shenzhen 518055,                     #  
+         #                       China                          #  
+         #                                                      #  
+         #                  All rights reserved                 #  
+         #                        -***-                         #  
+         ########################################################  
+
+
+With contributions from Zeyin YAN, Yunteng. Sam Liao, and Lung Wa Chung
+
+
+Citations
+    Z. Yan, Y. S. Liao, X. Li  and L. W. Chung,Chem. Sci., 2025, DOI: 10.1039/D4SC07226J.
+
+    Distortion/Interaction-Activation Strain Model:
+    Nagase, S. Morokuma, K. J. Am. Chem. Soc., 1978, 100, 1666-1672. DOI: 10.1021/ja00474a005
+    Fernandez, I.; Bickelhaupt, F. M. Chem. Soc. Rev., 2014, 43, 4953-4967. DOI: 10.1039/C4CS00055B
+    Bickelhaupt, F. M.; Houk, K. N. Angew. Chem., Int. Ed., 2017, 56, 10070-10086. DOI: 10.1002/anie.201701486
+    Ess, D. H.; Houk, K. J. Am. Chem. Soc., 2007, 129, 10646-10647. DOI: 10.1021/ja0734086
+
+    ONIOM Link-atom Treatment:
+    Chung, L. W.; Sameera, W. M. C.; Ramozzi, R.; Page, A. J.; Hatanaka, M.; Petrova, G. P.; Harris, T. V.; 
+    Li, X.; Ke, Z.; Liu, F.; Li, H.-B.; Ding, L. Morokuma, K. Chem. Rev. 2015, 115, 5678. DOI: 10.1021/cr5004419
+    
+
+log level: INFO
+
+Job begins at: Thu Dec 26 10:50:50 2024
+
+*************** Input Parameters:***************
+
+Input reference file: 4F-reactant.gjf
+Input Conformer file: TS-4F.gjf 
+
+Using log (10) scale for visualization
+Dihedral threshold set to 30
+COVALENT_RADII scale set to 1.0 
+
+Calculator: nocalc 
+
+method: 2
+M2 (fragmentation) was used!
+1 internal coordinate(s) added:
+[[0, 3, 13, 10]]
+No internal coordinate(s) removed
+
+All atomic charge are 0!
+All atomic spin are 0!
+
+Each sub-system computation will use 4 cpus
+6 subsystem calculations in parallel
+
+ 16 atoms in input structure !
+
+### Coordinates of reference structure ###
+ C      -2.581978      -0.045798       0.065521
+ C      -3.586639      -0.684453      -0.137110
+ H      -4.474630      -1.247165      -0.314453
+ C      -1.354410       0.714704       0.303001
+ H      -1.242090       0.895439       1.381546
+ H      -1.446643       1.706693      -0.162488
+ N       2.361301       0.126334      -0.488845
+ O       2.658583      -0.967636       0.413970
+ H       2.639689      -1.734523      -0.179515
+ H       3.162444       0.745811      -0.356766
+ C       1.175805       0.813726       0.033333
+ H       1.131503       1.778183      -0.492214
+ H       1.271413       1.023758       1.111676
+ C      -0.093708       0.006563      -0.233217
+ H      -0.194808      -0.165380      -1.311007
+ H       0.000930      -0.974522       0.244205
+
+ 1 structure in conformer input!
+
+### Coordinates of conformer structure ###
+ C      -0.283543       1.141635       0.087745
+ C      -1.466294       1.463331      -0.195954
+ H      -2.000348       2.337154      -0.530874
+ C       1.203469       1.185098       0.127962
+ H       1.550511       1.841116      -0.679778
+ H       1.550479       1.641516       1.063623
+ N      -0.438663      -0.825099       0.425095
+ O      -1.703767      -1.085785      -0.001448
+ H      -2.016233      -0.050577      -0.150948
+ H      -0.335983      -1.086226       1.406036
+ C       0.688725      -1.221405      -0.411071
+ H       0.360508      -1.078281      -1.443502
+ H       0.980061      -2.270763      -0.276290
+ C       1.813571      -0.243215      -0.026059
+ H       2.261587      -0.562029       0.922976
+ H       2.614626      -0.262604      -0.771066
+
+Dihedral between atoms (8, 7, 11, 14): varies by 131.1 degrees
+Dihedral between atoms (4, 14, 11, 7): varies by 138.3 degrees
+Dihedral between atoms (11, 14, 4, 1): varies by 170.8 degrees
+Dihedral between atoms (2, 1, 4, 14): varies by 138.8 degrees
+4 dihedral angles vary more than 30 degrees
+
+
+*************** Fragmentation: ***************
+### Internal coordinates list: ###
+1 2 
+1 4 
+2 1 4 
+2 3 
+1 2 3 
+4 5 
+4 6 
+4 14 
+1 4 5 
+1 4 6 
+1 4 14 
+5 4 6 
+5 4 14 
+6 4 14 
+7 8 
+7 10 
+7 11 
+8 7 10 
+8 7 11 
+10 7 11 
+8 9 
+7 8 9 
+11 12 
+11 13 
+11 14 
+7 11 12 
+7 11 13 
+7 11 14 
+12 11 13 
+12 11 14 
+13 11 14 
+14 15 
+14 16 
+4 14 11 
+4 14 15 
+4 14 16 
+11 14 15 
+11 14 16 
+15 14 16 
+0 3 13 10
+Fragments list are saved in 4F_M2_fragments_info.dat
+
+Structures of subsystems are saved as Ref_M2.xyz and Conf_M2.xyz!
+
+*************** Energy Calculation:***************
+Reference Structure:
+
+No log file for tmpdir/M2_ref_0.log
+
+Conformer:
+
+No log file for tmpdir/M2_conf_0_0.log
+
+
+*************** Resutls:***************
+Strain energies are saved in 4F_M2_M2.xlsx
+
+
+        frag_id   ID      atoms  strain   delta
+0    intcoord_0   B1        1,2     0.0    0.05
+1    intcoord_1   B2        1,4     0.0    0.02
+2    intcoord_3   B3        2,3     0.0    0.01
+3    intcoord_5   B4        4,5     0.0   -0.00
+4    intcoord_6   B5        4,6     0.0   -0.00
+5    intcoord_7   B6       4,14     0.0    0.02
+6   intcoord_14   B7        7,8     0.0   -0.09
+7   intcoord_15   B8       7,10     0.0   -0.00
+8   intcoord_16   B9       7,11     0.0   -0.01
+9   intcoord_20  B10        8,9     0.0    0.12
+10  intcoord_22  B11      11,12     0.0   -0.01
+11  intcoord_23  B12      11,13     0.0   -0.01
+12  intcoord_24  B13      11,14     0.0    0.01
+13  intcoord_31  B14      14,15     0.0    0.00
+14  intcoord_32  B15      14,16     0.0   -0.00
+15   intcoord_2   A1      2,1,4     0.0  -19.60
+16   intcoord_4   A2      1,2,3     0.0  -41.90
+17   intcoord_8   A3      1,4,5     0.0   -1.00
+18   intcoord_9   A4      1,4,6     0.0    1.30
+19  intcoord_10   A5     1,4,14     0.0   -1.80
+20  intcoord_11   A6      5,4,6     0.0    0.20
+21  intcoord_12   A7     5,4,14     0.0    1.10
+22  intcoord_13   A8     6,4,14     0.0    0.30
+23  intcoord_17   A9     8,7,10     0.0    7.70
+24  intcoord_18  A10     8,7,11     0.0   11.80
+25  intcoord_19  A11    10,7,11     0.0    6.10
+26  intcoord_21  A12      7,8,9     0.0   -4.90
+27  intcoord_25  A13    7,11,12     0.0    0.00
+28  intcoord_26  A14    7,11,13     0.0    1.70
+29  intcoord_27  A15    7,11,14     0.0   -6.80
+30  intcoord_28  A16   12,11,13     0.0    1.00
+31  intcoord_29  A17   12,11,14     0.0    1.60
+32  intcoord_30  A18   13,11,14     0.0    2.40
+33  intcoord_33  A19    4,14,11     0.0   -3.40
+34  intcoord_34  A20    4,14,15     0.0    0.10
+35  intcoord_35  A21    4,14,16     0.0    2.40
+36  intcoord_36  A22   11,14,15     0.0   -0.10
+37  intcoord_37  A23   11,14,16     0.0    1.70
+38  intcoord_38  A24   15,14,16     0.0   -0.70
+39  intcoord_39   D1  1,4,14,11     0.0 -170.80
+Job ends at: Thu Dec 26 10:50:50 2024
+Thu Dec 26 10:50:51 CST 2024

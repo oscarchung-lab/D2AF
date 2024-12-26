@@ -1017,7 +1017,8 @@ def print_head():
         "",
         "",
         "With contributions from Zeyin YAN, Yunteng. Sam Liao, and Lung Wa Chung",
-        ""
+        "",
+        "Tutorial and source code are available at https://github.com/oscarchung-lab/D2AF"
     ]
 
     reference = '''Citations
