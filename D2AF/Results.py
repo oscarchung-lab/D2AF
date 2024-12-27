@@ -23,8 +23,8 @@ def xlsx2pml(method, mol_file, xlsx):
         if len(sheet_names) == 1:
             df = pd.read_excel(xlsx, sheet_name='fragcut',index_col=0)
 
-            atomsstr = df['fragatom'].tolist()
-            strainstr = df['strain'].tolist()
+            atomsstr = df['fragatoms'].tolist()
+            strainstr = df['Distortion E'].tolist()
             fraglist = [bf.str2list(str) for str in atomsstr]
             strain = [float(x) for x in strainstr]
             
@@ -36,8 +36,8 @@ def xlsx2pml(method, mol_file, xlsx):
             strain_frags = []
             for i in range(len(sheet_names)):
                 df = pd.read_excel(xlsx, sheet_name='fragcut_%d'%i,index_col=0)
-                atomsstr = df['fragatom'].tolist()
-                strainstr = df['strain'].tolist()
+                atomsstr = df['fragatoms'].tolist()
+                strainstr = df['Distortion E'].tolist()
                 
                 fraglist = [bf.str2list(str) for str in atomsstr]
                 strain = [float(x) for x in strainstr]
@@ -54,7 +54,7 @@ def xlsx2pml(method, mol_file, xlsx):
         if len(sheet_names) == 1:
             df = pd.read_excel(xlsx, sheet_name='intcoord',index_col=0)
             atomsstr = df['atoms'].tolist()
-            strainstr = df['strain'].tolist()
+            strainstr = df['Distortion E'].tolist()
             deltastr = df['delta'].tolist()
 
             internals = [bf.str2list(str) for str in atomsstr]
@@ -71,7 +71,7 @@ def xlsx2pml(method, mol_file, xlsx):
             for i in range(len(sheet_names)):
                 df = pd.read_excel(xlsx, sheet_name='intcoord_%d'%i,index_col=0)
                 atomsstr = df['atoms'].tolist()
-                strainstr = df['strain'].tolist()
+                strainstr = df['Distortion E'].tolist()
                 deltastr = df['delta'].tolist()
 
                 internals = [bf.str2list(str) for str in atomsstr]
@@ -93,15 +93,15 @@ def xlsx2pml(method, mol_file, xlsx):
             df1 = pd.read_excel(xlsx, sheet_name='intcoord',index_col=0)
             df2 = pd.read_excel(xlsx, sheet_name='fragcut',index_col=0)
             atomsstr = df1['atoms'].tolist()
-            strainstr = df1['strain'].tolist()
+            strainstr = df1['Distortion E'].tolist()
             deltastr = df1['delta'].tolist()
 
             internals = [bf.str2list(str) for str in atomsstr]
             strain = [float(x) for x in strainstr]
             delta = [float(x) for x in deltastr]
 
-            frag_str = df2['fragatom'].tolist()
-            frag_strainstr = df2['strain'].tolist()
+            frag_str = df2['fragatoms'].tolist()
+            frag_strainstr = df2['Distortion E'].tolist()
 
             fraglist = [bf.str2list(str) for str in frag_str]
             frag_strain = [float(x) for x in frag_strainstr]
@@ -119,15 +119,15 @@ def xlsx2pml(method, mol_file, xlsx):
                 df1 = pd.read_excel(xlsx, sheet_name='intcoord_%d'%i,index_col=0)
                 df2 = pd.read_excel(xlsx, sheet_name='fragcut_%d'%i,index_col=0)
                 atomsstr = df1['atoms'].tolist()
-                strainstr = df1['strain'].tolist()
+                strainstr = df1['Distortion E'].tolist()
                 deltastr = df1['delta'].tolist()
 
                 internals = [bf.str2list(str) for str in atomsstr]
                 strain = [float(x) for x in strainstr]
                 delta = [float(x) for x in deltastr]
 
-                frag_str = df2['fragatom'].tolist()
-                frag_strainstr = df2['strain'].tolist()
+                frag_str = df2['fragatoms'].tolist()
+                frag_strainstr = df2['Distortion E'].tolist()
                 
                 fraglist = [bf.str2list(str) for str in frag_str]
                 frag_strain = [float(x) for x in frag_strainstr]
@@ -164,21 +164,21 @@ def update_xlsx_ene(method, xlsx, ene_dat):
         if len(sheet_names) == 1:
             df = pd.read_excel(xlsx, sheet_name='fragcut')
             frag_id = df['frag_id'].tolist()
-            atomsstr = df['fragatom'].tolist()
+            atomsstr = df['fragatoms'].tolist()
             strain = Get_deltaE(frag_id, ene_dict, 'M1', 0)
             strain_ene = np.around(np.array(strain),2) 
-            df = pd.DataFrame({'frag_id':frag_id,'fragatom':atomsstr,'strain':strain_ene})
+            df = pd.DataFrame({'frag_id':frag_id,'fragatoms':atomsstr,'Distortion E':strain_ene})
             df.to_excel(writer, sheet_name="fragcut", index=False)
             writer.close()
         else:
             for j in range(len(sheet_names)):
                 df = pd.read_excel(xlsx, sheet_name="fragcut_%d"%j)
                 frag_id = df['frag_id'].tolist()
-                atomsstr = df['fragatom'].tolist()
+                atomsstr = df['fragatoms'].tolist()
                 strain = Get_deltaE(frag_id, ene_dict, 'M1', j)
 
                 strain_ene = np.around(np.array(strain),2) 
-                df = pd.DataFrame({'frag_id':frag_id,'fragatom':atomsstr,'strain':strain_ene})
+                df = pd.DataFrame({'frag_id':frag_id,'fragatoms':atomsstr,'Distortion E':strain_ene})
                 df.to_excel(writer, sheet_name="fragcut_%d"%j, index=False)
             writer.close()
     elif method == 2:
@@ -191,7 +191,7 @@ def update_xlsx_ene(method, xlsx, ene_dat):
             strain = Get_deltaE(frag_id, ene_dict, 'M2', 0)
 
             strain_ene = np.around(np.array(strain),2) 
-            df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'strain':strain_ene,'delta':delta })
+            df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'Distortion E':strain_ene,'delta':delta })
             df.to_excel(writer, sheet_name="intcoord", index=False)
             writer.close()
         else:
@@ -204,7 +204,7 @@ def update_xlsx_ene(method, xlsx, ene_dat):
                 strain = Get_deltaE(frag_id, ene_dict, 'M2', j)
 
                 strain_ene = np.around(np.array(strain),2) 
-                df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'strain':strain_ene,'delta':delta })
+                df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'Distortion E':strain_ene,'delta':delta })
                 df.to_excel(writer, sheet_name="intcoord_%d"%j, index=False)
             writer.close()
     elif method == 3:
@@ -220,17 +220,17 @@ def update_xlsx_ene(method, xlsx, ene_dat):
 
             strain_ene = np.around(np.array(strain),2) 
             
-            df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'strain':strain_ene,'delta':delta })
+            df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'Distortion E':strain_ene,'delta':delta })
             df.to_excel(writer, sheet_name="intcoord", index=False)
 
             #fragcut sheet
             df = pd.read_excel(xlsx, sheet_name='fragcut')
             frag_id = df['frag_id'].tolist()
-            atomsstr = df['fragatom'].tolist()
+            atomsstr = df['fragatoms'].tolist()
             strain = Get_deltaE(frag_id, ene_dict, 'M3_frag', 0)
 
             strain_ene = np.around(np.array(strain),2) 
-            df = pd.DataFrame({'frag_id':frag_id,'fragatom':atomsstr,'strain':strain_ene})
+            df = pd.DataFrame({'frag_id':frag_id,'fragatoms':atomsstr,'Distortion E':strain_ene})
             df.to_excel(writer, sheet_name="fragcut", index=False)
 
             writer.close()
@@ -248,17 +248,17 @@ def update_xlsx_ene(method, xlsx, ene_dat):
 
                 strain_ene = np.around(np.array(strain),2) 
                 
-                df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'strain':strain_ene,'delta':delta })
+                df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atomsstr,'Distortion E':strain_ene,'delta':delta })
                 df.to_excel(writer, sheet_name="intcoord_%d"%j, index=False)
 
                 #fragcut sheet
                 df = pd.read_excel(xlsx, sheet_name="fragcut_%d"%j)
                 frag_id = df['frag_id'].tolist()
-                atomsstr = df['fragatom'].tolist()
+                atomsstr = df['fragatoms'].tolist()
                 strain = Get_deltaE(frag_id, ene_dict, 'M3_frag', j)
 
                 strain_ene = np.around(np.array(strain),2) 
-                df = pd.DataFrame({'frag_id':frag_id,'fragatom':atomsstr,'strain':strain_ene})
+                df = pd.DataFrame({'frag_id':frag_id,'fragatoms':atomsstr,'Distortion E':strain_ene})
                 df.to_excel(writer, sheet_name="fragcut_%d"%j, index=False)
             writer.close()
     else:
