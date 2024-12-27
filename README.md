@@ -127,6 +127,7 @@ where coord is any xyz file or Gaussian gjf file with/without connectivity. It w
 ```         
     D2AF -d M1.xlsx -m 1  -f pymol/Conf.xyz -e xxx.dat
 ``` 
+where xxx.dat is the energy data file with all QM-computed energies of all fragments, Conf.xyz is the target's XYZ file, "-m 1" is the choice of the fragmentation schemes (1-3). 
         
 3. Run D2AF again to do analysis only, after the QC results are extracted in the above step 2 by users (**setting "calculator=nocalc" in the D2AF input file**). E.g.,
 ```         
