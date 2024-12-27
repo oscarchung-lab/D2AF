@@ -416,13 +416,13 @@ def fragresult2xlsx(fraglist,strain,name=''):
 
     strain_ene = np.around(np.array(strain),2) 
     writer = pd.ExcelWriter(bf.jobname+'_M1'+name+'.xlsx')
-    df = pd.DataFrame({'frag_id':frag_id,'fragatom':atom_str,'strain':strain_ene})
+    df = pd.DataFrame({'frag_id':frag_id,'fragatoms':atom_str,'Distortion E':strain_ene})
     df.to_excel(writer, sheet_name="fragcut", index=False)
     writer.close()
 
     logger.critical('')
     logger.critical('*************** Resutls:***************')
-    logger.critical('Strain energies are saved in '+bf.jobname+'_M1'+name+'.xlsx \n')
+    logger.critical('Distortion energies are saved in '+bf.jobname+'_M1'+name+'.xlsx \n')
         
     logger.info("\n%s", df.to_string())
     
@@ -439,11 +439,11 @@ def fragresults2xlsx(fraglist,strain_all,name=''):
 
         strain_ene = np.around(np.array(strain),2) 
         
-        df = pd.DataFrame({'frag_id':frag_id,'fragatom':atom_str,'strain':strain_ene})
+        df = pd.DataFrame({'frag_id':frag_id,'fragatoms':atom_str,'Distortion E':strain_ene})
         df.to_excel(writer, sheet_name="fragcut_%d"%j, index=False)
     writer.close()
     
-    logger.critical('Strain energies of multiple conformers (%d) are saved in '%len(strain_all)+bf.jobname+'_M1_'+name+'.xlsx\n')
+    logger.critical('Distortion energies of multiple conformers (%d) are saved in '%len(strain_all)+bf.jobname+'_M1_'+name+'.xlsx\n')
           
     logger.info("\n%s", df.to_string())
 
@@ -496,13 +496,13 @@ def bondcutresult2xlsx(internal_list,strain,delta_values,name=''):
     delta_AB = list(deltaB_len) + list(deltaA_ang) + list(deltaD_tor)
     frag_id = frag_idB + frag_idA + frag_idD
     writer = pd.ExcelWriter(bf.jobname+'_M2'+name+'.xlsx')
-    df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atoms,'strain':strain_AB,'delta':delta_AB })
+    df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atoms,'Distortion E':strain_AB,'delta':delta_AB })
     df.to_excel(writer, sheet_name="intcoord", index=False)
     writer.close()
     logger.critical('')
     logger.critical('*************** Resutls:***************')
 
-    logger.critical('Strain energies are saved in '+bf.jobname+'_M2'+name+'.xlsx\n')
+    logger.critical('Distortion energies are saved in '+bf.jobname+'_M2'+name+'.xlsx\n')
         
     logger.info("\n%s", df.to_string())
 
@@ -559,10 +559,10 @@ def bondcutresults2xlsx(internal_list,strain_all,delta_values_all,name=''):
         delta_AB = list(deltaB_len) + list(deltaA_ang) + list(deltaD_tor)
         frag_id = frag_idB + frag_idA + frag_idD
         
-        df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atoms,'strain':strain_AB,'delta':delta_AB })
+        df = pd.DataFrame({'frag_id':frag_id,'ID':idlist,'atoms':atoms,'Distortion E':strain_AB,'delta':delta_AB })
         df.to_excel(writer, sheet_name="intcoord_%d"%j, index=False)
     writer.close()
-    logger.critical('Strain energies of multiple conformers (%d) are saved in '%len(strain_all)+bf.jobname+'_M2'+name+'.xlsx\n')
+    logger.critical('Distortion energies of multiple conformers (%d) are saved in '%len(strain_all)+bf.jobname+'_M2'+name+'.xlsx\n')
         
   
     
@@ -616,14 +616,14 @@ def bondcutfragresult2xlsx(internal_list,strain,delta_values,fraglist,strain_fra
     bondcut_id = bondcut_idB + bondcut_idA + bondcut_idD
 
     writer = pd.ExcelWriter(bf.jobname+'_M3'+name+'.xlsx')
-    df = pd.DataFrame({'frag_id':bondcut_id,'ID':idlist,'atoms':atoms,'strain':strain_AB,'delta':delta_AB })
+    df = pd.DataFrame({'frag_id':bondcut_id,'ID':idlist,'atoms':atoms,'Distortion E':strain_AB,'delta':delta_AB })
     df.to_excel(writer, sheet_name="intcoord", index=False)
     
     logger.critical('')
     logger.critical('*************** Resutls:***************')
-    logger.critical('Strain energies are saved in '+bf.jobname+'_M3'+name+'.xlsx\n')
+    logger.critical('Distortion energies are saved in '+bf.jobname+'_M3'+name+'.xlsx\n')
 
-    logger.info('## Strain energies of internal coordinates ##')
+    logger.info('## Distortion energies of internal coordinates ##')
     logger.info("\n%s", df.to_string())    
     logger.info('')
     #frag
@@ -634,7 +634,7 @@ def bondcutfragresult2xlsx(internal_list,strain,delta_values,fraglist,strain_fra
         frag_id.append('frag_%d'%i)
 
     strain_ene = np.around(np.array(strain_frag),2) 
-    df = pd.DataFrame({'frag_id':frag_id,'fragatom':atom_str,'strain':strain_ene})
+    df = pd.DataFrame({'frag_id':frag_id,'fragatoms':atom_str,'Distortion E':strain_ene})
     df.to_excel(writer, sheet_name="fragcut", index=False)
 
     writer.close()
@@ -703,18 +703,18 @@ def bondcutfragresults2xlsx(internal_list,strain_all,delta_values_all,fraglist,s
         bondcut_id = bondcut_idB + bondcut_idA + bondcut_idD
 
         
-        df = pd.DataFrame({'frag_id':bondcut_id,'ID':idlist,'atoms':atoms,'strain':strain_AB,'delta':delta_AB })
+        df = pd.DataFrame({'frag_id':bondcut_id,'ID':idlist,'atoms':atoms,'Distortion E':strain_AB,'delta':delta_AB })
         df.to_excel(writer, sheet_name="intcoord_%d"%j, index=False)
         
         
 
         strain_ene = np.around(np.array(strain_frag_all[j]),2) 
-        df = pd.DataFrame({'frag_id':frag_id,'fragatom':atom_str,'strain':strain_ene})
+        df = pd.DataFrame({'frag_id':frag_id,'fragatoms':atom_str,'Distortion E':strain_ene})
         df.to_excel(writer, sheet_name="fragcut_%d"%j, index=False)
 
     writer.close()
 
-    logger.critical('Strain energies of multiple conformers (%d) are saved in '%len(strain_all)*2+bf.jobname+'_M3'+name+'.xlsx\n')
+    logger.critical('Distortion energies of multiple conformers (%d) are saved in '%len(strain_all)*2+bf.jobname+'_M3'+name+'.xlsx\n')
     
     
 def molecule2xyz(mol,molname):
