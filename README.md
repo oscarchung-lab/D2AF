@@ -93,9 +93,10 @@ Quantum Chemical (QC) calculation packages:
 *Optional: to check any large diheral difference bewteen the reference and target forms by Openbabel. If detecting any large diheral difference(s), modify **fraglist** for **M1** or add **#include** for **M1 or M2*** e.g.
 
     check_dihedral ABC-ref.gjf ABC-conf.gjf
-    check_dihedral ABC-ref.gjf ABC-conf.gjf thershold(optional)
+    or
+    check_dihedral ABC-ref.gjf ABC-conf.gjf thershold
     
-where ABC-ref.gjf & ABC-conf.gjf are any xyz or Gaussian gjf files for the reference and target forms. A value is the thershold (optional) for the large diheral(s) to be printed. 
+where ABC-ref.gjf & ABC-conf.gjf are any xyz or Gaussian gjf files for the reference and target forms. The thershold (optional) is a value to detect the large diheral(s) & print them out. By default, a value of 30 deg. is used, if the thershold is not given.  
 
 *Optional: to generate suggestive fragmentation list for **M1 or M3*** e.g.
 
