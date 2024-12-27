@@ -93,9 +93,10 @@ Quantum Chemical (QC) calculation packages:
 *Optional: to check any large diheral difference bewteen the reference and target forms by Openbabel. If detecting any large diheral difference(s), modify **fraglist** for **M1** or add **#include** for **M1 or M2*** e.g.
 
     check_dihedral ABC-ref.gjf ABC-conf.gjf
-    check_dihedral ABC-ref.gjf ABC-conf.gjf thershold(optional)
+    or
+    check_dihedral ABC-ref.gjf ABC-conf.gjf thershold
     
-where ABC-ref.gjf & ABC-conf.gjf are any xyz or Gaussian gjf files for the reference and target forms. A value is the thershold (optional) for the large diheral(s) to be printed. 
+where ABC-ref.gjf & ABC-conf.gjf are any xyz or Gaussian gjf files for the reference and target forms. The thershold (optional) is a value to detect the large diheral(s) & print them out. By default, a value of 30 deg. is used, if the thershold is not given.  
 
 *Optional: to generate suggestive fragmentation list for **M1 or M3*** e.g.
 
@@ -126,6 +127,7 @@ where coord is any xyz file or Gaussian gjf file with/without connectivity. It w
 ```         
     D2AF -d M1.xlsx -m 1  -f pymol/Conf.xyz -e xxx.dat
 ``` 
+where xxx.dat is the energy data file with all QM-computed energies of all fragments, Conf.xyz is the target's XYZ file, "-m 1" is the choice of the fragmentation schemes (1-3). 
         
 3. Run D2AF again to do analysis only, after the QC results are extracted in the above step 2 by users (**setting "calculator=nocalc" in the D2AF input file**). E.g.,
 ```         
