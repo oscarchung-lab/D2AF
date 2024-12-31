@@ -197,6 +197,7 @@ D2AF input file example:
 **coordination**: **for M3**, define the metal coordination center/region (same listing format as fraglist). Some molecular editors (e.g., Gaussview {Tools --> Atom Groups}, pymol (see below commands), VMD) may easily set the coordination sphere and get the list of these atoms involved
 
 *Get a atom list of your objectname (e.g. ABC) by pymol:*
+# f=open('IDlist.txt','w')  # uncomment if you wanna write in a file)
 stored.ID = []
 iterate ("ABC"), stored.ID.append(ID)
 print(stored.ID)  
