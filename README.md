@@ -192,9 +192,9 @@ D2AF input file example:
 
 **scale**: log/e scale factor for pymol visualization
 
-**fraglist**: **for M1/M3**, define the fragmentation list
+**fraglist**: **for M1/M3**, define the fragmentation list. You can use *autofragment* to get the list and, if needed then modify the list. Besides, some molecular editors (e.g., Gaussview {Tools --> Atom Groups}, pymol, VMD) may easily set the fraglist.
 
-**coordination**: **for M3**, define the metal coordination center/region (same listing format as fraglist). Some molecular editors (e.g., Gauview, pymol, VMD) may easily set the coordination sphere and get the list of these atoms involved
+**coordination**: **for M3**, define the metal coordination center/region (same listing format as fraglist). Some molecular editors (e.g., Gaussview {Tools --> Atom Groups}, pymol, VMD) may easily set the coordination sphere and get the list of these atoms involved
 
 **include**: **for M2/M3**, add additional bond(s)/angle(s)/diheral(s) users want. *By default, all diherals are not considered. Users should add the diheral list they want.* 
 
