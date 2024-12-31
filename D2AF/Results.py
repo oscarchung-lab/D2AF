@@ -421,7 +421,7 @@ def fragresult2xlsx(fraglist,strain,name=''):
     writer.close()
 
     logger.critical('')
-    logger.critical('*************** Resutls:***************')
+    logger.critical('*************** Results:***************')
     logger.critical('Distortion energies are saved in '+bf.jobname+'_M1'+name+'.xlsx \n')
         
     logger.info("\n%s", df.to_string())
@@ -500,7 +500,7 @@ def bondcutresult2xlsx(internal_list,strain,delta_values,name=''):
     df.to_excel(writer, sheet_name="intcoord", index=False)
     writer.close()
     logger.critical('')
-    logger.critical('*************** Resutls:***************')
+    logger.critical('*************** Results:***************')
 
     logger.critical('Distortion energies are saved in '+bf.jobname+'_M2'+name+'.xlsx\n')
         
@@ -620,7 +620,7 @@ def bondcutfragresult2xlsx(internal_list,strain,delta_values,fraglist,strain_fra
     df.to_excel(writer, sheet_name="intcoord", index=False)
     
     logger.critical('')
-    logger.critical('*************** Resutls:***************')
+    logger.critical('*************** Results:***************')
     logger.critical('Distortion energies are saved in '+bf.jobname+'_M3'+name+'.xlsx\n')
 
     logger.info('## Distortion energies of internal coordinates ##')
