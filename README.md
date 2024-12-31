@@ -198,8 +198,6 @@ D2AF input file example:
 
 *Get a atom list of your objectname (e.g. ABC) by pymol:*
 
-\# f=open('IDlist.txt','w')  # uncomment if you wanna write in a file)
-
 stored.ID = []
 
 iterate ("ABC"), stored.ID.append(ID)
