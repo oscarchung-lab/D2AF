@@ -268,7 +268,7 @@ def RunGaussian(gjfname):
     ene_sp = 0.0
     name,tfile=os.path.splitext(gjfname)
     if os.path.exists(name+'.log'):
-        logger.info(name+'.log exsits, skipt the computation!')
+        logger.info(name+'.log exsits, skipping the computation!')
         ene_sp = GetGaussiansp(name+'.log')
     else:
         os.system(Gauexe+' < '+gjfname+'> '+name+'.log')
@@ -365,7 +365,7 @@ def Run_Orca(orca_inp):
     ene_sp = 0.0
     name,tfile=os.path.splitext(orca_inp)
     if os.path.exists(name+'.log'):
-        print(name+'.log exsits, skipt the computation!')
+        print(name+'.log exsits, skipping the computation!')
         ene_sp = Get_Orca_SP(name+'.log')
     else:
         os.system('$ORCA_BIN/orca '+orca_inp+'> '+name+'.log')
