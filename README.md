@@ -14,7 +14,7 @@ Fragmentation of subsystems can be defined using three approachs:
 * 1. Atomic/fragment resolution (**M1**)
 * 2. Individual bond and angle resolution based on internal coordinates (bond, angle, optionlly dihedral) (**M2**)
 * 3. Combination of **M1 & M2**  (**M3**), esp. complex systems containing conjugating aromatic and/or metal-coordination 
-
+$\color{red}{If feasible, try to keep the critical bondings within the same fragment to evaluate its energy}$, no matter which approach (**M1-M3**) is adopted! For some unclear cases, you can try to (slightly) expand the size of the concerned fragment(s) and compare the disortion energy results. 
 
 #### Workflow
 <div align=center><img src=Docs/Fig1.png  width="640" /></div>
